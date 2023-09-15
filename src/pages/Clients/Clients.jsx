@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import Table from './components/Table';
-import axios from 'axios';
+import Table from './components/Table'
+import axios from 'axios'
 
-
-
-
-function CountVisit() {
+function Clients() {
   const [data,setData]=useState([])
 
   useEffect(()=>{
@@ -19,12 +16,11 @@ function CountVisit() {
       
     }
   },[])
-  console.log(data)
   return (
     <div>
-       <Table data={data} />
+      <Table data={data}/>
     </div>
   )
 }
 
-export default CountVisit
+export default Clients

@@ -9,32 +9,28 @@ import CalendarModal from "../../../components/UI/CalendarModal/CalendarModal";
 import Papa from "papaparse";
 import { current } from "@reduxjs/toolkit";
 import Popup from "reactjs-popup";
-import CustomerEdit from "./CustomerEdit";
-import Regali from "./Regali";
-import UserInfo from "./UserInfo";
+import Freeze from "./Freeze";
 import AddUser from "./AddUser";
+import Documents from "./Documents";
+
 
 const Table = ({ data }) => {
     const [search, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10); // Calculate the indexes for pagination
 
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [showCalendarModal, setShowCalendarModal] = useState(false);
+ 
 
     const [sortOrder, setSortOrder] = useState("asc"); // 'asc' or 'desc'
 
     //!Modal window data
-    const [editData, setEditData] = useState(null);
-    const [editvisible, setEditvisible] = useState(false);
-
-    const [regali, setRegali] = useState(null);
-    const [regaliVisble, setRegaliVisble] = useState(false);
-
-    const [userInfo, setUserInfo] = useState(null);
-    const [userInfoVisble, setUserInfoVisble] = useState(false);
-
+    const [freezeVisible, setFreezeVisible] = useState(false);
     const [adduserVisible, setAdduserVisible] = useState(false);
+
+    const [visibleDocuents, setVisibleDocuents] = useState(false);
+
+
+  
 
     const onSearch = (term) => {
         setSearchTerm(term);
@@ -47,20 +43,9 @@ const Table = ({ data }) => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filterdata.slice(indexOfFirstItem, indexOfLastItem);
-    const [sortedData, setSortedData] = useState(filterdata);
+   
 
-    const sortByName = () => {
-        const sorted = [...sortedData].sort((a, b) => {
-            if (sortOrder === "asc") {
-                return a.username.localeCompare(b.username);
-            } else {
-                return b.username.localeCompare(a.username);
-            }
-        });
-        console.log(sorted);
-        setSortedData(sorted);
-        setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    };
+
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -79,20 +64,7 @@ const Table = ({ data }) => {
         }
     };
 
-    const onEditCustomer = (customer) => {
-        setEditData(customer);
-        setEditvisible(true);
-    };
-
-    const onRegaliCustomer = (customer) => {
-        setRegali(customer);
-        setRegaliVisble(true);
-    };
-
-    const onUserInfo = (userInfo) => {
-        setUserInfo(userInfo);
-        setUserInfoVisble(true);
-    }
+ 
 
     return (
         <>
@@ -107,7 +79,7 @@ const Table = ({ data }) => {
                         flexWrap: "wrap",
                     }}
                 >
-                    <h1>Новый сотрудника</h1>
+                    <h1>Клиенты</h1>
                     <div
                         style={{
                             display: "flex",
@@ -118,7 +90,7 @@ const Table = ({ data }) => {
                         }}
                     >
                         <div>
-                            <h5 onClick={() => setAdduserVisible(true)}>Добавить сотрудника</h5>{" "}
+                            <h5 onClick={() => setAdduserVisible(true)}>Добавить пользователя</h5>{" "}
                         </div>
                     </div>
                 </div>
@@ -128,14 +100,14 @@ const Table = ({ data }) => {
                 <table>
                     <thead className='thead-background'>
                         <tr>
-                            <th>Имя сотрудника</th>
-                            <th>Email</th>
-                            <th>Номер телефона</th>
-                            <th>Роль</th>
-                            <th>Пароль</th>
-                            <th>Рейтинг</th>
-                            <th>Информация</th>
-                            <th>Регалии</th>
+                            <th>Имя клиента</th>
+                            <th>Активация</th>
+                            <th>Заморозка</th>
+                            <th>Тренер</th>
+                            <th>Срок абонемента</th>
+                            <th>Ключ</th>
+                            <th>Документы</th>
+                         
                         </tr>
                     </thead>
 
@@ -168,12 +140,11 @@ const Table = ({ data }) => {
 
                                 <td>{item.birthDate}</td>
 
-                                <td>{item.address.address}</td>
                                 <td>
                                     <div
                                         style={{
                                             display: "flex",
-                                            backgroundColor: "#CF5490",
+                                           
                                             padding: "4%",
                                             borderRadius: "10px",
                                             fontSize: "13px",
@@ -181,31 +152,34 @@ const Table = ({ data }) => {
                                             textAlign: "center",
                                         }}
                                     >
-                                        <h5 style={{ textAlign: "center",marginLeft:15 }} onClick={() => onUserInfo(item)}>
+                                        <h4 style={{backgroundColor: "#292932",paddingLeft:10,paddingRight:10,}}>000</h4>
+                                        <h5  style={{ textAlign: "center", backgroundColor: "#CF5490",padding:2,borderTopRightRadius:10,borderBottomRightRadius:10 ,paddingRight:10}}>
                                             {" "}
-                                            Подробнее
+                                            Выдать ключ
                                         </h5>
+
                                     </div>
                                 </td>
+                                
                                 <td>
                                     <div style={{ display: "flex" }}>
                                         <div
                                             style={{
                                                 backgroundColor: "#7536EA",
-                                                padding: "2%",
+                                                padding: "3%",
                                                 borderRadius: "10px",
                                                 fontSize: "13px",
                                                 color: "white",
                                                 textAlign: "center",
+                                                
                                             }}
+                                            onClick={() => setVisibleDocuents(true)}
                                         >
                                             <h5
-                                                style={{paddingRight:5 ,paddingLeft:5,marginTop:5}}
-                                                onClick={() =>
-                                                    onRegaliCustomer(item)
-                                                }
+                                                style={{ padding:3}}
+                                               
                                             >
-                                                Регалии
+                                                Документы
                                             </h5>
                                         </div>
                                         <div
@@ -234,14 +208,8 @@ const Table = ({ data }) => {
                                                         borderRadius: 10,
                                                     }}
                                                 >
-                                                    <h5>Удалить сотрудника</h5>
-                                                    <h5
-                                                        onClick={() =>
-                                                            onEditCustomer(item)
-                                                        }
-                                                    >
-                                                        Редактировать данные
-                                                    </h5>
+                                                    <h5 onClick={() => {setFreezeVisible(true)}}>Заморозить</h5>
+                                                  
                                                 </div>
                                             </Popup>
                                         </div>
@@ -294,24 +262,9 @@ const Table = ({ data }) => {
                         </li>
                     </ul>
                 </nav>
-                {editvisible && (
-                    <CustomerEdit
-                        onClose={() => setEditvisible(false)}
-                        data={editData}
-                    />
-                )}
-                {regaliVisble && (
-                    <Regali
-                        onClose={() => setRegaliVisble(false)}
-                        data={regali}
-                    />
-                )}
-                {userInfoVisble && (
-                    <UserInfo data={userInfo} onClose={() => setUserInfoVisble(false)}/>
-                )}
-                {adduserVisible && (
-                    <AddUser onClose={() => setAdduserVisible(false)} />
-                )}
+               {freezeVisible &&<Freeze onClose={()=>setFreezeVisible(false)}/>}
+               {adduserVisible &&<AddUser onClose={()=>setAdduserVisible(false)}/>}
+               {visibleDocuents &&<Documents onClose={()=>setVisibleDocuents(false)}/>}
             </div>
         </>
     );

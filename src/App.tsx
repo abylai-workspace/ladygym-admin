@@ -11,7 +11,7 @@ import FinancePlan from "./pages/FinancePlan/FinancePlan";
 import WorkAnalizy from "./pages/AnalizyWork/WorkAnalizy";
 import CountVisit from "./pages/CountVisit/CountVisit";
 
-const Dashboard = React.lazy(() => import("./pages/Clients"));
+const Dashboard = React.lazy(() => import("./pages/Clients/Clients"));
 const Customers = React.lazy(() => import("./pages/Customer/Customers"));
 const CustomerEdit = React.lazy(() => import("./pages/CustomerEdit"));
 const Products = React.lazy(() => import("./pages/Personal"));

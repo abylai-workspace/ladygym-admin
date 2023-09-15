@@ -72,15 +72,18 @@ const Table = ({ data }) => {
     };
 
 
-    const onDownLoadSvg = () => {
-        //download data svg format
-        const link = document.createElement("a");
-        link.href = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(
-            data.toString() + ";base64," + encodeURIComponent
-        )
-        
-
-    }
+    const handleDownload = () => {
+        const csv = Papa.unparse(filterdata);
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'Учет.csv';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      };
     return (
         <>
             <div>
@@ -94,7 +97,7 @@ const Table = ({ data }) => {
                         flexWrap: "wrap",
                     }}
                 >
-                    <h1>Персонал</h1>
+                    <h1>Учет посещаемости</h1>
                     <div
                         style={{
                             display: "flex",
@@ -102,6 +105,7 @@ const Table = ({ data }) => {
                             padding: "1%",
                             borderRadius: "10px",
                         }}
+                        onClick={handleDownload}
                     >
                         <div>
                             <h5>Скачать учет</h5>{" "}
@@ -118,13 +122,12 @@ const Table = ({ data }) => {
                     <thead className='thead-background'>
                         <tr>
                             <th>Имя сотрудника</th>
-                            <th>Email</th>
-                            <th>Номер телефона</th>
-                            <th>Роль</th>
-                            <th>Пароль</th>
-                            <th>Рейтинг</th>
-                            {/* <th>Информация</th>
-                            <th>Регалии</th> */}
+                            <th>Приход</th>
+                            <th>Уход</th>
+                            <th>Дата</th>
+                            <th>Время на работе</th>
+                            <th>Адрес</th>
+                            <th>Кол-во приходов в этом месяце</th>
                         </tr>
                     </thead>
 
@@ -159,79 +162,9 @@ const Table = ({ data }) => {
 
                                 <td>{item.address.address}</td>
                                 <td>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            backgroundColor: "#CF5490",
-                                            padding: "4%",
-                                            borderRadius: "10px",
-                                            fontSize: "13px",
-                                            color: "white",
-                                            textAlign: "center",
-                                        }}
-                                    >
-                                        <h5 style={{ textAlign: "center" }}>
-                                            {" "}
-                                            Подробнее
-                                        </h5>
-                                    </div>
+                                    Х
                                 </td>
-                                <td>
-                                    <div style={{ display: "flex" }}>
-                                        <div
-                                            style={{
-                                                backgroundColor: "#7536EA",
-                                                padding: "3%",
-                                                borderRadius: "10px",
-                                                fontSize: "13px",
-                                                color: "white",
-                                                textAlign: "center",
-                                            }}
-                                        >
-                                            <h5
-                                                style={{ paddingRight: 15 }}
-                                               
-                                            >
-                                                Регалии
-                                            </h5>
-                                        </div>
-                                        <div
-                                            style={{
-                                                padding: "3%",
-                                                width: 50,
-                                                height: 40,
-                                            }}
-                                            className='tooltipBoundary'
-                                        >
-                                            <Popup
-                                                trigger={<h4>....</h4>}
-                                                position={[
-                                                    "right bottom",
-                                                    "bottom left",
-                                                    "bottom center",
-                                                    "bottom right",
-                                                ]}
-                                                closeOnDocumentClick
-                                                keepTooltipInside='.tooltipBoundary'
-                                            >
-                                                <div
-                                                    style={{
-                                                        backgroundColor: "#000",
-                                                        padding: 10,
-                                                        borderRadius: 10,
-                                                    }}
-                                                >
-                                                    <h5>Удалить сотрудника</h5>
-                                                    <h5
-                                                       
-                                                    >
-                                                        Редактировать данные
-                                                    </h5>
-                                                </div>
-                                            </Popup>
-                                        </div>
-                                    </div>
-                                </td>
+                                
                             </tr>
                         ))}
                     </tbody>
