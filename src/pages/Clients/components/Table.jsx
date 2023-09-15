@@ -96,7 +96,7 @@ const Table = ({ data }) => {
                 </div>
 
                 <SearchBox onSearch={onSearch} placeholder='Поиск сотрудника' />
-
+                <div style={{overflowX:'auto'}}>
                 <table>
                     <thead className='thead-background'>
                         <tr>
@@ -219,6 +219,7 @@ const Table = ({ data }) => {
                         ))}
                     </tbody>
                 </table>
+                </div>
                 <nav>
                     <ul className='pagination'>
                         <li

@@ -22,11 +22,7 @@ const Table = ({ data }) => {
     const [sortOrder, setSortOrder] = useState("asc"); // 'asc' or 'desc'
 
     //!Modal window data
-    const [editData, setEditData] = useState(null);
-    const [editvisible, setEditvisible] = useState(false);
-
-    const [regali, setRegali] = useState(null);
-    const [regaliVisble, setRegaliVisble] = useState(false);
+  
 
     const onSearch = (term) => {
         setSearchTerm(term);
@@ -117,7 +113,7 @@ const Table = ({ data }) => {
                 </div>
 
                 <SearchBox onSearch={onSearch} placeholder='Поиск сотрудника' />
-
+                <div style={{overflowX:'auto'}}>
                 <table>
                     <thead className='thead-background'>
                         <tr>
@@ -169,6 +165,7 @@ const Table = ({ data }) => {
                         ))}
                     </tbody>
                 </table>
+                </div>
                 <nav>
                     <ul className='pagination'>
                         <li

@@ -115,6 +115,7 @@ const Table = ({ data }) => {
                             backgroundColor: "#7536EA",
                             padding: "1%",
                             borderRadius: "10px",
+                            cursor: "pointer",
                         }}
                     >
                         <div>
@@ -124,8 +125,8 @@ const Table = ({ data }) => {
                 </div>
 
                 <SearchBox onSearch={onSearch} placeholder='Поиск сотрудника' />
-
-                <table>
+<div style={{overflowX:'auto'}}>
+<table>
                     <thead className='thead-background'>
                         <tr>
                             <th>Имя сотрудника</th>
@@ -251,6 +252,8 @@ const Table = ({ data }) => {
                         ))}
                     </tbody>
                 </table>
+</div>
+               
                 <nav>
                     <ul className='pagination'>
                         <li

@@ -182,7 +182,7 @@ function Sidebar() {
                     </div>
                 </Link>
                 <Link
-                    to={"/"}
+                    to={"/NotificationFreeze"}
                     // key={`nav-${index}`}
                     className={`${classes.sidebar__menu__item} ${
                         activeIndex === 9 && classes.active

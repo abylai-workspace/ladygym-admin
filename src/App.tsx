@@ -10,6 +10,7 @@ import Tasks from "./pages/Tasks/Tasks";
 import FinancePlan from "./pages/FinancePlan/FinancePlan";
 import WorkAnalizy from "./pages/AnalizyWork/WorkAnalizy";
 import CountVisit from "./pages/CountVisit/CountVisit";
+import NotificationFreeze from "./pages/NotificationFreeze/NotificationFreeze";
 
 const Dashboard = React.lazy(() => import("./pages/Clients/Clients"));
 const Customers = React.lazy(() => import("./pages/Customer/Customers"));
@@ -34,6 +35,9 @@ function App() {
               <Route path="/WorkAnalizy" element={<WorkAnalizy />} />
               <Route path="/CountVisit" element={<CountVisit />} />
               <Route path="/customers" element={<Customers />} />
+              <Route path="/NotificationFreeze" element={<NotificationFreeze />} />
+
+            
               <Route path="/customers/:customerId" element={<CustomerEdit />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:productId" element={<ProductEdit />} />

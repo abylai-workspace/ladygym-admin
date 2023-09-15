@@ -1,0 +1,15 @@
+table thead tr th   { 
+    background-color:  'transparent' !;
+}
+.table-row{
+    background-color:  'red' !;
+}
+.btn{
+    border: 1px solid rgba(207, 84, 144, 1);
+    padding: 1% 15% ;
+    margin-top: 2%;
+    margin-bottom: 5%;
+    height: 40px;
+    border-radius: 25px;
+   
+}
