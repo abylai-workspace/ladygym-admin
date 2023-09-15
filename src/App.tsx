@@ -5,9 +5,14 @@ import MainLayout from "./layout/MainLayout";
 import AuthLayout from "./layout/AuthLayout";
 import LoadingSpinner from "./components/UI/loadingSpinner/LoadingSpinner";
 import "./scss/App.scss";
+import { useSelector } from "react-redux";
+import Tasks from "./pages/Tasks/Tasks";
+import FinancePlan from "./pages/FinancePlan/FinancePlan";
+import WorkAnalizy from "./pages/AnalizyWork/WorkAnalizy";
+import CountVisit from "./pages/CountVisit/CountVisit";
 
 const Dashboard = React.lazy(() => import("./pages/Clients"));
-const Customers = React.lazy(() => import("./pages/Customers"));
+const Customers = React.lazy(() => import("./pages/Customer/Customers"));
 const CustomerEdit = React.lazy(() => import("./pages/CustomerEdit"));
 const Products = React.lazy(() => import("./pages/Personal"));
 const ProductEdit = React.lazy(() => import("./pages/ProductEdit"));
@@ -16,6 +21,7 @@ const BlankPage = React.lazy(() => import("./pages/Analytics"));
 const Login = React.lazy(() => import("./pages/Login"));
 
 function App() {
+
   return (
     <BrowserRouter>
       <Suspense fallback={<LoadingSpinner />}>
@@ -23,11 +29,14 @@ function App() {
           <Route element={<AuthLayout />}>
             <Route path="/" element={<MainLayout />}>
               <Route index element={<Dashboard />} />
+              <Route path="/task" element={<Tasks />} />
+              <Route path="/finance-plan" element={<FinancePlan />} />
+              <Route path="/WorkAnalizy" element={<WorkAnalizy />} />
+              <Route path="/CountVisit" element={<CountVisit />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/customers/:customerId" element={<CustomerEdit />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:productId" element={<ProductEdit />} />
-              <Route path="/orders" element={<BlankPage />} />
               <Route path="/analytics" element={<BlankPage />} />
               <Route path="/discount" element={<BlankPage />} />
             </Route>

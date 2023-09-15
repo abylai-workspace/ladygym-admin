@@ -24,7 +24,7 @@ const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
   const [value, setValue] = useState(props.value || "");
 
   function inputChangeHandler(e: React.FormEvent<HTMLInputElement>) {
-    setValue(e.currentTarget.value);
+    setValue(e?.currentTarget?.value);
   }
 
   function inputFocused() {

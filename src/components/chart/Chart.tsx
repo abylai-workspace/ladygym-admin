@@ -49,7 +49,7 @@ const SaleChart = () => {
     <section className={classes.chart}>
       <p className="subTitle">{t("quickAnalysis")}</p>
       <div className={classes.charts__container}>
-        <div className={classes.charts__wrapper}>
+        {/* <div className={classes.charts__wrapper}>
           <Card>
             <div className={classes.chart__wrapper}>
               <BarChart
@@ -66,7 +66,7 @@ const SaleChart = () => {
               />
             </div>
           </Card>
-        </div>
+        </div> */}
         <Card>
           <div className={classes.chart__wrapper}>
             <LineChart chartData={userData} />

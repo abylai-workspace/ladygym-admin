@@ -1,0 +1,11 @@
+.calendar-modal{
+    position: absolute;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    margin-left: 15%;
+}
+.react-calendar {
+    width: 100px;
+
+}

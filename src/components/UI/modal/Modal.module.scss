@@ -8,24 +8,32 @@
   height: 100vh;
   z-index: 10;
   background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
 }
 
 .modal {
   position: fixed;
-  top: 30vh;
+  top: 20vh;
   left: 30%;
+  padding-left: 20px;
   width: 50%;
   min-width: 500px;
   max-width: 700px;
   z-index: 100;
+  
   overflow: auto;
-  border-radius: $largeBorderRadius;
-  background-color: var(--bgc);
+  border-radius: 10px;
+background-image: url('../../../assets//images//backround.png');
+background-repeat: no-repeat;
+background-size: cover;
+border: 0.1px solid #fff;
 }
 
 .header {
-  background: var(--primaryColor);
+  // background: var(--primaryColor);
   padding: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .header h3 {

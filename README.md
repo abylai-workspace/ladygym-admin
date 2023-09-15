@@ -1,13 +1,13 @@
-# React Admin Panel
+# Lady Gym Admin Panel
 
-React Admin Panel developed and build with **React (v17.0.2)**, **TypeScript (v4.4.2)** and **React Router v6**. For Styles, is used **SCSS**.
-I am excited to share this dashboard with you and look forward to hearing your feedback [**my Linkedin post**](https://www.linkedin.com/posts/zahramirzaei_responsive-multilanguage-multitheme-activity-6920075757318725634-qRks?utm_source=linkedin_share&utm_medium=member_desktop_web)
+<!-- React Admin Panel developed and build with **React (v17.0.2)**, **TypeScript (v4.4.2)** and **React Router v6**. For Styles, is used **SCSS**.
+I am excited to share this dashboard with you and look forward to hearing your feedback [**my Linkedin post**](https://www.linkedin.com/posts/zahramirzaei_responsive-multilanguage-multitheme-activity-6920075757318725634-qRks?utm_source=linkedin_share&utm_medium=member_desktop_web) -->
 
 # Demo
 
 Visit: [Project React Admin Panel demo](https://admin-panel-portfolio.netlify.app/)
 
-![Figma admin panel sketch](src/assets/images/figma-sketch-v3.png)
+<!-- ![Figma admin panel sketch](src/assets/images/figma-sketch-v3.png) -->
 
 # Features
 
@@ -36,7 +36,7 @@ Visit: [Project React Admin Panel demo](https://admin-panel-portfolio.netlify.ap
 
 **1. Clone from Github**
 
-`git clone https://github.com/ZahraMirzaei/admin-panel.git`
+`git clone https://github.com/Omurbek1/lady_gym_admin`
 
 **2. Run `npm install` or `yarn install`**
 

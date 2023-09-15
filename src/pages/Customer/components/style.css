@@ -1,0 +1,116 @@
+/* styles.css (or another CSS file) */
+table{
+    width:97%;
+    margin-left: 3%;
+    border-radius: 10px;
+    border-collapse: collapse;
+    margin-top: 2%;
+  flex-wrap: wrap;
+
+}
+thead{
+    background-color:  rgba(28, 28, 36, 1);
+    
+    
+    color: gray;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-bottom: '10px' !;
+    border-collapse: collapse;
+    font-size: 14px;
+    flex-wrap: wrap;
+  flex-wrap: wrap;
+
+
+
+}
+.thead-background{
+    background-color:  rgba(28, 28, 36, 1);
+    border-collapse: unset;
+    border-radius: 20px;
+}
+.thead-background tr  th{
+    padding: 10px;
+}
+
+.table-row{
+    background-color: rgba(41, 41, 50, 1);
+    margin:10px;
+    border-radius: 10px;
+    padding: 20px;
+  
+}
+.table-row tr{
+    margin-top: 10px;
+}
+.table-row tr td{
+    color: gray;
+    padding: 10px;
+    margin:10px;
+    text-align: center;
+}
+.even-row{
+    background-color: rgba(41, 41, 50, 1);
+}
+.odd-row{
+    /* background-color: red; */
+    margin: 10px;
+}
+
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+  }
+  
+  .pagination button {
+    margin: 0px 4px;
+    padding: 10px 16px;
+    border: none;
+    /* background-color: #007bff; */
+    color: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  
+  .pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  .page-item{
+    margin: 0.3%;
+  }
+  
+
+
+  /* PaginationTable.css */
+.page-item.active .page-link {
+    background-color: rgba(207, 84, 144, 1);
+    color: white; /* Optional: Set the text color to white for better contrast */
+    border-color: red; /* Optional: Set border color to match the background */
+  }
+  
+  .card {
+   
+    min-width: 10%;
+    min-height: 40px;
+  }
+  .card {display: flex}
+  .card--content {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+    min-width: 200px;
+    margin: 5px;
+    overflow-x: auto;
+    margin-top: 2%;
+    margin-bottom: 4%;
+  }
+  .card {
+    overflow-x: auto;
+  }
+  .card::-webkit-scrollbar {
+    display: none;
+  }

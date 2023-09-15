@@ -18,7 +18,7 @@
     outline: gray;
     background-color:smallBorderRadius;
     border-radius: $smallBorderRadius;
-    min-width: 300px;
+    min-width: '100%';
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.05);
     @media screen and (max-width: 300px) {
       min-width: auto;

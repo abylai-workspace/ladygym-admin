@@ -5,8 +5,10 @@ import { SidebarContextProvider } from "./store/sidebarContext";
 import { LangContextProvider } from "./store/langContext";
 import { ThemeContextProvider } from "./store/themeContext";
 import { LoginContextProvider } from "./store/loginContext";
-
+import { Provider } from 'react-redux';
+import {store} from './store/store'
 ReactDOM.render(
+  <Provider store={store}>
   <LangContextProvider>
     <LoginContextProvider>
       <ThemeContextProvider>
@@ -15,6 +17,7 @@ ReactDOM.render(
         </SidebarContextProvider>
       </ThemeContextProvider>
     </LoginContextProvider>
-  </LangContextProvider>,
+  </LangContextProvider>
+  </Provider>,
   document.getElementById("root")
 );

@@ -156,8 +156,8 @@ const CustomTable: React.FC<Props> = (props) => {
       {showModal ? (
         <Modal
           title={t("deleteCustomer")}
-          message={`${t("modalMessage")}`}
-          onConfirm={showModalHandler}
+          // message={`${t("modalMessage")}`}
+          onClose={showModalHandler}
         />
       ) : null}
 

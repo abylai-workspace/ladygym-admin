@@ -1,0 +1,57 @@
+/* Add this to your CSS file or style it as needed */
+.tabs {
+    width: 100%;
+    margin-top: 6%;
+    padding: 0;
+    align-self: center;
+   
+  }
+  
+  .tab-list {
+    list-style-type: none;
+    /* padding: 10px; */
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 25px;
+     background-color: rgba(255, 255, 255, 0.1);
+/* width: auto; */
+    /* border-bottom: 1px solid #ddd; */
+  }
+  
+  .tab-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+    border-bottom: 3px solid transparent;
+  /* background-color: rgba(255, 255, 255, 0.1); */
+  border-radius: 25px;
+
+    
+  }
+  
+  .tab-item.active {
+    /* border-color: #007bff; */
+    font-weight: bold;
+    
+  background-color: #CF5490;
+  border-radius: 25px;
+
+
+  }
+  .tab-item.active {
+    color: #fff;
+  }
+  
+  .tab-content {
+    padding: 20px;
+  }
+  
+  .tab-pane {
+    display: none;
+  }
+  
+  .tab-pane.active {
+    display: block;
+  }
+  

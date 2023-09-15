@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import classes from "./Modal.module.scss";
 import Card from "../card/Card";
 import Button from "../button/Button";
+import { Icon } from "@iconify/react";
 
 interface IBackdrop {
   onConfirm: () => void;
@@ -19,8 +20,7 @@ const Backdrop: React.FC<IBackdrop> = (props) => {
 
 interface IModal {
   title: string;
-  message: string;
-  onConfirm: () => void;
+  onClose: () => void;
 }
 
 const ModalOverlay: React.FC<IModal> = (props) => {
@@ -31,18 +31,13 @@ const ModalOverlay: React.FC<IModal> = (props) => {
       <div className={classes.modal}>
         <header className={classes.header}>
           <h3>{props.title}</h3>
+          
+          <div onClick={props.onClose}><Icon icon="material-symbols:close" width="24" color="white"/></div>
         </header>
         <div className={classes.content}>
-          <p>{props.message}</p>
+          <p>{props.children}</p>
         </div>
-        <footer className={classes.actions}>
-          <Button outline={true} onClick={props.onConfirm}>
-            {t("cancel")}
-          </Button>
-          <button className={classes.delete} onClick={props.onConfirm}>
-            {t("delete")}
-          </button>
-        </footer>
+       
       </div>
     </Card>
   );
@@ -54,14 +49,14 @@ const Modal: React.FC<IModal> = (props) => {
   return (
     <>
       {ReactDom.createPortal(
-        <Backdrop onConfirm={props.onConfirm} />,
+        <Backdrop onConfirm={props.onClose} />,
         backdropRoot
       )}
       {ReactDom.createPortal(
         <ModalOverlay
           title={props.title}
-          message={props.message}
-          onConfirm={props.onConfirm}
+          onClose={props.onClose}
+          children={props.children}
         />,
         modalOverlay
       )}
