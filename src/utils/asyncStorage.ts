@@ -3,6 +3,7 @@
 export const storageCreateOrUpdateItem = async (key: string, value: any) => {
   try {
     await localStorage.setItem(key, JSON.stringify(value))
+    
     console.log(`Item with key "${key}" created successfully.`)
   } catch (error) {
     console.error(`Error creating item with key "${key}":`, error)

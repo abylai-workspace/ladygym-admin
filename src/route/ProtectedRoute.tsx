@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 const ProtectedRoute: React.FC = (props) => {
   const userRole = useSelector((state:any) => state.role.role);
   console.log(userRole);
-  const tokenStorage = useSelector((state:any) => state.auth.token);
+  const tokenStorage = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwNzA2ODgyMjcxIiwicm9sZXMiOlsiQURNSU4iXSwiZXhwIjoxNjk1MTI4NTE1LCJpYXQiOjE2OTQ5NTU3MTV9.hXaV1hUvk95y5GEF2rB4E0zrXdIkbbWD1Zg6xT2IIMlOiOwv1bS3_1qoCU_a74SGynNwR18Rv2EqVdHZY_2wAA';
   console.log('tokenStorage', tokenStorage);
   
   const loginCtx = useContext(LoginContext);

@@ -43,21 +43,24 @@ function WorkAnalizy() {
                     justifyContent: "space-between",
                     alignItems: "center",
                     flexWrap: "wrap",
+                    
                 }}
             >
                 <div
                     style={{
                         display: "flex",
-                        // flexWrap: "wrap",
 
                         justifyContent: "space-between",
+                        // flexWrap: "wrap",
+
                     }}
                 >
                     <h5
                         style={{
                             color: "white",
                             alignSelf: "center",
-                            marginRight: "20%",
+                            marginRight: "10%",
+                            width: 200,
                             // fontSize: "14px",
                         }}
                     >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import RangeSlider from "./components/RangeSlider";
 import Tabs from "../../components/UI/tabs/Tabs";
@@ -21,7 +21,13 @@ function Tasks() {
     const handleTabChange = (tab: any) => {
         setSelectedTab(tab);
     };
-
+useEffect(()=>{
+    fetch('https://dummyjson.com/todos')
+.then(res => res.json())
+.then(console.log);
+    
+},[])
+    
     const tabs = ["Мои", "Админы", "Тренеры"];
     // const [sliderValue, setSliderValue] = useState(50);
 
@@ -44,6 +50,7 @@ function Tasks() {
             <div
                 style={{
                     display: "flex",
+                    flexWrap: "wrap",
                     justifyContent: "space-between",
                     alignItems: "center",
                 }}
@@ -54,6 +61,7 @@ function Tasks() {
                         alignItems: "center",
                         marginRight: "10%",
                         justifyContent: "space-between",
+                        flexWrap: "wrap",
                     }}
                 >
                     <h1

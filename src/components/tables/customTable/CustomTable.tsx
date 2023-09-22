@@ -151,57 +151,58 @@ const CustomTable: React.FC<Props> = (props) => {
   const { t } = useTranslation();
 
   return (
-    <>
-      {/* modal for delete customer and product case*/}
-      {showModal ? (
-        <Modal
-          title={t("deleteCustomer")}
-          // message={`${t("modalMessage")}`}
-          onClose={showModalHandler}
-        />
-      ) : null}
+    // <>
+    //   {/* modal for delete customer and product case*/}
+    //   {showModal ? (
+    //     <Modal
+    //       title={t("deleteCustomer")}
+    //       // message={`${t("modalMessage")}`}
+    //       onClose={showModalHandler}
+    //     />
+    //   ) : null}
 
-      <div className={classes.container}>
-        <Card>
-          <div className={classes.wrapper}>
-            <div className={classes.table__wrapper}>
-              <table
-                className={props.limit ? classes.largeTable : classes.table}
-              >
-                {props.headData ? (
-                  <thead>
-                    <tr>
-                      {props.headData.map((item, index) => (
-                        <th key={index}>{t(item)}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                ) : null}
-                <tbody>
-                  {dataShow.map((item, index) => tableBody(item, index))}
-                </tbody>
-              </table>
-            </div>
+    //   <div className={classes.container}>
+    //     <Card>
+    //       <div className={classes.wrapper}>
+    //         <div className={classes.table__wrapper}>
+    //           <table
+    //             className={props.limit ? classes.largeTable : classes.table}
+    //           >
+    //             {props.headData ? (
+    //               <thead>
+    //                 <tr>
+    //                   {props.headData.map((item, index) => (
+    //                     <th key={index}>{t(item)}</th>
+    //                   ))}
+    //                 </tr>
+    //               </thead>
+    //             ) : null}
+    //             <tbody>
+    //               {dataShow.map((item, index) => tableBody(item, index))}
+    //             </tbody>
+    //           </table>
+    //         </div>
 
-            {pages > 1 ? (
-              <div className={classes.table__pagination}>
-                {range.map((item, index) => (
-                  <div
-                    key={index}
-                    className={`${classes.table__pagination_item} ${
-                      currPage === index ? classes.active : ""
-                    }`}
-                    onClick={() => selectPage(index)}
-                  >
-                    {item + 1}
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </div>
-        </Card>
-      </div>
-    </>
+    //         {pages > 1 ? (
+    //           <div className={classes.table__pagination}>
+    //             {range.map((item, index) => (
+    //               <div
+    //                 key={index}
+    //                 className={`${classes.table__pagination_item} ${
+    //                   currPage === index ? classes.active : ""
+    //                 }`}
+    //                 onClick={() => selectPage(index)}
+    //               >
+    //                 {item + 1}
+    //               </div>
+    //             ))}
+    //           </div>
+    //         ) : null}
+    //       </div>
+    //     </Card>
+    //   </div>
+    // </>
+    <></>
   );
 };
 

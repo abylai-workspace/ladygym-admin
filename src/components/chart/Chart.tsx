@@ -67,11 +67,11 @@ const SaleChart = () => {
             </div>
           </Card>
         </div> */}
-        <Card>
+        {/* <Card>
           <div className={classes.chart__wrapper}>
             <LineChart chartData={userData} />
           </div>
-        </Card>
+        </Card> */}
       </div>
     </section>
   );

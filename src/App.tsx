@@ -11,6 +11,7 @@ import FinancePlan from "./pages/FinancePlan/FinancePlan";
 import WorkAnalizy from "./pages/AnalizyWork/WorkAnalizy";
 import CountVisit from "./pages/CountVisit/CountVisit";
 import NotificationFreeze from "./pages/NotificationFreeze/NotificationFreeze";
+import { Toaster } from "react-hot-toast";
 
 const Dashboard = React.lazy(() => import("./pages/Clients/Clients"));
 const Customers = React.lazy(() => import("./pages/Customer/Customers"));
@@ -26,6 +27,7 @@ function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<LoadingSpinner />}>
+      
         <Routes>
           <Route element={<AuthLayout />}>
             <Route path="/" element={<MainLayout />}>

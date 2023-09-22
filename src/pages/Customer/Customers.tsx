@@ -7,46 +7,50 @@ import { customers, customersHeader } from "../../constants/tables";
 import LoadingSpinner from "../../components/UI/loadingSpinner/LoadingSpinner";
 import axios from "axios";
 import Table from "./components/Table";
-const url =
-  "https://admin-panel-79c71-default-rtdb.europe-west1.firebasedatabase.app/customers.json";
+import { getAllClients, getAllPersonals, gymTrainers } from "../../config/axios";
+import { useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
+
 function Customers() {
   const { t } = useTranslation();
-  // const { data, error, status } = useFetch<IcustomersTable[]>(url);
-  // let customerTable;
-
-  // if (status === "loading") {
-  //   customerTable = <LoadingSpinner />;
-  // }
-
-  // if (error) {
-  //   customerTable = (
-  //     <CustomTable limit={10} headData={customersHeader} bodyData={customers} />
-  //   );
-  // }
-
-  // if (status === "fetched" && data) {
-  //   customerTable = (
-  //     <CustomTable limit={10} headData={customersHeader} bodyData={data} />
-  //   );
-  // }
 
 
   const [data,setData]=useState([])
-
-  useEffect(()=>{
+  const user=useSelector((state: any) => state?.auth);
+  
+useEffect(()=>{
+  const fetchData =()=>{
     try {
-      const response=axios.get('https://dummyjson.com/users')
+      const response=getAllPersonals(user.token)
       .then(res=>{
-        setData(res.data.users)
+        setData(res.data)
+        console.log(res.data,'a')
       })
-   
+      return response
     } catch (error) {
       
     }
-  },[])
+  }
+  fetchData()
+},[])
+useEffect(()=>{
+  const fetchTraingInfo =()=>{
+    try {
+      const response=gymTrainers(user.token)
+      .then(res=>{
+        // setData(res.data)
+        console.log(res.data)
+      })
+      return response
+    } catch (error) {
+      
+    }
+  }
+  fetchTraingInfo()
+},[])
   return (
     <section>
-   
+      <div><Toaster/></div>
     <Table data={data} />
     </section>
   );

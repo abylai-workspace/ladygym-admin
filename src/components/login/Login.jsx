@@ -29,7 +29,7 @@ function LoginBox() {
     const [otp, setOtp] = useState();;
     const [showotp,setShowOtp] = useState(false);
     const user=useSelector((state) => state?.auth);
-console.log(user,'user')
+
 
     const dispatch = useDispatch();
     const langCtx = useContext(langContextObj);
@@ -55,7 +55,11 @@ console.log(user,'user')
             const { role, accessToken } = response.data;
 
             if (role === "USER") {
-                alert("user");
+                
+                console.log(response);
+                localStorage.setItem('user-and-admin', response);
+                navigate("/");
+             
             }
             if (role === "ADMIN") {
               
@@ -67,8 +71,8 @@ console.log(user,'user')
                 dispatch(setRole(role));
                 dispatch(loginSuccess({ user: values, token: accessToken }));
                 console.log(response)
-                navigate("/");
-                if(response.status === 400 && response.statusText === "Bad Request"){
+                // navigate("/");
+                if(response.status === 401){
                     await setShowOtp(!showotp);
                 }
                
@@ -105,25 +109,25 @@ console.log(user,'user')
     };
     const handleChange = async() => {
         
-       const users=user.user.username
-       console.log(users,'values');
+    //    const users=user?.user?.username
+    //    console.log(users,'values');
 
-        try {
-            const response= await instance.post('/gym/auth/verify', {
-                phoneNumber:`${users}`,
-                code:otp
-            },{
-                headers:{
-                    Authorization:`Bearer ${tokenStorage}`
-                }
-            });
-            if(response.status === 200){
-                navigate("/");
-            }
-            console.log(response)
-        } catch (error) {
-            console.log(error,'error');
-        }
+    //     try {
+    //         const response= await instance.post('/gym/auth/verify', {
+    //             phoneNumber:`${users}`,
+    //             code:otp
+    //         },{
+    //             headers:{
+    //                 Authorization:`Bearer ${tokenStorage}`
+    //             }
+    //         });
+    //         if(response.status === 200){
+    //             navigate("/");
+    //         }
+    //         console.log(response)
+    //     } catch (error) {
+    //         console.log(error,'error');
+    //     }
        
     };
 
@@ -131,7 +135,7 @@ console.log(user,'user')
     handleChange();
    },[])
 
-    console.log(tokenStorage);
+ 
     return (
         <div
             className={`${classes.container} ${

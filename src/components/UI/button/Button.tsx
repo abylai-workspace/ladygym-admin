@@ -15,7 +15,7 @@ const Button: React.FC<Props> = (props) => {
         props.outline ? classes.outline : classes.button
       } `}
       disabled={props.disabled}
-      type={props.type || "button"}
+      type={'submit'}
       onClick={props.onClick}
     >
       {props.children}

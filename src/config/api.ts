@@ -120,7 +120,7 @@ export const getUserInfo = async (values:any) => {
       ...values,
     });
     if (response.status === 200) {
-      // Registration successful
+      console.log(response.data);
       return response;
     } else {
       // Handle other response statuses if needed
@@ -138,7 +138,6 @@ export const saveAccessTokens = async (data: any) => {
 
   const jwt = data.data.accessToken
   const refreshToken = data.data.refreshToken
-  // console.log('saveAccessTokens', jwt, refreshToken, phone)
   if (jwt) {
     await storageCreateOrUpdateItem(TOKEN_KEY, jwt)
   }

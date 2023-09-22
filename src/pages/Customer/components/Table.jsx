@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Calendar from "react-calendar";
 import SearchBox from "../../../components/topnav/searchBox/SearchBox";
 import "./style.css";
@@ -92,7 +92,7 @@ const Table = ({ data }) => {
     const onUserInfo = (userInfo) => {
         setUserInfo(userInfo);
         setUserInfoVisble(true);
-    }
+    };
 
     return (
         <>
@@ -119,81 +119,66 @@ const Table = ({ data }) => {
                         }}
                     >
                         <div>
-                            <h5 onClick={() => setAdduserVisible(true)}>Добавить сотрудника</h5>{" "}
+                            <h5 onClick={() => setAdduserVisible(true)}>
+                                Добавить сотрудника
+                            </h5>{" "}
                         </div>
                     </div>
                 </div>
 
                 <SearchBox onSearch={onSearch} placeholder='Поиск сотрудника' />
-<div style={{overflowX:'auto'}}>
-<table>
-                    <thead className='thead-background'>
-                        <tr>
-                            <th>Имя сотрудника</th>
-                            <th>Email</th>
-                            <th>Номер телефона</th>
-                            <th>Роль</th>
-                            <th>Пароль</th>
-                            <th>Рейтинг</th>
-                            <th>Информация</th>
-                            <th>Регалии</th>
-                        </tr>
-                    </thead>
+                <div style={{ overflowX: "auto" }}>
+                    <table>
+                        <thead className='thead-background'>
+                            <tr>
+                                <th>Имя сотрудника</th>
+                                <th>Email</th>
+                                <th>Номер телефона</th>
+                                <th>Роль</th>
+                                <th>Пароль</th>
+                                <th>Рейтинг</th>
+                                <th>Информация</th>
+                                <th>Регалии</th>
+                            </tr>
+                        </thead>
 
-                    <tbody className='table-row'>
-                        {currentItems.map((item, index) => (
-                            <tr
-                                key={item.id}
-                                className={
-                                    index % 2 === 0 ? "even-row" : "odd-row"
-                                }
-                            >
-                                <td>
-                                    <div style={{ display: "flex" }}>
-                                        <img
-                                            src={images.user}
+                        <tbody className='table-row'>
+                            {currentItems.map((item, index) => (
+                                <tr
+                                    key={item.id}
+                                    className={
+                                        index % 2 === 0 ? "even-row" : "odd-row"
+                                    }
+                                >
+                                    <td>
+                                        <div style={{ display: "flex" }}>
+                                            <img
+                                                src={images.user}
+                                                style={{
+                                                    width: "30px",
+                                                    height: "30px",
+                                                    marginTop: "0px",
+                                                    marginRight: "5px",
+                                                }}
+                                                alt={item.firstName}
+                                            />
+                                            {item.firstName}
+                                        </div>
+                                    </td>
+                                    <td>{item.firstName}</td>
+                                    <td>{item.phoneNumber}</td>
+                                    <td>{item.role}</td>
+
+                                    <td>{item?.password?.substring(0, 5)}...</td>
+
+                                    <td>{item.rating}</td>
+                                    <td>{item.role==='TRAINER'&&
+                                    <>
+                                     <div
                                             style={{
-                                                width: "30px",
-                                                height: "30px",
-                                                marginTop: "0px",
-                                                marginRight: "5px",
-                                            }}
-                                            alt={item.firstName}
-                                        />
-                                        {item.firstName}
-                                    </div>
-                                </td>
-                                <td>{item.height}</td>
-                                <td>{item.height}</td>
-                                <td>{item.birthDate}</td>
-
-                                <td>{item.birthDate}</td>
-
-                                <td>{item.address.address}</td>
-                                <td>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            backgroundColor: "#CF5490",
-                                            padding: "4%",
-                                            borderRadius: "10px",
-                                            fontSize: "13px",
-                                            color: "white",
-                                            textAlign: "center",
-                                        }}
-                                    >
-                                        <h5 style={{ textAlign: "center",marginLeft:15 }} onClick={() => onUserInfo(item)}>
-                                            {" "}
-                                            Подробнее
-                                        </h5>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div style={{ display: "flex" }}>
-                                        <div
-                                            style={{
-                                                backgroundColor: "#7536EA",
-                                                padding: "2%",
+                                                display: "flex",
+                                                backgroundColor: "#CF5490",
+                                                padding: "4%",
                                                 borderRadius: "10px",
                                                 fontSize: "13px",
                                                 color: "white",
@@ -201,59 +186,97 @@ const Table = ({ data }) => {
                                             }}
                                         >
                                             <h5
-                                                style={{paddingRight:5 ,paddingLeft:5,marginTop:5}}
-                                                onClick={() =>
-                                                    onRegaliCustomer(item)
-                                                }
+                                                style={{
+                                                    textAlign: "center",
+                                                    marginLeft: 15,
+                                                }}
+                                                onClick={() => onUserInfo(item)}
                                             >
-                                                Регалии
+                                                {" "}
+                                                Подробнее
                                             </h5>
                                         </div>
-                                        <div
-                                            style={{
-                                                padding: "3%",
-                                                width: 50,
-                                                height: 40,
-                                            }}
-                                            className='tooltipBoundary'
-                                        >
-                                            <Popup
-                                                trigger={<h4>....</h4>}
-                                                position={[
-                                                    "right bottom",
-                                                    "bottom left",
-                                                    "bottom center",
-                                                    "bottom right",
-                                                ]}
-                                                closeOnDocumentClick
-                                                keepTooltipInside='.tooltipBoundary'
+                                    </>}
+                                       
+                                    </td>
+                                    <td>{item.role==='TRAINER'&&
+                                    <>
+                                     <div style={{ display: "flex" }}>
+                                            <div
+                                                style={{
+                                                    backgroundColor: "#7536EA",
+                                                    padding: "2%",
+                                                    borderRadius: "10px",
+                                                    fontSize: "13px",
+                                                    color: "white",
+                                                    textAlign: "center",
+                                                }}
                                             >
-                                                <div
+                                                <h5
                                                     style={{
-                                                        backgroundColor: "#000",
-                                                        padding: 10,
-                                                        borderRadius: 10,
+                                                        paddingRight: 5,
+                                                        paddingLeft: 5,
+                                                        marginTop: 5,
                                                     }}
+                                                    onClick={() =>
+                                                        onRegaliCustomer(item)
+                                                    }
                                                 >
-                                                    <h5>Удалить сотрудника</h5>
-                                                    <h5
-                                                        onClick={() =>
-                                                            onEditCustomer(item)
-                                                        }
+                                                    Регалии
+                                                </h5>
+                                            </div>
+                                            <div
+                                                style={{
+                                                    padding: "3%",
+                                                    width: 50,
+                                                    height: 40,
+                                                }}
+                                                className='tooltipBoundary'
+                                            >
+                                                <Popup
+                                                    trigger={<h4>....</h4>}
+                                                    position={[
+                                                        "right bottom",
+                                                        "bottom left",
+                                                        "bottom center",
+                                                        "bottom right",
+                                                    ]}
+                                                    closeOnDocumentClick
+                                                    keepTooltipInside='.tooltipBoundary'
+                                                >
+                                                    <div
+                                                        style={{
+                                                            backgroundColor:
+                                                                "#000",
+                                                            padding: 10,
+                                                            borderRadius: 10,
+                                                        }}
                                                     >
-                                                        Редактировать данные
-                                                    </h5>
-                                                </div>
-                                            </Popup>
+                                                        <h5>
+                                                            Удалить сотрудника
+                                                        </h5>
+                                                        <h5
+                                                            onClick={() =>
+                                                                onEditCustomer(
+                                                                    item
+                                                                )
+                                                            }
+                                                        >
+                                                            Редактировать данные
+                                                        </h5>
+                                                    </div>
+                                                </Popup>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-</div>
-               
+                                    </>}
+                                       
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
                 <nav>
                     <ul className='pagination'>
                         <li
@@ -310,7 +333,10 @@ const Table = ({ data }) => {
                     />
                 )}
                 {userInfoVisble && (
-                    <UserInfo data={userInfo} onClose={() => setUserInfoVisble(false)}/>
+                    <UserInfo
+                        data={userInfo}
+                        onClose={() => setUserInfoVisble(false)}
+                    />
                 )}
                 {adduserVisible && (
                     <AddUser onClose={() => setAdduserVisible(false)} />

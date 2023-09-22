@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./style.css";
 import { Icon } from "@iconify/react";
-import Card from "../../../components/UI/card/Card";
 import TodayCard from "./TodayCard";
 function Table({ data }) {
     const [currentPage, setCurrentPage] = useState(1);
@@ -30,8 +29,8 @@ function Table({ data }) {
     };
     return (
         <>
-            <div style={styles.table}>
-                <table>
+            <div style={styles.table }>
+                <table style={{overflowX:'auto'}}>
                  <thead>
                      {/* <tr>
                          <th>Дата</th>
@@ -110,6 +109,9 @@ function Table({ data }) {
     );
 }
 
+//create filter
+
+
 const styles = {
     table: {
         width: "100%",
@@ -118,6 +120,7 @@ const styles = {
         borderSpacing: 0,
         borderRadius: "10px",
         marginTop: "2%",
+        overflowX:'auto',
         backgroundColor: "rgba(255, 255, 255, 0.1)",
     },
     thead: {

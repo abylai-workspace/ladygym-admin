@@ -30,25 +30,25 @@ const Table = ({ data }) => {
     };
     console.log(data);
     const filterdata = data.filter((item) => {
-        return item.firstName.toLowerCase().includes(search.toLowerCase());
+        return item?.user?.firstName.toLowerCase().includes(search.toLowerCase());
     });
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filterdata.slice(indexOfFirstItem, indexOfLastItem);
     const [sortedData, setSortedData] = useState(filterdata);
 
-    const sortByName = () => {
-        const sorted = [...sortedData].sort((a, b) => {
-            if (sortOrder === "asc") {
-                return a.username.localeCompare(b.username);
-            } else {
-                return b.username.localeCompare(a.username);
-            }
-        });
-        console.log(sorted);
-        setSortedData(sorted);
-        setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    };
+    // const sortByName = () => {
+    //     const sorted = [...sortedData].sort((a, b) => {
+    //         if (sortOrder === "asc") {
+    //             return a.username.localeCompare(b.username);
+    //         } else {
+    //             return b.username.localeCompare(a.username);
+    //         }
+    //     });
+    //     console.log(sorted);
+    //     setSortedData(sorted);
+    //     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    // };
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -147,18 +147,19 @@ const Table = ({ data }) => {
                                             }}
                                             alt={item.firstName}
                                         />
-                                        {item.firstName}
+                                        {item?.user?.firstName}
                                     </div>
                                 </td>
-                                <td>{item.height}</td>
-                                <td>{item.height}</td>
-                                <td>{item.birthDate}</td>
+                                <td>{item.user.height}</td>
+                                <td>{item.user.height}</td>
+                                <td>{item.user.height}</td>
 
-                                <td>{item.birthDate}</td>
+                            
 
-                                <td>{item.address.address}</td>
+                                <td>{item.user.height}</td>
+                                <td>{item.gym.address}</td>
                                 <td>
-                                    Х
+                                    {item?.subscriptionType?.durationInDays}
                                 </td>
                                 
                             </tr>

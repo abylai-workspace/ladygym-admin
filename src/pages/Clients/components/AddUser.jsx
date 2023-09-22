@@ -1,46 +1,102 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Modal from "../../../components/UI/modal/Modal";
 import LGInput from "../../../components/UI/input/LGInput";
 import Button from "../../../components/UI/button/Button";
+import {
+    createClient,
+    createUser,
+    createUserAndPersonal,
+} from "../../../config/axios";
+import { instance } from "../../../config/api";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+
 
 function AddUser({ onClose }) {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    role: 'user', // Default role
-  });
+    const user = useSelector((state) => state?.auth);
+    const token = user.token;
+    console.log(user);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        password: "",
+        phoneNumber: "",
+    });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Send a POST request to your API to add the user with formData
-    // Make the API call here and handle the response
-    console.log('Form data:', formData);
-  };
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+    const createUser = useCallback(async () => {
+        try {
+            const response = await createUserAndPersonal(token, formData);
+            if (response.status === 200) {
+                 toast.success('Successfully toasted!')
+                onClose();
+               
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }, [token,formData]);
+
+    console.log(formData);
     return (
-        <div >
-            <Modal title='Новый пользователь ' onClose={onClose} >
-              <form >
-              <h5>Имя</h5>
-                <LGInput placeholder='Введите ваше имя' />
+        <>
+            <Modal title='Новый пользователь ' onClose={onClose}>
+                {/* <form  onSubmit={()=>{
+                // createUser()
+                console.log(formData)
+              }}> */}
+                <h5>Имя</h5>
+
+                <LGInput
+                    placeholder='Введите ваше имя'
+                    value={formData.firstName}
+                    name={"firstName"}
+                    onChange={handleInputChange}
+                />
                 <h5>Фамилия</h5>
-                <LGInput placeholder='Введите вашу фамилию' />
-               <h5>Email</h5>
-                <LGInput placeholder='Введите ваш email' />
+                <LGInput
+                    placeholder='Введите вашу фамилию'
+                    name='lastName'
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                />
+                <h5>Email</h5>
+                <LGInput
+                    placeholder='Введите ваш email'
+                    name={"email"}
+                    value={formData.email}
+                    onChange={handleInputChange}
+                />
                 <h5>Номер телефона</h5>
-                <LGInput placeholder='Введите ваш номер телефона' />
+                <LGInput
+                    placeholder='Введите ваш номер телефона'
+                    name={"phoneNumber"}
+                    value={formData.phoneNumber}
+                    onChange={handleInputChange}
+                />
                 <h5>Пароль</h5>
-                <LGInput placeholder='Введите ваш пароль' style={{marginBottom:'5%'}}/>
-                
-      <Button>Добавить</Button>
-              </form>
-             
+                <LGInput
+                    placeholder='Введите ваш пароль'
+                    style={{ marginBottom: "5%" }}
+                    name={"password"}
+                    value={formData.password}
+                    onChange={handleInputChange}
+                />
+                <br/>
+                <br/>
+
+                <Button type='submit' onClick={createUser} style={{ marginTop:20 }}>
+                    Добавить
+                </Button>
+                {/* </form> */}
             </Modal>
-        </div>
+        
+        </>
     );
 }
 

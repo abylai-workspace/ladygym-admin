@@ -113,6 +113,7 @@ const Table = ({ data }) => {
 
                     <tbody className='table-row'>
                         {currentItems.map((item, index) => (
+                           
                             <tr
                                 key={item.id}
                                 className={
@@ -134,9 +135,9 @@ const Table = ({ data }) => {
                                         {item.firstName}
                                     </div>
                                 </td>
-                                <td>{item.height}</td>
-                                <td>{item.height}</td>
-                                <td>{item.birthDate}</td>
+                                <td>{item.paid?'Да':'Нет'}</td>
+                                <td>{item?.subscription?.subscriptionType?.freezingAmount  ||'0'}</td>
+                                <td>{item.subscription?.subscriptionAdditionalType||"нет тренер"}</td>
 
                                 <td>{item.birthDate}</td>
 
@@ -264,9 +265,10 @@ const Table = ({ data }) => {
                     </ul>
                 </nav>
                {freezeVisible &&<Freeze onClose={()=>setFreezeVisible(false)}/>}
-               {adduserVisible &&<AddUser onClose={()=>setAdduserVisible(false)}/>}
+            
                {visibleDocuents &&<Documents onClose={()=>setVisibleDocuents(false)}/>}
             </div>
+            {adduserVisible &&<AddUser onClose={()=>setAdduserVisible(false)}/>}
         </>
     );
 };

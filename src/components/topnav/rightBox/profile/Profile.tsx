@@ -14,16 +14,14 @@ import { TOKEN_KEY } from "../../../../constants/constants";
 import { instance } from "../../../../config/api";
 
 function Profile() {
-  const tokenStorage = useSelector((state: any) => state?.token);
+ 
   const user=useSelector((state: any) => state?.auth);
   const userRole = useSelector((state:any) => state.role.role);
   const [userName, setUserName] = useState('');
   const [lastName, setLastName] = useState('');
 
-const token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwNzA2ODgyMjcxIiwicm9sZXMiOlsiQURNSU4iXSwiZXhwIjoxNjk0NzUzNDkwLCJpYXQiOjE2OTQ1ODA2OTB9.V8E5rGIjoD5kkzCYaoV5qJhs_K5yZNB0qc0ehmhf3fFNoc4SfIIDnay0F9h1GIILJYqS6ITas0WMnXOpA2kdbA"
 
-
-    console.log(user,'role')
+   
     const dispatch = useDispatch()
     // const navigation = useNavigation()
     const handleLogout = useCallback(async () => {
@@ -31,21 +29,7 @@ const token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwNzA2ODgyMjcxIiwicm
     openSidebarHandler();
     }, []);
 
-  useEffect(() => {
-    if(!tokenStorage){
-      try {
-        const response=instance.get('/gym/user/info',{
-          headers:{
-            Authorization:`Bearer ${tokenStorage}`
-          }
-
-        })
-        console.log(response)
-      } catch (error) {
-        
-      }
-    }
-  })
+  
 
       
   const { t } = useTranslation();

@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit'
 // import abonomentSlice from './slices/abonomentSlice'
 import authSlice from './slices/authSlice'
 import roleSlice from './slices/roleSlice'
+import messageSlice from './slices/message'
+import userSlice from './slices/auth'
 // import tokenSlice from './slices/tokenSlice'
 // import gymsfilial from './slices/abonomentsFilial'
 // import gymssubscriptype from './slices/abonomentSubscriptTypeslice'
@@ -12,6 +14,8 @@ export const store = configureStore({
     // abonoment:abonomentSlice,
     auth:authSlice,
     role:roleSlice,
+    message:messageSlice,
+    userSlice:userSlice
     // token:tokenSlice,
     // gymsfilial:gymsfilial,
     // gymssubscriptype:gymssubscriptype,

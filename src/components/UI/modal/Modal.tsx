@@ -10,7 +10,7 @@ interface IBackdrop {
   onConfirm: () => void;
 }
 const Backdrop: React.FC<IBackdrop> = (props) => {
-  return <div className={classes.backdrop} onClick={props.onConfirm}></div>;
+  return <div className={classes.backdrop} onClick={props?.onConfirm}></div>;
 };
 
 // interface IModalOverlay {
