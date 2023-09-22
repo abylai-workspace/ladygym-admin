@@ -27,7 +27,6 @@ function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<LoadingSpinner />}>
-      
         <Routes>
           <Route element={<AuthLayout />}>
             <Route path="/" element={<MainLayout />}>

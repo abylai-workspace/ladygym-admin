@@ -71,7 +71,7 @@ function LoginBox() {
                 dispatch(setRole(role));
                 dispatch(loginSuccess({ user: values, token: accessToken }));
                 console.log(response)
-                // navigate("/");
+                navigate("/");
                 if(response.status === 401){
                     await setShowOtp(!showotp);
                 }
