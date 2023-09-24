@@ -17,29 +17,28 @@ function Customers() {
 
   const [data,setData]=useState([])
   const user=useSelector((state: any) => state?.auth);
-  
-useEffect(()=>{
-  const fetchData =()=>{
+  const fetchData =async()=>{
     try {
-      const response=getAllPersonals(user.token)
+      const response=await getAllPersonals(user.token)
       .then(res=>{
         setData(res.data)
-        console.log(res.data,'a')
+       
       })
       return response
     } catch (error) {
       
     }
   }
+useEffect(()=>{
   fetchData()
-},[])
+},[data])
 useEffect(()=>{
   const fetchTraingInfo =()=>{
     try {
       const response=gymTrainers(user.token)
       .then(res=>{
         // setData(res.data)
-        console.log(res.data)
+        // console.log(res.data)
       })
       return response
     } catch (error) {

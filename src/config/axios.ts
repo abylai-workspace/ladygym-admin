@@ -17,6 +17,7 @@ export const getAllClients = async(token: any) => {
     }
 }
 
+
 export const getAllPersonals = async(token: any) => {
     try {
         const response=instance.get('/gym/user/personal',{
@@ -113,4 +114,49 @@ export const gymManageAll= () => {
         
     }
 
+}
+
+export const getFreezeAll= async(token:string) => {
+    try {
+        const response=await instance.get('/gym/subscriptions/freeze/all',{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+        return response
+        
+    } catch (error) {
+        
+    }
+    
+}
+
+export const deletePersonal = async(token:string,id:string) => {
+    try {
+        const response=await instance.delete(`/gym/user/delete/${id}`,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+      
+        return response
+        
+    } catch (error) {
+        
+    }
+}
+
+export const updatePersonal = async(token:string,id:string,data:any) => {
+    try {
+        const response=await instance.post(`/gym/user/edit/${id}`, data,{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+      
+        return response
+        
+    } catch (error) {
+        
+    }
 }

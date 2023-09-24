@@ -36,7 +36,7 @@ function TodayCard({data}) {
             </div>
             <div style={{display:'flex',justifyContent:'space-between',}}>
                 <div className="btn" style={{}}><h6 style={{color:'white',marginTop:3}}>Отменить</h6></div>
-                <div className="btn" style={{backgroundColor:'#CF5490'}}><h6 style={{color:'white',marginTop:3}}>Отменить</h6></div>
+                <div className="btn" style={{backgroundColor:'#CF5490'}}><h6 style={{color:'white',marginTop:3}}>Заморозить</h6></div>
                
             </div>
         </div>

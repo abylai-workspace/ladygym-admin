@@ -2,35 +2,52 @@ import React, { useState } from "react";
 import Modal from "../../../components/UI/modal/Modal";
 import Input from "../../../components/UI/input/Input";
 import Button from "../../../components/UI/button/Button";
+import { updatePersonal } from "../../../config/axios";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 function CustomerEdit({ data, onClose }) {
-    console.log(data);
+  const user=useSelector((state) => state?.auth);
+  const token = user.token;
     const [userData, setUserData] = useState({
-        firstName: data.firstName,
-        username: data.username,
-        email: data.email,
+        id: data.id ||"",
+        firstName: data?.firstName || "",
+        lastName: data.lastName || "",
+        email: data.email ||"",
+        phoneNumber: data.phoneNumber || "",
+        password: data.password || ""
     });
-    const [isLoading, setIsLoading] = useState(true);
-    const [isEditing, setIsEditing] = useState(false);
-
-    const handleEditClick = () => {
-        setIsEditing(true);
-      };
-
-      const handleInputChange = (e) => {
-        console.log(e.target.value);
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUserData({
-          ...userData,
-          [name]: value,
-        });
+        setUserData({ ...userData, [name]: value });
+        
       };
+      const onSave = async() => {
+        const data={
+         
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+          phoneNumber: userData.phoneNumber,
+          password: userData.password
+        }
+        try {
+          const response = await updatePersonal(token, userData.id, data);
+        if(response.status === 200) {
+          toast.success("Данные пользователя успешно отредактированы!");
+          onClose();
+        }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+     
     return (
         <div>
             <Modal onClose={onClose} title='Редактировать данные'>
                 <div>
                     <h5>Имя</h5>
-                    
                     <input
                         style={{
                             width: "100%",
@@ -40,9 +57,11 @@ function CustomerEdit({ data, onClose }) {
                             borderRadius: 10,
                             color: "white",
                         }}
-                        value={data.firstName}
-                        onChange={handleInputChange}
-                        onFocus={(e) => e.target.select()} 
+                        type="text"
+                        name="firstName"
+                        value={userData?.firstName}
+                        onChange={(e)=>setUserData({...userData, firstName: e.target.value})}
+                       
                     />
                     <h5>Фамилия</h5>
                     <input
@@ -54,7 +73,9 @@ function CustomerEdit({ data, onClose }) {
                             borderRadius: 10,
                             color: "white",
                         }}
-                        value={data.username}
+                        name="lastName"
+                        value={userData.lastName}
+                        onChange={handleInputChange}
                     />
                     <h5>Email</h5>
                     <input
@@ -66,7 +87,10 @@ function CustomerEdit({ data, onClose }) {
                             borderRadius: 10,
                             color: "white",
                         }}
-                        value={data.email}
+                        name="email"
+
+                        value={userData.email}
+                        onChange={handleInputChange}
                     />
                   
                     <h5>Номер телефона</h5>
@@ -80,7 +104,9 @@ function CustomerEdit({ data, onClose }) {
                             color: "white",
                           
                         }}
-                        value={data.username}
+                        value={userData.phoneNumber}
+                        name="phoneNumber"
+                        onChange={handleInputChange}
                     />
                       <h5>Пароль</h5>
                     <input
@@ -94,9 +120,11 @@ function CustomerEdit({ data, onClose }) {
                             color: "white",
                             marginBottom: 20,
                         }}
-                        value={data.username}
+                        value={userData.password}
+                        name="password"
+                        onChange={handleInputChange}
                     />
-                    <Button onClick={onClose}>Сохранить</Button>
+                    <Button onClick={onSave}>Сохранить</Button>
                 </div>
             </Modal>
         </div>

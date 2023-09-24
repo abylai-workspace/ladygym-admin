@@ -4,7 +4,7 @@ function Tabs({ selectedTab, setSelectedTab }) {
   const tabs = ['myTasks', 'adminTasks', 'trainerTasks'];
 
   return (
-    <div className="Tabs" style={{ display: 'flex' }}>
+    <div className="Tabs">
       {tabs.map((tab) => (
         <button
           key={tab}

@@ -13,12 +13,19 @@ import CustomerEdit from "./CustomerEdit";
 import Regali from "./Regali";
 import UserInfo from "./UserInfo";
 import AddUser from "./AddUser";
+import { deletePersonal } from "../../../config/axios";
+import { useSelector } from "react-redux";
 
 const Table = ({ data }) => {
+    const user = useSelector((state) => state?.auth);
+  const token = user.token;
     const [search, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10); // Calculate the indexes for pagination
 
+    useEffect(() => {
+        
+    },[data])
     const [selectedDate, setSelectedDate] = useState(null);
     const [showCalendarModal, setShowCalendarModal] = useState(false);
 
@@ -40,7 +47,7 @@ const Table = ({ data }) => {
         setSearchTerm(term);
         setCurrentPage(1);
     };
-    console.log(data);
+   
     const filterdata = data.filter((item) => {
         return item.firstName.toLowerCase().includes(search.toLowerCase());
     });
@@ -93,6 +100,18 @@ const Table = ({ data }) => {
         setUserInfo(userInfo);
         setUserInfoVisble(true);
     };
+
+
+    const deletePerson =async (id) => {
+        try {
+            const response=await deletePersonal(token,id);
+          
+            
+        } catch (error) {
+            
+        }
+        
+    }
 
     return (
         <>
@@ -252,7 +271,10 @@ const Table = ({ data }) => {
                                                             borderRadius: 10,
                                                         }}
                                                     >
-                                                        <h5>
+                                                        <h5 onClick={() => {
+                                                            deletePerson(item.id)
+console.log(item.id)
+                                                        }}>
                                                             Удалить сотрудника
                                                         </h5>
                                                         <h5
