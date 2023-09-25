@@ -17,6 +17,7 @@ const Tabs = ({ tabs, defaultTab }) => {
             key={index}
             className={index === activeTab ? 'active' : ''}
             onClick={() => handleTabClick(index)}
+            style={{backgroundColor:activeTab===index?"#CF5490":"",width:"25%",margin:4,alignSelf:'center',color:activeTab===index?"white":"white"}}
           >
             {tab.title}
           </button>

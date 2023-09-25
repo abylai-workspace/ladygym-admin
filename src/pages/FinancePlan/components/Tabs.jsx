@@ -1,7 +1,6 @@
 // Tabs.js
 
 import React, { useState } from 'react';
-import { COLORS } from '../../../utils/color';
 
 const Tabs = ({ tabs, defaultTab }) => {
   const [activeTab, setActiveTab] = useState(defaultTab || 0);
@@ -11,14 +10,14 @@ const Tabs = ({ tabs, defaultTab }) => {
   };
 
   return (
-    <div style={{width: '50%'}}>
+    <div style={{width: '40%'}}>
       <div className="tab-buttons" >
         {tabs.map((tab, index) => (
           <button
             key={index}
             className={index === activeTab ? 'active' : ''}
             onClick={() => handleTabClick(index)}
-            style={{backgroundColor:activeTab===index?"#CF5490":"",width:"25%",margin:4,alignSelf:'center',color:activeTab===index?"white":"black"}}
+            style={{backgroundColor:activeTab===index?"#CF5490":"",width:"20%",margin:4,alignSelf:'center',color:activeTab===index?"white":"white"}}
           >
             {tab.title}
           </button>

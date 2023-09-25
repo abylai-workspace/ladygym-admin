@@ -1,0 +1,130 @@
+@import '../../..//utils//color.ts';
+:root{
+    --gradient: linear-gradient(to bottom, rgba(207, 84, 144, 1), rgba(255, 144, 198, 1));
+    --title:#fff;
+    --title-pink:rgba(207, 84, 144, 1);
+    --border-color:#fff;
+    --gradient-gray:linear-gradient(to bottom,  rgba(180, 180, 180, 1), rgba(201, 201, 201, 1));
+    --orange:#7536EA;
+    --transparent:rgba(255, 255, 255, 0.1);
+
+}
+h1{
+    color: var(--title);
+}
+.container{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 4%;
+    width: 170%;
+   
+
+   
+}
+.child-container{
+    flex: 1;
+    /* justify-content: space-between; */
+    margin-top: 2%;
+}
+.child-header{
+    background: var(--gradient);
+    margin: 2%;
+    padding: 3%;
+    border-radius: 25px;
+    color: var(--title);
+    padding-left: 7%;
+}
+.child-header-complted{
+    background: var(--gradient-gray);
+    margin: 2%;
+    padding: 3%;
+    border-radius: 25px;
+    color: var(--title);
+    padding-left: 7%;
+}
+.child-header-end{
+    background: var(--gradient-gray);
+    margin: 2%;
+    padding: 3%;
+    border-radius: 25px;
+    color: var(--title);
+    padding-left: 7%;
+}
+.child-task{
+    background: var(--title);
+    border: 4px solid var(--border-color);
+    border-radius: 25px;
+    margin:2%
+}
+.child-task-container{
+    background: var(--gradient);
+    border: 4px solid var(--border-color);
+    padding: 3%;
+    border-radius: 25px;
+   
+}
+.child-task-container-complted{
+    background: var(--gradient-gray);
+    border: 4px solid var(--border-color);
+    padding: 3%;
+    border-radius: 25px;
+}
+.child-task-container-complted h3{
+    color: var(--title);
+}
+
+.child-task-container h3 {
+    color: var(--title);
+}
+.child-header-end-task{
+    background: var(--title);
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    margin:2%
+}
+.child-task-container-task-end{
+    background: var(--gradient-gray);
+    /* border: 4px solid var(--border-color); */
+    padding: 3%;
+    border-radius: 25px;
+    margin:2%
+}
+.child-task h1,h5,h6{
+    color: var(--title);
+}
+button{
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2%;
+    border-radius: 25px;
+    border: 1px solid var(--border-color);
+   padding-left: 2%;
+    padding-right: 2%;
+    margin-top: 3%;
+   
+
+}
+.createTask{
+background-color: var(--orange);
+width: 10%;
+padding:1%;
+border-radius: 15px;
+position: absolute;
+right: 10px;
+}
+.dropdown-list{
+    background-color: var(--transparent);
+    margin:10px;
+    width: "100%";
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 10px;
+    border: 0.2px solid #fff;
+}
+.tab-buttons{
+   margin-left: 2%;
+}

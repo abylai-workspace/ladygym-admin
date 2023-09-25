@@ -67,6 +67,17 @@ function Tasks() {
                     Создать задание +
                 </button>
             </div>
+            <h1
+                style={{
+                    color: "white",
+                    alignSelf: "center",
+                    marginRight: "0%",
+                    marginBottom: "1%",
+                    marginLeft: "1%",
+                }}
+            >
+                Задания
+            </h1>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Tabs tabs={tabs} defaultTab={0} />
             </div>
