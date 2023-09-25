@@ -30,11 +30,11 @@ function Tasks() {
    }
    useEffect(()=>{
      getPersonality()
-   },[data])
+   },[])
 
     const tabs = [
         {
-            title: "my",
+            title: "Мои задания",
             content: <TabMe />,
         },
         {

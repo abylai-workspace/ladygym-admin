@@ -61,6 +61,7 @@ function TaskBoard(data) {
                     <div className='child-header'>
                         <h3>В ожидании</h3>
                     </div>
+                    <div style={{height:500,overflow:'auto'}}>
                     {inWaitingTasks?.map((item,i)=>{
                         return(
                             <div className='child-task' key={i}>
@@ -97,12 +98,15 @@ function TaskBoard(data) {
                         )
                        
                     })}
+                    </div>
+                  
                    
                 </div>
                 <div className='child-container'>
                     <div className='child-header'>
                         <h3>В процессе</h3>
                     </div>
+                    <div style={{height:500,overflow:'auto'}}>
                     {inProgressTasks?.map((item,i)=>{
                        return(
                         <div className='child-task' key={i}>
@@ -145,6 +149,8 @@ function TaskBoard(data) {
                     </div>
                        )
                     })}
+                    </div>
+                   
                    
                 </div>
                 <div className='child-container'>

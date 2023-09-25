@@ -1,183 +1,97 @@
-import React, { useState } from "react";
-import Tabs from "../../components/UI/tabs/Tabs";
-import "../Tasks/style.css";
-import TaskBoard from "./components/Taskboard";
-import Modal from "../../components/UI/modal/Modal";
-import Button from "../../components/UI/button/Button";
-import { Icon } from "@iconify/react";
-import Input from "../../components/UI/input/Input";
-// import TaskBoard from '../Tasks/components/TaskBoard';
+import React, { useCallback, useEffect, useState } from "react";
+import TaskBoard from "./components/TaskBoards";
+import AdminTask from "./components/AdminTask";
+import TrainerTask from "./components/TrainerTask";
+import Tabs from './components/Tabs'
+import MyTasks from "./components/MyTasks";
+import ManagerTasks from "./components/ManagerTasks";
+import ModalWhy from "./components/ModalWhy";
+import { getAllPersonals } from "../../config/axios";
+import { useSelector } from "react-redux";
+import { instance } from "../../config/api";
+import CreateTask from "./components/CreateTask";
+import { Toaster } from "react-hot-toast";
 function WorkAnalizy() {
-    const items = ["Тренер", "Админ"];
-    const tabs = ["Админы", "Тренеры"];
+    const user=useSelector((state) => state?.auth);
+    const token=user.token;
+    const [showForWhy, setShowForWhy] = useState(false);
+    const [showCreateTask, setShowCreateTask] = useState(false);
+    const [selectedOption,setSelectedOption] = useState(null);
+    const [data,setData]=useState([])
+    const tabs = [
+        {
+            title: "Мои задачи",
+            content: <MyTasks />,
+        },
+        {
+            title: "Админ",
+            content: <AdminTask />,
+        },
+        {
+            title: "Тренер",
+            content: <TrainerTask />,
+        },
+        {
+            title: "Менеджер",
+            content: <ManagerTasks />,
+        }
 
-    const [selectedTab, setSelectedTab] = useState("Админы");
-    const [selectedCoach, setSelectedCoach] = useState("");
-    const [showModal, setShowModal] = useState(false);
-    const [selectedItem, setSelectedItem] = useState("");
+       
+       
+    ];
 
-    const [chooseVisible, setChooseVisible] = useState(false);
-    const [createVisible, setCreateVisible] = useState(false);
-    function showModalHandler() {
-        setShowModal((prev) => !prev);
-    }
-    const handleCoachChange = (event: any) => {
-        setSelectedCoach(event.target.value);
-        setChooseVisible(false);
-        setCreateVisible(true);
-    };
-
-    const handleTabChange = (tab: any) => {
-        setSelectedTab(tab);
-    };
-    const handleItemClick = (item: any) => {
-        setSelectedItem(item);
-        // setIsOpen(false); // Close the dropdown when an item is selected
-    };
-
+    const getPersonality = () => {
+        try {
+         const response=instance.get(`/gym/user/personal`,{
+           
+           headers:{
+             Authorization:`Bearer ${token}`
+           }
+         })
+         .then(res=>{
+            const allUsers = res.data;
+            const trainersAndManagers = allUsers.filter((user) => {
+                return user.role === 'TRAINER' || user.role === 'ADMIN';
+              });
+              setData(trainersAndManagers)
+        console.log(trainersAndManagers)
+           
+         })
+         return response
+        } catch (error) {
+         
+        }
+      }
+      useEffect(()=>{
+        getPersonality()
+      },[])
+      const selectedData=useCallback((data)=>{
+        setSelectedOption(data)
+        setShowForWhy(false)
+        setShowCreateTask(true)
+      },[])
     return (
         <div>
-            <div
+            <h1
                 style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    
+                    color: "white",
+                    alignSelf: "center",
+                    marginRight: "0%",
+                    marginBottom: "1%",
                 }}
             >
-                <div
-                    style={{
-                        display: "flex",
-
-                        justifyContent: "space-between",
-                        // flexWrap: "wrap",
-
-                    }}
-                >
-                    <h5
-                        style={{
-                            color: "white",
-                            alignSelf: "center",
-                            marginRight: "10%",
-                            width: 200,
-                            // fontSize: "14px",
-                        }}
-                    >
-                        Анализ работы
-                    </h5>
-                    <Tabs
-                        tabs={tabs}
-                        defaultTab={selectedTab}
-                        onTabChange={handleTabChange}
-                    />
-                </div>
-                <div className='createTask' style={{ width: "20%" }}>
-                    <button
-                        style={{
-                            backgroundColor: "transparent",
-                            border: "none",
-                            color: "white",
-                            width: "100%",
-                        }}
-                        onClick={() => {showModalHandler()}}
-                    >
-                        Создать финансовый план
-                    </button>
-                </div>
+                Анализ работы
+            </h1>
+            <div style={{position:'absolute',right:20,marginTop:'0%',backgroundColor:'#7536EA',padding:'10px',borderRadius:'10px'}}
+            onClick={()=>setShowForWhy(true)}>
+                <h6>Создать финансовый план</h6>
             </div>
-
-            <div className='tab-content'>
-                <div
-                    className={`tab-pane ${
-                        selectedTab === "Админы" ? "active" : ""
-                    }`}
-                >
-                    <TaskBoard />
-                </div>
-                <div
-                    className={`tab-pane ${
-                        selectedTab === "Тренеры" ? "active" : ""
-                    }`}
-                >
-                    <TaskBoard />
-                </div>
+            <div>
+            <Tabs tabs={tabs} defaultTab={0}/>
             </div>
-            {showModal && (
-                <Modal title='Для кого' onClose={() => setShowModal(false)}>
-                    <div
-                        // style={}
-                        onClick={() => {
-                            setChooseVisible(true);
-                            setShowModal(false);
-                        }}
-                    >
-                        <ul >
-                            {items.map((item) => (
-                               <div   className='dropdown-list'>
-                                 <div style={{display:"flex"}}>
-                                    <h4>admin</h4>
-                                 <li
-                                    key={item}
-                                    onClick={() => handleItemClick(item)}
-                                   
-                                >
-                                    {item}
-                                </li>
-                                 </div>
-                                <Icon icon="material-symbols:chevron-right" width="24" color="white" />
-                               </div>
-                            ))}
-                        </ul>
-                    </div>
-                </Modal>
-            )}
-            {chooseVisible && (
-                <Modal
-                    title='Выберите тренера'
-                    onClose={() => setChooseVisible(false)}
-                >
-                    <select
-                        value={selectedCoach}
-                        onChange={handleCoachChange}
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            padding: "10px",
-                            backgroundColor: "rgba(255, 255, 255, 0.2)",
-                            color: "white",
-                            borderRadius: "10px",
-                        }}
-                    >
-                        <option value=''>Выберите тренера</option>
-                        <option value='coach1'>Тренер 1</option>
-                        <option value='coach2'>Тренер 2</option>
-                        <option value='coach3'>Тренер 3</option>
-                        {/* Добавьте дополнительных тренеров по мере необходимости */}
-                    </select>
-                    {selectedCoach && (
-                        <p>Вы выбрали тренера: {selectedCoach}</p>
-                    )}
-                </Modal>
-            )}
-            {createVisible && (
-                <Modal
-                    title='Создать фин. план'
-                    onClose={() => setCreateVisible(false)}
-                >
-                    <div style={{ width: "100%" }}>
-                       
-                        <h5>Сумма</h5>
-                            <input style={{ width: "100%",padding:"10px",backgroundColor:"rgba(255, 255, 255, 0.2)",border:'none',color:"white",borderRadius:"10px",marginBottom:"4%" }} placeholder='Введите сумму в тенге' type="number"/>
-                        <h5>Крайний срок</h5>
-                         
-                            <input style={{ width: "100%",padding:"10px",backgroundColor:"rgba(255, 255, 255, 0.2)",border:'none',color:"white",borderRadius:"10px",marginBottom:"4%" }} placeholder='Введите сумму в тенге' type="date"/>
-                            
-                            <Button>Создать</Button>
-                        
-                    </div>
-                </Modal>
-            )}
+            <div><Toaster/></div>
+            {showForWhy &&<ModalWhy onClose={() => setShowForWhy(false)} data={data} selectedData={selectedData}/>}
+            {showCreateTask && <CreateTask onClose={() => setShowCreateTask(false)} selectedOption={selectedOption} />}
         </div>
     );
 }

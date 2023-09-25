@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { instance } from '../../../config/api';
-import TaskBoards from './TaskBoards';
+import TaskBoard from './Taskboard';
+
 const ManagerTasks = () => {
     const user=useSelector((state) => state?.auth);
     const token=user.token;
@@ -26,12 +27,11 @@ const ManagerTasks = () => {
       fetchData()
     },[])
   
-  
-    return (
-      <div>
-        <TaskBoards data={data}/>
-      </div>
-    )
+  return (
+    <div>
+        <TaskBoard data={data}/>
+    </div>
+  )
 }
 
 export default ManagerTasks
