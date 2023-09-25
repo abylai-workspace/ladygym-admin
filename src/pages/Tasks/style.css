@@ -16,7 +16,8 @@ h1{
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    margin-top: -4%;
+    margin-top: 4%;
+    width: 170%;
    
 
    
@@ -75,21 +76,26 @@ h1{
     color: var(--title);
 }
 button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
     background: rgba(255, 255, 255, 0.1);
     padding: 2%;
     border-radius: 25px;
     border: 1px solid var(--border-color);
-    width: 98%;
+   padding-left: 5%;
+    padding-right: 2%;
     margin-top: 3%;
+   
+
 }
 .createTask{
 background-color: var(--orange);
-width: 15%;
+width: 10%;
 padding:1%;
 border-radius: 15px;
+position: absolute;
+right: 10px;
 }
 .dropdown-list{
     background-color: var(--transparent);
@@ -100,4 +106,7 @@ border-radius: 15px;
     padding: 10px;
     border-radius: 10px;
     border: 0.2px solid #fff;
+}
+.tab-buttons{
+   margin-left: 2%;
 }

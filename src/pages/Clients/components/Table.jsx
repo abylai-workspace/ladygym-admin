@@ -36,7 +36,7 @@ const Table = ({ data }) => {
         setSearchTerm(term);
         setCurrentPage(1);
     };
-    console.log(data);
+    
     const filterdata = data.filter((item) => {
         return item.firstName.toLowerCase().includes(search.toLowerCase());
     });

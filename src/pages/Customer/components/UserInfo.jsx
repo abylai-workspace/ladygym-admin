@@ -34,7 +34,7 @@ function UserInfo({ data, onClose }) {
         // Replace this with your actual API call
         setTimeout(() => {
             // Assume you've successfully submitted the rating to the API
-            console.log(`Rating ${newRating} submitted.`);
+           
         }, 1000);
     };
   

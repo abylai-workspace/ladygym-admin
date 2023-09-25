@@ -38,7 +38,7 @@ function AddUser({ onClose }) {
                 onClose();
             }
         } catch (error) {
-            console.log(error);
+            
             toast.error("Что-то пошло не так!");
         }
     }, [token, formData]);
@@ -61,7 +61,7 @@ function AddUser({ onClose }) {
         setFormData({ ...formData, gymId: event.target.value });
         setSelectedOption(event.target.value);
     };
-    console.log(formData);
+ 
     return (
         <div>
             <Modal title='Новый сотрудника' onClose={onClose}>

@@ -17,7 +17,7 @@ function CountVisit() {
         const response=VisitCounterClients(user.token)
         .then(res=>{
           setData(res.data)
-          console.log(res.data)
+      
         })
         return response
       } catch (error) {
@@ -26,7 +26,7 @@ function CountVisit() {
     }
     fetchData()
   },[])
-  console.log(data)
+  
   return (
     <div>
        <Table data={data} />

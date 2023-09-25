@@ -57,7 +57,7 @@ function DataTable({ data }) {
   };
     const handleSearch = (term) => {
       setSearchTerm(term);
-      console.log(term);
+      
     };
 
 
@@ -90,7 +90,7 @@ function DataTable({ data }) {
                     </thead>
                     <tbody>
                         {filteredData.map((item) => {
-                            console.log(item);
+                           
                             return (
                                 <tr key={item.id}>
                                     {/* <td>{item.id}</td> */}

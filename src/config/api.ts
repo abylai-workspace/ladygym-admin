@@ -120,7 +120,7 @@ export const getUserInfo = async (values:any) => {
       ...values,
     });
     if (response.status === 200) {
-      console.log(response.data);
+      
       return response;
     } else {
       // Handle other response statuses if needed

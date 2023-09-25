@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
 import './style.css'
-const RangeSlider = ({ min, max, step, value, onChange }) => {
+
+
+interface IRadio{
+  min: number;
+  max: number;
+  step: number;
+  value: number;
+  onChange: (newValue: number) => void;
+  disabled?: boolean
+}
+const RangeSlider = ({ min, max, step, value, onChange,disabled }: IRadio) => {
   const [sliderValue, setSliderValue] = useState(value);
 
-  const handleSliderChange = (event) => {
+  const handleSliderChange = (event:any) => {
     const newValue = event.target.value;
     setSliderValue(newValue);
     onChange(newValue);
@@ -18,6 +28,7 @@ const RangeSlider = ({ min, max, step, value, onChange }) => {
         step={(max - min) / 2}
         value={sliderValue}
         onChange={handleSliderChange}
+        disabled={disabled}
       />
       {/* <span className="slider-value">{sliderValue}</span> */}
     </div>

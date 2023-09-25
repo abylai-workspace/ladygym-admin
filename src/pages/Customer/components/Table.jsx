@@ -18,14 +18,12 @@ import { useSelector } from "react-redux";
 
 const Table = ({ data }) => {
     const user = useSelector((state) => state?.auth);
-  const token = user.token;
+    const token = user.token;
     const [search, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10); // Calculate the indexes for pagination
 
-    useEffect(() => {
-        
-    },[data])
+    useEffect(() => {}, [data]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [showCalendarModal, setShowCalendarModal] = useState(false);
 
@@ -47,7 +45,7 @@ const Table = ({ data }) => {
         setSearchTerm(term);
         setCurrentPage(1);
     };
-   
+
     const filterdata = data.filter((item) => {
         return item.firstName.toLowerCase().includes(search.toLowerCase());
     });
@@ -64,7 +62,7 @@ const Table = ({ data }) => {
                 return b.username.localeCompare(a.username);
             }
         });
-        console.log(sorted);
+     
         setSortedData(sorted);
         setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     };
@@ -101,17 +99,11 @@ const Table = ({ data }) => {
         setUserInfoVisble(true);
     };
 
-
-    const deletePerson =async (id) => {
+    const deletePerson = async (id) => {
         try {
-            const response=await deletePersonal(token,id);
-          
-            
-        } catch (error) {
-            
-        }
-        
-    }
+            const response = await deletePersonal(token, id);
+        } catch (error) {}
+    };
 
     return (
         <>
@@ -184,114 +176,137 @@ const Table = ({ data }) => {
                                             {item.firstName}
                                         </div>
                                     </td>
-                                    <td>{item.firstName}</td>
+                                    <td>{item.email}</td>
                                     <td>{item.phoneNumber}</td>
                                     <td>{item.role}</td>
 
-                                    <td>{item?.password?.substring(0, 5)}...</td>
+                                    <td>
+                                        {item?.password?.substring(0, 5)}...
+                                    </td>
 
                                     <td>{item.rating}</td>
-                                    <td>{item.role==='TRAINER'&&
-                                    <>
-                                     <div
-                                            style={{
-                                                display: "flex",
-                                                backgroundColor: "#CF5490",
-                                                padding: "4%",
-                                                borderRadius: "10px",
-                                                fontSize: "13px",
-                                                color: "white",
-                                                textAlign: "center",
-                                            }}
-                                        >
-                                            <h5
-                                                style={{
-                                                    textAlign: "center",
-                                                    marginLeft: 15,
-                                                }}
-                                                onClick={() => onUserInfo(item)}
-                                            >
-                                                {" "}
-                                                Подробнее
-                                            </h5>
-                                        </div>
-                                    </>}
-                                       
-                                    </td>
-                                    <td>{item.role==='TRAINER'&&
-                                    <>
-                                     <div style={{ display: "flex" }}>
-                                            <div
-                                                style={{
-                                                    backgroundColor: "#7536EA",
-                                                    padding: "2%",
-                                                    borderRadius: "10px",
-                                                    fontSize: "13px",
-                                                    color: "white",
-                                                    textAlign: "center",
-                                                }}
-                                            >
-                                                <h5
+                                    <td>
+                                        {item.role === "TRAINER" && (
+                                            <>
+                                                <div
                                                     style={{
-                                                        paddingRight: 5,
-                                                        paddingLeft: 5,
-                                                        marginTop: 5,
+                                                        display: "flex",
+                                                        backgroundColor:
+                                                            "#CF5490",
+                                                        padding: "4%",
+                                                        borderRadius: "10px",
+                                                        fontSize: "13px",
+                                                        color: "white",
+                                                        textAlign: "center",
                                                     }}
-                                                    onClick={() =>
-                                                        onRegaliCustomer(item)
-                                                    }
                                                 >
-                                                    Регалии
-                                                </h5>
-                                            </div>
-                                            <div
-                                                style={{
-                                                    padding: "3%",
-                                                    width: 50,
-                                                    height: 40,
-                                                }}
-                                                className='tooltipBoundary'
-                                            >
-                                                <Popup
-                                                    trigger={<h4>....</h4>}
-                                                    position={[
-                                                        "right bottom",
-                                                        "bottom left",
-                                                        "bottom center",
-                                                        "bottom right",
-                                                    ]}
-                                                    closeOnDocumentClick
-                                                    keepTooltipInside='.tooltipBoundary'
+                                                    <h5
+                                                        style={{
+                                                            textAlign: "center",
+                                                            marginLeft: 15,
+                                                        }}
+                                                        onClick={() =>
+                                                            onUserInfo(item)
+                                                        }
+                                                    >
+                                                        {" "}
+                                                        Подробнее
+                                                    </h5>
+                                                </div>
+                                            </>
+                                        )}
+                                    </td>
+                                    <td>
+                                      
+                                            <>
+                                                <div
+                                                    style={{ display: "flex" }}
                                                 >
+                                                      {item.role === "TRAINER" && (
                                                     <div
                                                         style={{
                                                             backgroundColor:
-                                                                "#000",
-                                                            padding: 10,
-                                                            borderRadius: 10,
+                                                                "#7536EA",
+                                                            padding: "2%",
+                                                            borderRadius:
+                                                                "10px",
+                                                            fontSize: "13px",
+                                                            color: "white",
+                                                            textAlign: "center",
                                                         }}
                                                     >
-                                                        <h5 onClick={() => {
-                                                            deletePerson(item.id)
-console.log(item.id)
-                                                        }}>
-                                                            Удалить сотрудника
-                                                        </h5>
                                                         <h5
+                                                            style={{
+                                                                paddingRight: 5,
+                                                                paddingLeft: 5,
+                                                                marginTop: 5,
+                                                            }}
                                                             onClick={() =>
-                                                                onEditCustomer(
+                                                                onRegaliCustomer(
                                                                     item
                                                                 )
                                                             }
                                                         >
-                                                            Редактировать данные
+                                                            Регалии
                                                         </h5>
                                                     </div>
-                                                </Popup>
-                                            </div>
-                                        </div>
-                                    </>}
-                                       
+                                                      )}
+                                                    <div
+                                                        style={{
+                                                            padding: "3%",
+                                                            width: 50,
+                                                            height: 40,
+                                                        }}
+                                                        className='tooltipBoundary'
+                                                    >
+                                                        <Popup
+                                                            trigger={
+                                                                <h4>....</h4>
+                                                            }
+                                                            position={[
+                                                                "right bottom",
+                                                                "bottom left",
+                                                                "bottom center",
+                                                                "bottom right",
+                                                            ]}
+                                                            closeOnDocumentClick
+                                                            keepTooltipInside='.tooltipBoundary'
+                                                        >
+                                                            <div
+                                                                style={{
+                                                                    backgroundColor:
+                                                                        "#000",
+                                                                    padding: 10,
+                                                                    borderRadius: 10,
+                                                                }}
+                                                            >
+                                                                <h5
+                                                                    onClick={() => {
+                                                                        deletePerson(
+                                                                            item.id
+                                                                        );
+                                                                       
+                                                                    }}
+                                                                >
+                                                                    Удалить
+                                                                    сотрудника
+                                                                </h5>
+                                                                <h5
+                                                                    onClick={() =>
+                                                                        onEditCustomer(
+                                                                            item
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    Редактировать
+                                                                    данные
+                                                                </h5>
+                                                            </div>
+                                                        </Popup>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        
                                     </td>
                                 </tr>
                             ))}

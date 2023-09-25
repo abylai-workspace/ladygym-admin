@@ -1,6 +1,7 @@
 // Tabs.js
 
 import React, { useState } from 'react';
+import { COLORS } from '../../../utils/color';
 
 const Tabs = ({ tabs, defaultTab }) => {
   const [activeTab, setActiveTab] = useState(defaultTab || 0);
@@ -17,6 +18,7 @@ const Tabs = ({ tabs, defaultTab }) => {
             key={index}
             className={index === activeTab ? 'active' : ''}
             onClick={() => handleTabClick(index)}
+            style={{backgroundColor:activeTab===index?"#CF5490":"",width:"25%",margin:4,alignSelf:'center',color:activeTab===index?"white":"black"}}
           >
             {tab.title}
           </button>

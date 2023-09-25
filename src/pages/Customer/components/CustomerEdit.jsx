@@ -24,7 +24,6 @@ function CustomerEdit({ data, onClose }) {
       };
       const onSave = async() => {
         const data={
-         
           firstName: userData.firstName,
           lastName: userData.lastName,
           email: userData.email,
@@ -36,6 +35,12 @@ function CustomerEdit({ data, onClose }) {
         if(response.status === 200) {
           toast.success("Данные пользователя успешно отредактированы!");
           onClose();
+        }
+        if(userData.email !== userData.email){
+          toast.error("Данные пользователя не были отредактированы!");
+        }
+        if(response.status === 400) {
+          toast.error("Данные пользователя не были отредактированы!");
         }
         } catch (error) {
           console.log(error);
@@ -88,7 +93,6 @@ function CustomerEdit({ data, onClose }) {
                             color: "white",
                         }}
                         name="email"
-
                         value={userData.email}
                         onChange={handleInputChange}
                     />

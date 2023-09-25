@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 function AddUser({ onClose }) {
     const user = useSelector((state) => state?.auth);
     const token = user.token;
-    console.log(user);
+  
 
     const [formData, setFormData] = useState({
         firstName: "",
@@ -42,14 +42,11 @@ function AddUser({ onClose }) {
         }
     }, [token,formData]);
 
-    console.log(formData);
+   
     return (
         <>
             <Modal title='Новый пользователь ' onClose={onClose}>
-                {/* <form  onSubmit={()=>{
-                // createUser()
-                console.log(formData)
-              }}> */}
+              
                 <h5>Имя</h5>
 
                 <LGInput

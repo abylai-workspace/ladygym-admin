@@ -94,7 +94,7 @@ export const createUser= (firstName:string, lastName:string, password:string,pho
             password,
             phoneNumber,   
         })
-        console.log(response)
+       
         return response
         
     } catch (error) {

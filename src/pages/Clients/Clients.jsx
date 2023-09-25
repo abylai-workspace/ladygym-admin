@@ -16,7 +16,7 @@ useEffect(()=>{
       const response=getAllClients(user?.token)
       .then(res=>{
         setData(res.data)
-        console.log(res.data)
+      
         
       })
       return response
