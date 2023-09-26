@@ -13,14 +13,16 @@ import CountVisit from "./pages/CountVisit/CountVisit";
 import NotificationFreeze from "./pages/NotificationFreeze/NotificationFreeze";
 import { Toaster } from "react-hot-toast";
 
+
 const Dashboard = React.lazy(() => import("./pages/Clients/Clients"));
 const Customers = React.lazy(() => import("./pages/Customer/Customers"));
 const CustomerEdit = React.lazy(() => import("./pages/CustomerEdit"));
 const Products = React.lazy(() => import("./pages/Personal"));
 const ProductEdit = React.lazy(() => import("./pages/ProductEdit"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
-const BlankPage = React.lazy(() => import("./pages/Analytics"));
+const Analytics = React.lazy(() => import("./pages/Analytics"));
 const Login = React.lazy(() => import("./pages/Login"));
+const Notifications = React.lazy(() => import("./pages/Notifications/Notifications"));
 
 function App() {
 
@@ -37,13 +39,17 @@ function App() {
               <Route path="/CountVisit" element={<CountVisit />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/NotificationFreeze" element={<NotificationFreeze />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/notifications" element={<Notifications />} />
+
+
 
             
               <Route path="/customers/:customerId" element={<CustomerEdit />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:productId" element={<ProductEdit />} />
-              <Route path="/analytics" element={<BlankPage />} />
-              <Route path="/discount" element={<BlankPage />} />
+              <Route path="/analytics" element={<Analytics />} />
+           
             </Route>
           </Route>
           <Route path="/login" element={<Login />} />

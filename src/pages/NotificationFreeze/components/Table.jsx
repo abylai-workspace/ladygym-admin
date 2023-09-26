@@ -27,16 +27,19 @@ function Table({ data }) {
             setCurrentPage(currentPage - 1);
         }
     };
+
+    const getToday = currentItems?.map((item) => item);
+    const reactivedata = getToday.filter((item) => {
+        return item.applied == true;
+    });
+    console.log(reactivedata, "applied");
+
+    console.log(getToday, "getToday");
     return (
         <>
-            <div style={styles.table }>
-                <table style={{overflowX:'auto'}}>
-                 <thead>
-                     {/* <tr>
-                         <th>Дата</th>
-                         <th>Клиент</th>
-                     </tr> */}
-                 </thead>
+            <div style={styles.table}>
+                <table style={{ overflowX: "auto" }}>
+                    <thead></thead>
                     <tbody
                         style={{
                             backgroundColor: "transparent",
@@ -44,21 +47,38 @@ function Table({ data }) {
                             marginBottom: "10px",
                         }}
                     >
-                      <tr>
-                          <td>Сегодня</td>
-                          <td>Вчера</td>
-                      </tr>
-                        {currentItems.map((item, index) => (
-                            <tr key={item.id} style={{ marginBottom: 20 }}>
-                                <td style={{ marginBottom: 10, marginTop: 20 }}>
-                                    <TodayCard />
-                                </td>
+                        <tr>
+                            <td>Сегодня</td>
+                            <td>Вчера</td>
+                        </tr>
+                        {currentItems.map((item, index) => {
+                                const reactivedata = getToday.filter((item) => {
+                                    return item.applied == true;
+                                });
+                                console.log(reactivedata, "applied");
+                            return (
+                                <>
+                                    <tr
+                                        key={index}
+                                        style={{ marginBottom: 20 }}
+                                    >
+                                        <td
+                                            style={{
+                                                marginBottom: 10,
+                                                marginTop: 20,
+                                            }}
+                                        >
+                                            <TodayCard data={item} />
+                                        </td>
 
-                                <td>
-                                    <TodayCard data={item}/>
-                                </td>
-                            </tr>
-                        ))}
+                                        <td>
+                                            <TodayCard data={item} />
+                                        </td> 
+                                    </tr>
+                                </>
+                            );
+                        })}
+                        
                     </tbody>
                 </table>
             </div>
@@ -111,7 +131,6 @@ function Table({ data }) {
 
 //create filter
 
-
 const styles = {
     table: {
         width: "100%",
@@ -120,7 +139,7 @@ const styles = {
         borderSpacing: 0,
         borderRadius: "10px",
         marginTop: "2%",
-        overflowX:'auto',
+        overflowX: "auto",
         backgroundColor: "rgba(255, 255, 255, 0.1)",
     },
     thead: {

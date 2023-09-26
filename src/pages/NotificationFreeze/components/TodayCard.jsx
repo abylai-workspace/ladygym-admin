@@ -2,8 +2,15 @@ import { Icon } from "@iconify/react";
 import React from "react";
 import Button from "../../../components/UI/button/Button";
 import './style.css'
+import { formatEndTime } from "../../../utils/formatEndTime";
 function TodayCard({data}) {
-    console.log(data,'s');
+
+    
+    const formattedEndTime = formatEndTime(data?.endTime);
+    console.log(data, "formattedEndTime");
+
+   
+   
     return (
         <div style={{ marginTop: 10, margin: 0, width: "60%" }}>
             <div
@@ -13,7 +20,7 @@ function TodayCard({data}) {
                     borderRadius: "10px",
                 }}
             >
-                <h6>Заморозка абонемента до </h6>
+                <h6>Заморозка абонемента до {formattedEndTime}</h6>
                 <div
                     style={{
                         display: "flex",
@@ -31,7 +38,7 @@ function TodayCard({data}) {
                     />
                 </div>
                 <h6 style={{ color: "white", textAlign: "right" }}>
-                    Клиент: Ким Анастасия
+                    Клиент:{data?.clientFirstName+" " + data?.clientLastName}
                 </h6>
             </div>
             <div style={{display:'flex',justifyContent:'space-between',}}>

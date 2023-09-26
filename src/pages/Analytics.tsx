@@ -1,11 +1,11 @@
 import React from "react";
 import SaleChart from "../components/chart/Chart";
 
-function BlankPage() {
+function Analytics() {
   return <div>BlankPage
      <SaleChart />
 
   </div>;
 }
 
-export default BlankPage;
+export default Analytics;

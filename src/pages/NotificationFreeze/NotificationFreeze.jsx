@@ -14,6 +14,7 @@ function NotificationFreeze() {
     try {
       const response=getFreezeAll(token)
      .then(res=>{
+     
        setData(res.data)
      })
       

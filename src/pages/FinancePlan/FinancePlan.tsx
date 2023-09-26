@@ -6,12 +6,7 @@ import MyTasks from "./components/MyTasks";
 import { useSelector } from "react-redux";
 
 function FinancePlan() {
-    const user=useSelector((state:any) => state?.auth);
-    const token=user.token;
-    const [showForWhy, setShowForWhy] = useState(false);
-    const [showCreateTask, setShowCreateTask] = useState(false);
-    const [selectedOption,setSelectedOption] = useState(null);
-    const [data,setData]=useState([])
+
     const tabs = [
         {
             title: "Мои задачи",
