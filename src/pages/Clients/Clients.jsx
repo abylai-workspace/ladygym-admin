@@ -25,7 +25,7 @@ useEffect(()=>{
     }
   }
   fetchData()
-},[user])
+},[])
   // useEffect(()=>{
   //   try {
   //     const response=axios.get('https://dummyjson.com/users')

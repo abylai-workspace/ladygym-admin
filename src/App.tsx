@@ -20,7 +20,7 @@ const CustomerEdit = React.lazy(() => import("./pages/CustomerEdit"));
 const Products = React.lazy(() => import("./pages/Personal"));
 const ProductEdit = React.lazy(() => import("./pages/ProductEdit"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
-const Analytics = React.lazy(() => import("./pages/Analytics"));
+const Analytics = React.lazy(() => import("./pages/Analitics/Analytics"));
 const Login = React.lazy(() => import("./pages/Login"));
 const Notifications = React.lazy(() => import("./pages/Notifications/Notifications"));
 
