@@ -26,7 +26,13 @@ function LoginBox() {
     const [otp, setOtp] = useState();
     const [showotp, setShowOtp] = useState(false);
     const user = useSelector((state) => state?.auth);
-
+    const [token,setToken] = useState('');
+    useEffect(()=>{
+        storageReadItem(TOKEN_KEY).then((e)=>{
+          setToken(e)
+        })
+      },[])
+      console.log(token)
     const dispatch = useDispatch();
     const langCtx = useContext(langContextObj);
     const navigate = useNavigate();

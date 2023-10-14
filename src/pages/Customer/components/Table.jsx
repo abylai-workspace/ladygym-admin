@@ -22,6 +22,7 @@ const Table = ({ data }) => {
     const [search, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10); // Calculate the indexes for pagination
+    const [sortBy, setSortBy] = useState("all");
 
     useEffect(() => {}, [data]);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -46,26 +47,33 @@ const Table = ({ data }) => {
         setCurrentPage(1);
     };
 
+    const sortData = (data) => {
+        console.log(data);
+        if (sortBy === "newest") {
+            return data.sort(
+                (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+            );
+        } else if (sortBy === "oldest") {
+            return data.sort(
+                (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+            );
+        } else if (sortBy === "alphabetical") {
+            return data.sort((a, b) => a.firstName.localeCompare(b.firstName));
+        }else if(sortBy === "all"){
+            return data
+        }
+        return data;
+    };
+
     const filterdata = data.filter((item) => {
         return item.firstName.toLowerCase().includes(search.toLowerCase());
     });
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filterdata.slice(indexOfFirstItem, indexOfLastItem);
-    const [sortedData, setSortedData] = useState(filterdata);
+    const currentItems = sortData(filterdata).slice(indexOfFirstItem, indexOfLastItem);
+    
 
-    const sortByName = () => {
-        const sorted = [...sortedData].sort((a, b) => {
-            if (sortOrder === "asc") {
-                return a.username.localeCompare(b.username);
-            } else {
-                return b.username.localeCompare(a.username);
-            }
-        });
-     
-        setSortedData(sorted);
-        setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    };
+    
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -95,15 +103,27 @@ const Table = ({ data }) => {
     };
 
     const onUserInfo = (userInfo) => {
-        setUserInfo(userInfo);
-        setUserInfoVisble(true);
+
+        if(userInfo?.trainerDetails!==null){
+            setUserInfo(userInfo);
+            console.log('User info',userInfo)
+            setUserInfoVisble(true);
+        }else{
+
+            return alert('User info is not available')
+        }
+      
     };
 
     const deletePerson = async (id) => {
         try {
             const response = await deletePersonal(token, id);
-        } catch (error) {}
+        } catch (error) {
+            console.log(error)
+        }
     };
+
+    console.log(currentItems)
 
     return (
         <>
@@ -119,6 +139,32 @@ const Table = ({ data }) => {
                     }}
                 >
                     <h1>Новый сотрудника</h1>
+                    <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                    }}>
+                        <h3>Показать:</h3>
+                        <select
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value)}
+                            style={{
+                                backgroundColor:'transparent',
+                                width:'100%',
+                                border:'none',
+                                color:'#fff',
+                                marginLeft:'4%'
+                            }}
+                        >
+                            <option value='all'>Все</option>
+                            <option value='newest'>Сначала новые</option>
+                            <option value='oldest'>Сначала старые</option>
+                            <option value='alphabetical'>По алфавиту</option>
+                        </select>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        <h3>Всего:  </h3>
+                        <h3 style={{color:'#fff'}}> {data.length} посетителей</h3>
+                    </div>
                     <div
                         style={{
                             display: "flex",

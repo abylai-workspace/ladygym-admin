@@ -61,7 +61,7 @@ function TaskBoard(data) {
                     <div className='child-header'>
                         <h3>В ожидании</h3>
                     </div>
-                    <div style={{height:500,overflow:'auto'}}>
+                    <div >
                     {inWaitingTasks?.map((item,i)=>{
                         return(
                             <div className='child-task' key={i}>

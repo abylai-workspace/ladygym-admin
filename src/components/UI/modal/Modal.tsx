@@ -28,10 +28,9 @@ const ModalOverlay: React.FC<IModal> = (props) => {
 
   return (
     <Card>
-      <div className={classes.modal}>
+      <div className={classes.modal} style={{overflow:'auto',height:700}}>
         <header className={classes.header}>
           <h3>{props.title}</h3>
-          
           <div onClick={props.onClose}><Icon icon="material-symbols:close" width="24" color="white"/></div>
         </header>
         <div className={classes.content}>

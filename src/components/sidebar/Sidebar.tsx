@@ -61,7 +61,7 @@ function Sidebar() {
                     </div>
                 </Link>
                 
-                {userRole != "TOP" && (
+                {userRole === "TOP" && (
                     <>
                         <Link
                             to={"/customers"}

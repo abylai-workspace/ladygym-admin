@@ -10,27 +10,23 @@ import CreateTask from "./components/CreateTask";
 import { Toaster } from "react-hot-toast";
 
 function Tasks() {
-  const user=useSelector((state) => state?.auth);
-  const token=user.token;
+    const user = useSelector((state) => state?.auth);
+    const token = user.token;
     const [showForWhy, setShowForWhy] = useState(false);
     const [showCreateTask, setShowCreateTask] = useState(false);
-    const [selectedOption,setSelectedOption] = useState(null);
-    const [data,setData]=useState([])
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [data, setData] = useState([]);
 
-   const getPersonality = () => {
-     try {
-      const respons=getAllPersonals(token)
-      .then(res=>{
-     setData(res?.data)
-        
-      })
-     } catch (error) {
-      
-     }
-   }
-   useEffect(()=>{
-     getPersonality()
-   },[])
+    const getPersonality = () => {
+        try {
+            const respons = getAllPersonals(token).then((res) => {
+                setData(res?.data);
+            });
+        } catch (error) {}
+    };
+    useEffect(() => {
+        getPersonality();
+    }, []);
 
     const tabs = [
         {
@@ -47,11 +43,11 @@ function Tasks() {
         },
     ];
 
-    const selectedData=useCallback((data)=>{
-      setSelectedOption(data)
-      setShowForWhy(false)
-      setShowCreateTask(true)
-    },[])
+    const selectedData = useCallback((data) => {
+        setSelectedOption(data);
+        setShowForWhy(false);
+        setShowCreateTask(true);
+    }, []);
 
     return (
         <div>
@@ -62,7 +58,7 @@ function Tasks() {
                         border: "none",
                         color: "white",
                     }}
-                   onClick={() => setShowForWhy(true)}
+                    onClick={() => setShowForWhy(true)}
                 >
                     Создать задание +
                 </button>
@@ -81,10 +77,22 @@ function Tasks() {
             <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Tabs tabs={tabs} defaultTab={0} />
             </div>
-            <div><Toaster/></div>
-          {showForWhy &&<ModalWhy onClose={() => setShowForWhy(false)} data={data} selectedData={selectedData}/>}
-          {showCreateTask && <CreateTask onClose={() => setShowCreateTask(false)} selectedOption={selectedOption} />}
-
+            <div>
+                <Toaster />
+            </div>
+            {showForWhy && (
+                <ModalWhy
+                    onClose={() => setShowForWhy(false)}
+                    data={data}
+                    selectedData={selectedData}
+                />
+            )}
+            {showCreateTask && (
+                <CreateTask
+                    onClose={() => setShowCreateTask(false)}
+                    selectedOption={selectedOption}
+                />
+            )}
         </div>
     );
 }

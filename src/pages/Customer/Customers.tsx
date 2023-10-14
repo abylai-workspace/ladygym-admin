@@ -10,9 +10,18 @@ import Table from "./components/Table";
 import { getAllClients, getAllPersonals, gymTrainers } from "../../config/axios";
 import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import { storageReadItem } from "../../utils/asyncStorage";
+import { TOKEN_KEY } from "../../constants/constants";
 
 function Customers() {
   const { t } = useTranslation();
+  
+  
+  useEffect(()=>{
+    storageReadItem(TOKEN_KEY).then((e)=>{
+      console.log(JSON.stringify(e))
+    })
+  },[])
 
 
   const [data,setData]=useState([])
@@ -21,7 +30,12 @@ function Customers() {
     try {
       const response=await getAllPersonals(user.token)
       .then(res=>{
-        setData(res.data)
+        const user=res?.data
+        const admins=user.filter((el:any)=>{
+          return el.deleted===false
+        })
+
+        setData(admins)
        
       })
       return response
@@ -31,7 +45,7 @@ function Customers() {
   }
 useEffect(()=>{
   fetchData()
-},[data])
+},[])
 useEffect(()=>{
   const fetchTraingInfo =()=>{
     try {
@@ -50,7 +64,7 @@ useEffect(()=>{
   return (
     <section>
       <div><Toaster/></div>
-    <Table data={data} />
+       <Table data={data} />
     </section>
   );
 }

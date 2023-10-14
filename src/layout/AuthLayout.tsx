@@ -14,6 +14,7 @@ const AuthLayout = () => {
   // const tokenStorage = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwNzA2ODgyMjcxIiwicm9sZXMiOlsiQURNSU4iXSwiZXhwIjoxNjk0ODQ0NTcyLCJpYXQiOjE2OTQ2NzE3NzJ9.g9Oj3MOk-9MLtypwlIA2HJmqyuevmg-IoS8JhT_nwHIVx0G9NsMZx-OFMxWb5-GlV1ugSlxDPiaWSN1fi9b-cQ';
   const user=useSelector((state: any) => state?.auth);
   
+  
   console.log(user,'useruseruser');
   // console.log('tokenStorage', tokenStorage);
   

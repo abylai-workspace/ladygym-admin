@@ -1,133 +1,306 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Modal from "../../../components/UI/modal/Modal";
 import Button from "../../../components/UI/button/Button";
 import ReactStars from "react-stars";
 import "./style.css";
+import { instance } from "../../../config/api";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import "./userInfostyle.css";
+import { gymManageAll } from "../../../config/axios";
+const dayMappings = {
+    SUNDAY: "воскресенье", // Sunday in Russian is воскресенье
+    MONDAY: "понедельник", // Monday in Russian is понедельник
+    TUESDAY: "вторник", // Tuesday in Russian is вторник
+    WEDNESDAY: "среда", // Wednesday in Russian is среда
+    THURSDAY: "четверг", // Thursday in Russian is четверг
+    FRIDAY: "пятница", // Friday in Russian is пятница
+    SATURDAY: "суббота", // Saturday in Russian is суббота
+};
+
 function UserInfo({ data, onClose }) {
-    const [rating, setRating] = useState(0);
-    const [userRating, setUserRating] = useState(0);
-    const [userDesc,setUserDecs] = useState({
-      description: '',
-      education: '',
-      ranks: '',
-      sportsAchievements: '',
-    });
-
+    const token = useSelector((state) => state?.auth?.token);
     const userInfo = data?.trainerDetails;
+    const [userDeitail, setUserDeitails] = useState({
+        id: userInfo.id || "",
+        firstName: userInfo?.firstName || "",
+        lastName: userInfo.lastName || "",
+        description: userInfo.description || "",
+        education: userInfo.education || "",
+        ranks: userInfo.ranks || "",
+        ranks: userInfo.ranks || "",
+        rating: userInfo.rating || "",
+        sportsAchievements: userInfo?.sportsAchievements || "",
+        workTimeFrom: userInfo?.workTimeFrom || "",
+        workTimeTo: userInfo?.workTimeTo || "",
+        avatarBase64: userInfo?.avatarBase64 || "",
+        gymId: "",
+    });
+    const [editImage, setEditImage] = useState(false);
+    const [base64Image, setBase64Image] = useState("");
+    const [gyms, setGyms] = useState([]);
+    const [selectedOption, setSelectedOption] = useState("");
+    const [editUserDeitails, setEditUserDeitails] = useState(false)
 
-    // Fetch the current user's rating for the item
+
+
+    function getDayText(day) {
+        return dayMappings[day] || day; // If the day is not found in the mapping, return the original day
+    }
+    const daysOfWeek = userInfo?.daysOfWeek;
+    function getDaysOfWeekText(daysOfWeek) {
+        return daysOfWeek?.map((day) => " " + getDayText(day));
+    }
+    const daysOfWeekText = getDaysOfWeekText(daysOfWeek);
+
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setBase64Image(reader.result);
+        };
+
+        if (file) {
+            if (file.type === "image/svg+xml") {
+                reader.readAsText(file);
+            } else {
+                reader.readAsDataURL(file);
+            }
+        }
+    };
+
+    const getGyms = useCallback(async () => {
+        try {
+            const response = await gymManageAll();
+            const gyms = response.data;
+          
+            setGyms(gyms);
+        } catch (error) {}
+    }, []);
     useEffect(() => {
-        // Simulate an API call to fetch the user's rating for the item
-        // Replace this with your actual API call
-        setTimeout(() => {
-            // Assume you get a user's rating from the API
-            const userRatingFromAPI = userInfo?.rating; // Replace with the actual value from your API
-            setUserRating(userRatingFromAPI);
-            setRating(userRatingFromAPI);
-        }, 1000);
-    }, [data]);
-    const handleRatingChange = (newRating) => {
-        // Update the UI immediately
-        setUserRating(newRating);
-
-        // Simulate an API call to submit the user's rating
-        // Replace this with your actual API call
-        setTimeout(() => {
-            // Assume you've successfully submitted the rating to the API
-           
-        }, 1000);
+        getGyms();
+    }, []);
+    const optionsGyms = gyms.map((item) => {
+        return item?.gyms;
+    });
+    const handleSelectChange = (event) => {
+        setUserDeitails({ ...userDeitail, gymId: event.target.value });
+        setSelectedOption(event.target.value);
     };
-  
-    useEffect(()=>{
-      if(userInfo){
-        setUserDecs(userInfo)
-
-      }
-    },[userInfo])
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setUserDecs({ ...userDesc, [name]: value });
-    };
-    const combinedText = `${'Образование:'}${userDesc.description}\n\n${userDesc.education}\n\n${userDesc.ranks}\n\n${userDesc.sportsAchievements}`;
-
- 
+    const onSave=useCallback(async()=>{
+        try {
+            const response=await instance.post(`/gym/trainer/avatar/${userDeitail?.id}`,{
+                photoBase64:base64Image
+            },{
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            })
+           if(response.status=='200'){
+            toast.success(response.data?.message)
+            console.log(response)
+            setEditImage(false)
+           }else{
+            alert('Please,choose png and jpg format!')
+           }
+        } catch (error) {
+            alert('Please,choose png and jpg format!')
+        }
+    },[token])
+    const onChangeImage=useCallback(()=>{
+        setEditImage(true);
+    },[token])
+    const onChangeUserDeitail=useCallback(()=>{
+        setEditUserDeitails(true)
+    },[token])
+    const onSaveUserDeitails=useCallback(()=>{
+        console.log('sad')
+        setEditUserDeitails(false)
+        try {
+            
+        } catch (error) {
+            
+        }
+    },[])
     return (
-        <div>
-            <Modal title={userInfo?.username} onClose={onClose}>
-                <Button onClick={onClose}>Изменить фото</Button>
-                <h5>О тренере</h5>
-                <textarea
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: "#212122",
-                        padding: "10px",
-                        borderRadius: "10px",
-                        color: "white",
-                    }}
-                    value={combinedText}
-                    onChange={handleInputChange}
-                >
-                  {userInfo}
-                </textarea>
-                <h5>Расписание</h5>
-                <input
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: "#212122",
-                        padding: "10px",
-                        borderRadius: "10px",
-                        color: "white",
-                        border: "none",
-                    }}
-                    value={data.ein}
-                />
-                <input
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: "#212122",
-                        padding: "10px",
-                        borderRadius: "10px",
-                        color: "white",
-                        border: "none",
-                        marginTop: "10px",
-                    }}
-                    value={data.birthDate}
-                />
-
-                <section class='card'>
-                    <div class='card--content'>
-                        <h5>Тренер</h5>
-                        <ReactStars
-                            count={5}
-                            value={userRating}
-                            onChange={handleRatingChange}
-
-                            size={14}
-                            color2={"#CF5490"}
-                        />
-                        <h5>Прекрасный тренер, все понравилось!</h5>
-                    </div>
-
+        <>
+         <Modal
+            title={userInfo?.firstName + " " + userInfo?.lastName}
+            onClose={onClose}
+        >
+            <div className='header'>
+                {editImage ? (
+                    <>
                        
-                    <div class='card--content'>
-                        <h5>Тренер</h5>
-                        <ReactStars
-                            count={5}
-                            value={userRating}
-                            onChange={handleRatingChange}
-                            size={14}
-                            color2={"#CF5490"}
-                        />
-                        <h5>Прекрасный тренер, все понравилось!</h5>
-                    </div>
-                </section>
-
-                <Button onClick={onClose}>Сохранить</Button>
-            </Modal>
-        </div>
+                        {base64Image && (
+                            <div>
+                                {base64Image.startsWith("<svg") ? (
+                                    <div
+                                        dangerouslySetInnerHTML={{
+                                            __html: base64Image,
+                                        }}
+                                    />
+                                ) : (
+                                    <img
+                                        src={base64Image}
+                                        alt='Uploaded'
+                                        className='avatar'
+                                    />
+                                )}
+                            </div>
+                        )}
+                         <input type='file' onChange={handleImageUpload} />
+                    </>
+                ) : (
+                    <img
+                        src={`data:image/png;base64,${userDeitail?.avatarBase64}`}
+                        className='avatar'
+                    />
+                )}
+                <button
+                    className='userDeitailButton'
+                    onClick={() => !editImage?onChangeImage():onSave()}
+                >
+                    {!editImage ? "Изменить фото" : "Сохранить"}
+                </button>
+            </div>
+            <div>
+                <h5>О тренере</h5>
+                <div
+                    style={{
+                        backgroundColor: "rgba(33, 33, 34, 1)",
+                        padding: 10,
+                        borderRadius: 10,
+                        marginBottom: 20,
+                    }}
+                >
+                    <textarea
+                        style={{
+                            width: "100%",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            height: 50,
+                            color: "#FFF",
+                        }}
+                        value={`${userDeitail.description}`}
+                        onChange={(e) =>
+                            setUserDeitails({
+                                ...userDeitail,
+                                description: e.target.value,
+                            })
+                        }
+                        disabled={!editUserDeitails ? true : false}
+                    />
+                    <textarea
+                        style={{
+                            width: "100%",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            height: 50,
+                            color: "#FFF",
+                        }}
+                        value={`${userDeitail.education}`}
+                        onChange={(e) =>
+                            setUserDeitails({
+                                ...userDeitail,
+                                education: e.target.value,
+                            })
+                        }
+                        disabled={!editUserDeitails ? true : false}
+                    />
+                    <textarea
+                        style={{
+                            width: "100%",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            height: 50,
+                            color: "#FFF",
+                        }}
+                        value={`${userDeitail.ranks}`}
+                        onChange={(e) =>
+                            setUserDeitails({
+                                ...userDeitail,
+                                ranks: e.target.value,
+                            })
+                        }
+                        disabled={!editUserDeitails ? true : false}
+                    />
+                    <textarea
+                        style={{
+                            width: "100%",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            height: 50,
+                            color: "#FFF",
+                        }}
+                        
+                        value={`${userDeitail.sportsAchievements}`}
+                        onChange={(e) =>
+                            setUserDeitails({
+                                ...userDeitail,
+                                sportsAchievements: e.target.value,
+                            })
+                        }
+                        disabled={!editUserDeitails ? true : false}
+                    />
+                </div>
+                <h5>О тренере</h5>
+                <div
+                    style={{
+                        backgroundColor: "rgba(33, 33, 34, 1)",
+                        padding: 10,
+                        borderRadius: 10,
+                        marginBottom: 10,
+                    }}
+                >
+                    <h4 style={{ color: "#fff" }}>{daysOfWeekText}</h4>
+                </div>
+                <div
+                    style={{
+                        backgroundColor: "rgba(33, 33, 34, 1)",
+                        padding: 10,
+                        borderRadius: 10,
+                        marginBottom: 10,
+                    }}
+                >
+                    <h4 style={{ color: "#fff" }}>
+                        {userDeitail?.workTimeFrom}-{userDeitail?.workTimeTo}
+                    </h4>
+                </div>
+                <select
+                    value={selectedOption}
+                    onChange={handleSelectChange}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "#212122",
+                        padding: "10px",
+                        borderRadius: "10px",
+                        color: "white",
+                        marginBottom: "4%",
+                    }}
+                >
+                    <option value=''>Select an option</option>
+                    {optionsGyms[0]?.map((option) => (
+                        <option key={option.id} value={option.id}>
+                            {option.name}
+                        </option>
+                    ))}
+                </select>
+                <div style={{ marginBottom: 100 }}>
+                    <button
+                        className='userDeitailButton'
+                        style={{ backgroundColor: "rgba(207, 84, 144, 1)" }}
+                        onClick={() => !editUserDeitails?onChangeUserDeitail():onSaveUserDeitails()}
+                    >
+                       {!editUserDeitails? 'Изменить':'Сохранить'} 
+                    </button>
+                </div>
+            </div>
+        </Modal>
+        </>
+       
     );
 }
 

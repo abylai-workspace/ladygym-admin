@@ -3,6 +3,7 @@ import Modal from '../../../components/UI/modal/Modal'
 import { Icon } from '@iconify/react'
 
 function Regali({data,onClose}) {
+  console.log('Regali',data)
   return (
     <Modal title='Регалии' onClose={onClose}>
         <div style={{display:'flex',justifyContent:'space-between',backgroundColor:'#212122',padding:'10px',borderRadius:'10px'}}>
