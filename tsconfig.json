@@ -1,0 +1,67 @@
+{
+  
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    // "baseUrl": ".",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "jsx": "react-native",
+    "lib": ["esnext"],
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "paths": {
+      "*": ["./app/*"]
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": false,
+    "sourceMap": true,
+    "strict": true,
+    "target": "esnext",
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin",
+        "lint": {
+          "validProperties": [
+            "aspect-ratio",
+            "border-bottom-end-radius",
+            "border-bottom-start-radius",
+            "border-end-width",
+            "border-end-color",
+            "border-start-color",
+            "border-start-width",
+            "border-top-end-radius",
+            "border-top-start-radius",
+            "elevation",
+            "end",
+            "include-font-padding",
+            "margin-horizontal",
+            "margin-end",
+            "margin-start",
+            "margin-vertical",
+            "overlay-color",
+            "padding-horizontal",
+            "padding-end",
+            "padding-start",
+            "padding-vertical",
+            "resizeMode",
+            "text-align-vertical",
+            "text-shadow-color",
+            "text-shadow-offset",
+            "text-shadow-radius",
+            "tint-color",
+            "writing-direction"
+          ]
+        }
+      }
+    ]
+  },
+  "typeRoots": ["node_modules/@types", "app/types"],
+  "exclude": ["node_modules"],
+  "include": ["index.js", "app", "*.config.js", "scripts"]
+}

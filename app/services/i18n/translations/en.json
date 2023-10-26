@@ -1,0 +1,28 @@
+{
+  "PageName": {
+    "key": "value"
+  },
+  "Authorization":{
+    "provide_mobile_number":"Provide your mobile number, \nplease",
+    "aggressLine1":"You fully understand and agree with \n ",
+    "aggressLine2":"the Terms & Condition, Data privacy \n",
+    "aggressLine3":" and community roles",
+    "placeholder":"Enter your Mobile Phone No.",
+    "confirmCode":"Confirm code",
+    "AuthenticationCode":"Authentication code received \nfrom the AuthAPP or via SMS to \nconﬁrm your identity",
+    "Resend_code":"Resend code"
+  
+  },
+  "Onboarding":{
+    "signUp": "Sign up",
+    "login_as_member":"Log in as a member. If you are \nnot a member, please sign up \nand create a profile"
+  },
+  "AddingFlight":{
+    "AddFlight":"Adding flight",
+    "scanQr":"Scan the QR from the email \n or enter the code manually below",
+    "inputPlaceholder":"PNR (Booking Reference Code)",
+    "thebookingCode":"The booking code is usually found in the confirmation\n of the flight booking or booking confirmation. It \nconsists of 6 numbers and letters, e.g. YBIRI7",
+    "skip":"Skip",
+    "verifyMyBook":""
+  }
+}
