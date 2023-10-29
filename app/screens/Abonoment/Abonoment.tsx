@@ -9,18 +9,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchSubscripUser} from 'store/slices/subscripUser';
 import {Alert, Text} from 'react-native';
 import {instance} from 'utils/axios';
-import { storageReadItem } from 'utils/asyncStorage';
+import {storageReadItem} from 'utils/asyncStorage';
 
 const Abonoment = () => {
   const tokenStorage = useSelector((state: any) => state.auth.token);
   const [data, setData] = useState([]);
-  const [token,setToken]=useState('')
+  const [token, setToken] = useState('');
   const [day, setDays] = useState(0);
   const [daysDifference, setDaysDifference] = useState(0);
   // console.log(tokenStorage, 'tokenStorage');
-  storageReadItem(TOKEN_KEY,ROLE).then((token)=>{
-    setToken(token)
-  })
+  storageReadItem(TOKEN_KEY, ROLE).then(token => {
+    setToken(token);
+  });
   useEffect(() => {
     if (!token) return;
     instance
@@ -39,7 +39,6 @@ const Abonoment = () => {
     // Calculate the number of days difference
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     setDays(days);
-    
   }, [data]);
 
   const navigation = useNavigation();
@@ -60,35 +59,32 @@ const Abonoment = () => {
   };
   //
 
-  const goActiveAbonoment = ()=>{
-    if(data[0].paid === true){
-      navigation.navigate(SCREENS.ABONOMENT_ACTIVATE as never)
-    }else{
-      Alert.alert('Напишите админу')
+  const goActiveAbonoment = () => {
+    if (data[0]?.paid === true) {
+      navigation.navigate(SCREENS.ABONOMENT_ACTIVATE as never);
+    } else {
+      Alert.alert('Напишите админу');
     }
-  }
-  const goToPromoCode = ()=>{
-    if(data[0].paid ===false){
-      navigation.navigate(SCREENS.PROMOCODE as never)
-    }else{
-      Alert.alert('Абономент не активирован!')
+  };
+  const goToPromoCode = () => {
+    if (data[0]?.paid === false) {
+      navigation.navigate(SCREENS.PROMOCODE as never);
+    } else {
+      Alert.alert('Абономент не активирован!');
     }
-  }
-  console.log(data, 'data');
+  };
   return (
     <LGBackround>
       <Header title="Абонемент" />
-        <AbonomentCard
-          data={data}
-        />
-      {data.length < 1 && (
-        <FlatList
-          icon={require('../../assests/images/Gym.png')}
-          title={'Купить абонемент'}
-          onPress={() => navigation.navigate(SCREENS.ABONEMENT_FILIAL as never)}
-        />
-      )}
-      { data.length >1 && (
+      <AbonomentCard data={data} />
+      {/* {data.length < 1 && ( */}
+      <FlatList
+        icon={require('../../assests/images/Gym.png')}
+        title={'Купить абонемент'}
+        onPress={() => navigation.navigate(SCREENS.ABONEMENT_FILIAL as never)}
+      />
+      {/* )} */}
+      {data.length > 1 && (
         <FlatList
           icon={require('../../assests/images/active.png')}
           title={'Активация абонемента'}
@@ -102,7 +98,7 @@ const Abonoment = () => {
           onPress={() => navigation.navigate(SCREENS.ABONOMENT_TRAINER_USLUGA as never)}
         />
       )}
-      {data.length > 1  && (
+      {data.length > 1 && (
         <FlatList
           icon={require('../../assests/images/promocode.png')}
           title={'Промокод'}
