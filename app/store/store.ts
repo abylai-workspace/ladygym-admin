@@ -1,29 +1,53 @@
-import { configureStore } from '@reduxjs/toolkit'
-import abonomentSlice from './slices/abonomentSlice'
-import authSlice from './slices/authSlice'
-import roleSlice from './slices/roleSlice'
-import tokenSlice from './slices/tokenSlice'
-import gymsfilial from './slices/abonomentsFilial'
-import gymssubscriptype from './slices/abonomentSubscriptTypeslice'
-import gymAbomonentsChoose from './slices/abonomentsChoose'
-import subscriptionAdditional from './slices/abonomentAdditionalType'
-import subscripUser from './slices/subscripUser'
-export const store = configureStore({
-  reducer: {
-    abonoment:abonomentSlice,
-    auth:authSlice,
-    role:roleSlice,
-    token:tokenSlice,
-    gymsfilial:gymsfilial,
-    gymssubscriptype:gymssubscriptype,
-    byAbonoments:gymAbomonentsChoose,
-    subscriptionAdditional:subscriptionAdditional,
-    subscripUser:subscripUser
-    
-  },
-})
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import abonomentSlice from './slices/abonomentSlice';
+import authSlice from './slices/authSlice';
+import roleSlice from './slices/roleSlice';
+import tokenSlice from './slices/tokenSlice';
+import gymsfilial from './slices/abonomentsFilial';
+import gymssubscriptype from './slices/abonomentSubscriptTypeslice';
+import gymAbomonentsChoose from './slices/abonomentsChoose';
+import subscriptionAdditional from './slices/abonomentAdditionalType';
+import subscripUser from './slices/subscripUser';
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
+import {listenerMiddleware} from './middleware';
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+export const rootReducer = combineReducers({
+  abonomentSlice,
+  authSlice,
+  roleSlice,
+  tokenSlice,
+  gymsfilial,
+  gymssubscriptype,
+  gymAbomonentsChoose,
+  subscriptionAdditional,
+  subscripUser,
+});
+
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(listenerMiddleware.middleware),
+});
+
+//types
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+//hooks
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
+
+// Trainer
+// 77756830757
+// 123
+
+// Top manager
+// 0778136469
+// 123456
+
+// User
+// 77756830757
+// 123

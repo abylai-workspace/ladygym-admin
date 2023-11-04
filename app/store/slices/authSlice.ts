@@ -1,40 +1,47 @@
 // authSlice.js
 
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
+import {getTokenStorage, login, logout, refreshTokens} from 'store/actions/auth';
 
 const initialState = {
   user: null,
   token: null,
   isLoading: false,
   error: null,
+  tokens: {accessToken: null, refreshToken: null, role: null},
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    loginStart: (state) => {
-      state.isLoading = true;
-    },
-    loginSuccess: (state, action) => {
-      state.isLoading = false;
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.error = null;
-    },
-    loginFailure: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.isLoading = false;
-      state.error = null;
-      
-    },
+  reducers: {},
+  extraReducers: builder => {
+    builder
+      .addCase(login.fulfilled, (state, {payload}) => {
+        state.tokens = payload;
+      })
+      .addCase(login.rejected, state => {
+        state.tokens = {accessToken: null, refreshToken: null, role: null};
+      })
+      .addCase(refreshTokens.fulfilled, ({tokens}, {payload}) => {
+        tokens = {
+          accessToken: payload.accessToken,
+          refreshToken: payload.refreshToken,
+          role: tokens.role,
+        };
+      })
+      .addCase(getTokenStorage.fulfilled, (state, {payload}) => {
+        state.tokens = {
+          accessToken: payload.accessToken,
+          refreshToken: payload.refreshToken,
+          role: state.tokens.role,
+        };
+      })
+      .addCase(logout.fulfilled, (state, {payload}) => {
+        state.tokens = {accessToken: null, refreshToken: null, role: null};
+      });
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
+// export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
 export default authSlice.reducer;

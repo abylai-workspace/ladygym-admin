@@ -28,8 +28,8 @@ import Onboarding from 'screens/Onboarding/Onboarding';
 import MultiOnboardingComponent from 'screens/AuthScreen/MultiOnboardingComponent';
 
 import HistoryBodyInfo from 'screens/Profile/Screens/HistoryBodyInfo';
-import { storageDeleteItem, storageReadItem } from 'utils/asyncStorage';
-import { removeBearerToken } from 'utils/axios';
+import {storageDeleteItem, storageReadItem} from 'utils/asyncStorage';
+import {removeBearerToken} from 'utils/axios';
 import ClientInfo from 'screens/Admin/screens/ClientInfo';
 import Documents from 'screens/Admin/screens/Documents';
 import PlanFinance from 'screens/Admin/screens/FinancePlan/PlanFinance';
@@ -50,55 +50,23 @@ import PersonalDeitails from 'screens/Admin/screens/Personal/components/Personal
 import TrainersDeitails from 'screens/Admin/screens/Personal/components/TrainersDeitails';
 import TrainerSchedule from 'screens/Admin/screens/Personal/components/TrainerSchedule';
 import AddPersonal from 'screens/Admin/screens/Personal/components/AddPersonal';
+import {useAppDispatch, useAppSelector} from 'store/store';
+import {getTokenStorage} from 'store/actions/auth';
 
 // import CreateTasks from 'screens/Admin/screens/Tasks/components/CreateTasks';
 const AppStack = () => {
   const Stack = createNativeStackNavigator();
-  const [token,setToken]=useState(false)
- 
 
+  const tokens = useAppSelector(state => state.authSlice.tokens);
+  const dispatch = useAppDispatch();
 
-
-const getTokenAndSync = useCallback(async () => {
-  try {
-  
-    const tok = await storageReadItem(TOKEN_KEY,ROLE)
-    console.log('token: ', token)
-    if (tok) {
-     
-      console.log('appStack', tok)
-      setToken(tok)
-    } else {
-      setToken(false)
-    }
-  } catch (err) {
-   
-  }
-}, [])
-useEffect(() => {
-  getTokenAndSync().catch((err) => {
-    console.error('Get Token Error: ', err)
-  })
-}, [])
-
-
-
-const logout = useCallback(async () => {
-  setToken(false)
-  storageDeleteItem(TOKEN_KEY)
-  storageDeleteItem(REFRESH_TOKEN_KEY)
-  await removeBearerToken(null)
- 
-}, [])
-
-
-
-
+  React.useEffect(() => {
+    dispatch(getTokenStorage()).then(resp => console.log('prikol', resp));
+  }, []);
 
   const AuthenticatedScreens = () => {
     return (
       <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={SCREENS.HOME}>
-      
         <Stack.Screen name={SCREENS.HOME} component={TabNavigation} />
 
         <Stack.Screen name={SCREENS.PROFILE_DOCUMENTS} component={PersonalDocuments} />
@@ -111,16 +79,14 @@ const logout = useCallback(async () => {
         <Stack.Screen name={SCREENS.ABONOMENT_ACTIVATE} component={ActivationAbonoment} />
         <Stack.Screen name={SCREENS.ABONOMENT_BUY} component={BuyAbonoment} />
         <Stack.Screen name={SCREENS.ABONOMENT_TRAINER_USLUGA} component={TrainAndUsluga} />
-        <Stack.Screen name={SCREENS.PROFILE}>
-        {props => <ProfileScreen {...props} onLogout={logout} />}
-        </Stack.Screen>
+        <Stack.Screen name={SCREENS.PROFILE}>{props => <ProfileScreen />}</Stack.Screen>
         <Stack.Screen name={SCREENS.CHOOSE_TRAINER} component={ChooseTrain} />
         <Stack.Screen name={SCREENS.TRAINER_INFO} component={InformationTrainer} />
         <Stack.Screen name={SCREENS.PROMOCODE} component={PromoCode} />
         <Stack.Screen name={SCREENS.ABONOMENT_TRAINER} component={MyTrain} />
         <Stack.Screen name={SCREENS.PROFILE_BODYMASSINDEX} component={IndexWeght} />
-        <Stack.Screen name={SCREENS.ADMIN_CLIENT_INFO} >
-        {props => <ClientInfo {...props} onLogout={logout} />}
+        <Stack.Screen name={SCREENS.ADMIN_CLIENT_INFO}>
+          {props => <ClientInfo {...props} />}
         </Stack.Screen>
         <Stack.Screen name={SCREENS.ADMIN_DOCUMENTS} component={Documents} />
         <Stack.Screen name={SCREENS.ADMIN_PLAN_FINANCE} component={PlanFinance} />
@@ -129,18 +95,22 @@ const logout = useCallback(async () => {
         <Stack.Screen name={SCREENS.PROFILE_HISTORY_INFO} component={HistoryBodyInfo} />
         <Stack.Screen name={SCREENS.ADMIN_ANALIZY_WORK} component={AnalizyWork} />
         <Stack.Screen name={SCREENS.ADMIN_FORWHY} component={ForWhy} />
-        <Stack.Screen name={SCREENS.ADMIN_ANALIZY_WORK_CHOOSE_TRAINER} component={AnalizyWorkChooseTrainer} />
+        <Stack.Screen
+          name={SCREENS.ADMIN_ANALIZY_WORK_CHOOSE_TRAINER}
+          component={AnalizyWorkChooseTrainer}
+        />
         <Stack.Screen name={SCREENS.ADMIN_CREATE_FINANCE_PLAN} component={CreateFinancePlan} />
-        
 
         <Stack.Screen name={SCREENS.ADMIN_FORWHY_TASKS} component={ForWhyTask} />
-        <Stack.Screen name={SCREENS.ADMIN_TASKSWORKCHOOSETRAINER} component={TasksWorkChooseTrainer} />
+        <Stack.Screen
+          name={SCREENS.ADMIN_TASKSWORKCHOOSETRAINER}
+          component={TasksWorkChooseTrainer}
+        />
         <Stack.Screen name={SCREENS.ADMIN_CREATE_TASKS} component={TaskCreate} />
         <Stack.Screen name={SCREENS.ADMIN_PERSONAL_DETAILS} component={PersonalDeitails} />
         <Stack.Screen name={SCREENS.ADMIN_TRAINER_DETAILS} component={TrainersDeitails} />
-        <Stack.Screen name={SCREENS.ADMIN_TRAINER_SCHEDULER_DETAILS} component={TrainerSchedule} /> 
-        <Stack.Screen name={SCREENS.ADMIN_ADD_PERSONAL} component={AddPersonal} />       
-
+        <Stack.Screen name={SCREENS.ADMIN_TRAINER_SCHEDULER_DETAILS} component={TrainerSchedule} />
+        <Stack.Screen name={SCREENS.ADMIN_ADD_PERSONAL} component={AddPersonal} />
       </Stack.Navigator>
     );
   };
@@ -149,17 +119,15 @@ const logout = useCallback(async () => {
     return (
       <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={SCREENS.ONBOARDING}>
         <Stack.Screen name={SCREENS.ONBOARDING} component={Onboarding} />
-    
+
         <Stack.Screen
           options={{gestureEnabled: false}}
           name={SCREENS.REGISTER}
           component={Register}
         />
-        <Stack.Screen name={SCREENS.LOGIN}>
-          {props => <Login {...props} login={getTokenAndSync} />}
-        </Stack.Screen>
+        <Stack.Screen name={SCREENS.LOGIN}>{props => <Login />}</Stack.Screen>
         <Stack.Screen name={SCREENS.MULTIONBOARDING}>
-          {props => <MultiOnboardingComponent {...props}  />}
+          {props => <MultiOnboardingComponent />}
         </Stack.Screen>
       </Stack.Navigator>
     );
@@ -167,7 +135,7 @@ const logout = useCallback(async () => {
 
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {token ? (
+      {tokens && tokens.accessToken ? (
         <Stack.Screen name={SCREENS.AUTHENTICATED} component={AuthenticatedScreens} />
       ) : (
         <Stack.Screen name={SCREENS.UNAUTHENTICATED} component={UnauthenticatedScreens} />

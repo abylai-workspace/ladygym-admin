@@ -1,17 +1,6 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
- 
-  Dimensions,
-
-  FlatList,
-} from 'react-native';
-// import {styles} from './styles';
+import {View, Text, StyleSheet, TouchableOpacity, Dimensions, FlatList} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// import CButton from '../../components/CButton';
 import {useNavigation} from '@react-navigation/native';
 import {Image} from 'react-native';
 import {TextInput} from 'react-native';
@@ -21,8 +10,6 @@ import CustomButton from 'components/blocks/Buttons/SmallPrimaryButton';
 import LGBackround from 'components/blocks/LGBackround/LGBackround';
 import DatePicker from '@react-native-community/datetimepicker';
 import {instance} from 'utils/axios';
-import {storageReadItem} from 'utils/asyncStorage';
-import {SCREENS, TOKEN_KEY} from 'constants/constants';
 
 interface OnBoarding {
   children: React.ReactNode;
@@ -76,10 +63,34 @@ const MultiOnboardingComponent = () => {
   const [desiredWeight, setDesiredWeight] = useState('');
   const [fieldOfActivity, setFieldOfActivity] = useState('');
   const [goalType, setGoalType] = useState([
-    {id: 1, label: 'Сброс веса', selected: false, goalType: 'KEEPING_FIT',image:require('../../assests/images/weight-scale.png')},
-    {id: 2, label: 'Поддержание здоровья', selected: false, goalType: 'WEIGHT_LOSS',image:require('../../assests/images/tree.png')},
-    {id: 3, label: 'Поддержка физической формы', selected: false, goalType: 'HEALTH_MAINTENANCE',image:require('../../assests/images/hand.png')},
-    {id: 4, label: 'Набор мышечной массы', selected: false, goalType: 'MUSCLE_MASS',image:require('../../assests/images/dumbbell.png')},
+    {
+      id: 1,
+      label: 'Сброс веса',
+      selected: false,
+      goalType: 'KEEPING_FIT',
+      image: require('../../assests/images/weight-scale.png'),
+    },
+    {
+      id: 2,
+      label: 'Поддержание здоровья',
+      selected: false,
+      goalType: 'WEIGHT_LOSS',
+      image: require('../../assests/images/tree.png'),
+    },
+    {
+      id: 3,
+      label: 'Поддержка физической формы',
+      selected: false,
+      goalType: 'HEALTH_MAINTENANCE',
+      image: require('../../assests/images/hand.png'),
+    },
+    {
+      id: 4,
+      label: 'Набор мышечной массы',
+      selected: false,
+      goalType: 'MUSCLE_MASS',
+      image: require('../../assests/images/dumbbell.png'),
+    },
 
     // Add more items as needed with their respective goalType
   ]);
@@ -122,36 +133,35 @@ const MultiOnboardingComponent = () => {
 
   const inputStyle = isFocused ? {...styles.input, color: 'white'} : styles.input;
 
- 
-
   const toggleItemSelection = id => {
     setGoalType(prevData =>
-      prevData.map(item => ( item.id === id ? { ...item, selected: true } : { ...item, selected: false })),
+      prevData.map(item =>
+        item.id === id ? {...item, selected: true} : {...item, selected: false},
+      ),
     );
   };
 
-  const selectedItems = goalType.find((item) => item.selected);
-  const goalTypeValue = `"${selectedItems?.goalType}"`
-  console.log(goalTypeValue, 'goalTypeValue',height,weight,desiredWeight,fieldOfActivity,formattedDate);
+  const selectedItems = goalType.find(item => item.selected);
+  const goalTypeValue = `"${selectedItems?.goalType}"`;
+  console.log(
+    goalTypeValue,
+    'goalTypeValue',
+    height,
+    weight,
+    desiredWeight,
+    fieldOfActivity,
+    formattedDate,
+  );
   const postData = async () => {
     try {
-      const response = await instance.post(
-        '/gym/user/info',
-        {
-          height: height,
-          weight: weight,
-          desiredWeight: desiredWeight,
-          fieldOfActivity: fieldOfActivity,
-          date: formattedDate, 
+      const response = await instance.post('/gym/user/info', {
+        height: height,
+        weight: weight,
+        desiredWeight: desiredWeight,
+        fieldOfActivity: fieldOfActivity,
+        date: formattedDate,
         //   goalType: goalTypeValue
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${await storageReadItem(TOKEN_KEY)}`,
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+      });
       if (response.data) {
       }
 
@@ -197,26 +207,25 @@ const MultiOnboardingComponent = () => {
             onBack={handleBack}
             headerText="Выберите цель">
             <View>
-            <FlatList
-                    data={goalType}
-                    keyExtractor={item => item.id.toString()}
-                    renderItem={({item}) => (
-                      <TouchableOpacity
-                        onPress={() => toggleItemSelection(item.id)}
-                        style={[styles.selectedtag,{
-                         
-                          
-                          backgroundColor: item.selected ? 'rgba(207, 84, 144, 1)' : 'rgba(14, 14, 16, 0.6)',
-                        }]}>
-                            <Image source={item.image} />
-                          <Text style={styles.tagText}>{item.label}</Text>
-
-                      
-                       
-                      </TouchableOpacity>
-                    )}
-                  />
-             
+              <FlatList
+                data={goalType}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({item}) => (
+                  <TouchableOpacity
+                    onPress={() => toggleItemSelection(item.id)}
+                    style={[
+                      styles.selectedtag,
+                      {
+                        backgroundColor: item.selected
+                          ? 'rgba(207, 84, 144, 1)'
+                          : 'rgba(14, 14, 16, 0.6)',
+                      },
+                    ]}>
+                    <Image source={item.image} />
+                    <Text style={styles.tagText}>{item.label}</Text>
+                  </TouchableOpacity>
+                )}
+              />
             </View>
           </OnboardingScreen>
         );
@@ -438,7 +447,7 @@ const styles = StyleSheet.create({
   input: {
     // flex: 1,
     color: 'white',
-    marginTop:20
+    marginTop: 20,
   },
   inputContai: {
     flexDirection: 'row',

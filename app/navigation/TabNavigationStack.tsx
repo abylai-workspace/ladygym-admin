@@ -1,5 +1,4 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {useTranslation} from 'react-i18next';
 import HomeScreen from 'screens/HomeScreen/HomeScreen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,7 +11,6 @@ import {ROLE, SCREENS, TOKEN_KEY} from 'constants/constants';
 import Abonoment from 'screens/Abonoment/Abonoment';
 import LadyQR from 'screens/LadyQR/LadyQR';
 import ProfileScreen from 'screens/Profile';
-import {useSelector} from 'react-redux';
 import Clients from 'screens/Admin/screens/Clients';
 import QRScreen from 'screens/Admin/screens/QRcodeScreen/QRScreen';
 import TasksScreen from 'screens/Admin/screens/Tasks/TasksScreen';
@@ -27,8 +25,6 @@ export default function TabNavigation() {
   storageReadItem(ROLE, TOKEN_KEY).then(token => {
     setUserRole(token);
   });
-
-
 
   return (
     <Tab.Navigator
@@ -90,26 +86,26 @@ export default function TabNavigation() {
               }}
             />
           )}
-          {userRole === 'MANAGER' &&
+          {userRole === 'MANAGER' && (
             <Tab.Screen
-            name="adminqr"
-            component={QRScreen}
-            options={{
-              tabBarLabel: SCREENS.ADMIN_QR,
-              tabBarIcon: ({color, size}) => <Ionicons name="scan" color={color} size={size} />,
-            }}
-          />
-          }
-         {userRole === 'ADMIN' &&
+              name="adminqr"
+              component={QRScreen}
+              options={{
+                tabBarLabel: SCREENS.ADMIN_QR,
+                tabBarIcon: ({color, size}) => <Ionicons name="scan" color={color} size={size} />,
+              }}
+            />
+          )}
+          {userRole === 'ADMIN' && (
             <Tab.Screen
-            name="adminqr"
-            component={QRScreen}
-            options={{
-              tabBarLabel: SCREENS.ADMIN_QR,
-              tabBarIcon: ({color, size}) => <Ionicons name="scan" color={color} size={size} />,
-            }}
-          />
-          }
+              name="adminqr"
+              component={QRScreen}
+              options={{
+                tabBarLabel: SCREENS.ADMIN_QR,
+                tabBarIcon: ({color, size}) => <Ionicons name="scan" color={color} size={size} />,
+              }}
+            />
+          )}
           {userRole === 'TRAINER' && (
             <Tab.Screen
               name="stars"
