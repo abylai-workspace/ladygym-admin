@@ -15,6 +15,7 @@ import {useAppSelector} from 'store/store';
 const Abonoment = () => {
   const tokenStorage = useAppSelector(state => state.authSlice.token);
   const [data, setData] = useState<any[]>([]);
+
   const [token, setToken] = useState('');
   const [day, setDays] = useState(0);
   const [daysDifference, setDaysDifference] = useState(0);
@@ -71,13 +72,13 @@ const Abonoment = () => {
     }
   };
   const goToPromoCode = () => {
-    if (data[0].paid === false) {
+    if (data[0]?.paid === false) {
       navigation.navigate(SCREENS.PROMOCODE as never);
     } else {
       Alert.alert('Абономент не активирован!');
     }
   };
-  console.log(data, 'data');
+
   return (
     <LGBackround>
       <Header title="Абонемент" />
@@ -89,6 +90,7 @@ const Abonoment = () => {
           onPress={() => navigation.navigate(SCREENS.ABONEMENT_FILIAL as never)}
         />
       )}
+
       {data.length > 1 && (
         <FlatList
           icon={require('../../assests/images/active.png')}

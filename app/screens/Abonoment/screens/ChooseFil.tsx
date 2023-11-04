@@ -9,7 +9,8 @@ import {Text} from 'react-native';
 import HeaderTitle from 'screens/HomeScreen/components/HeaderTitle';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { SCREENS } from 'constants/constants';
+import {SCREENS} from 'constants/constants';
+
 const ChooseFil = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -29,32 +30,31 @@ const ChooseFil = () => {
     return <Text>Error: {error}</Text>;
   }
 
-  const goTo = (item) => {
-    console.log(item)
-      navigation.navigate(SCREENS.ABONEMENT_ABONOMENT_CHOOSE as never,{
-        gymId: item.id,
-        gymName: item.name
-      })
-  }
+  const goTo = item => {
+    console.log('item', item);
+    navigation.navigate(SCREENS.ABONEMENT_ABONOMENT_CHOOSE as never, {
+      gymId: item.id,
+      gymName: item.name,
+    });
+  };
   const renderItem = ({item}) => {
-    // console.log(item.gyms);
     return (
       <>
         <View>
-          {item.gyms?.map((item: any,key) => (
+          {item.gyms?.map((item: any, key) => (
             <View style={styles.flatlistContainer} key={key}>
-                <View style={styles.flexContainer}>
+              <View style={styles.flexContainer}>
                 <View style={styles.iconContainer}>
-                <MaterialCommunityIcons
-                  name={'map-marker-radius-outline'}
-                  size={24}
-                  color="rgba(154, 71, 179, 1)"
-                />
+                  <MaterialCommunityIcons
+                    name={'map-marker-radius-outline'}
+                    size={24}
+                    color="rgba(154, 71, 179, 1)"
+                  />
+                </View>
+                <Text style={styles.address}>{item.address}</Text>
               </View>
-              <Text style={styles.address}>{item.address}</Text>
-                    </View>
-              <TouchableOpacity style={styles.clickContainer} onPress={()=>goTo(item)}>
-              <Feather name="chevron-right"  size={30} color="gray" />
+              <TouchableOpacity style={styles.clickContainer} onPress={() => goTo(item)}>
+                <Feather name="chevron-right" size={30} color="gray" />
               </TouchableOpacity>
             </View>
           ))}
@@ -111,16 +111,17 @@ const styles = StyleSheet.create({
 
     left: 15,
   },
-  flexContainer:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
+  flexContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  address:{
-    marginLeft:15
+  address: {
+    marginLeft: 15,
+    color: 'white',
   },
-  clickContainer:{
-    alignItems:'center',
-    alignSelf:'center'
-  }
+  clickContainer: {
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
 });
