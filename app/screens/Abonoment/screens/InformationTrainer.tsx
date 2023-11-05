@@ -11,9 +11,8 @@ import { Image } from 'react-native'
 const InformationTrainer = ({route}) => {
   const list=route?.params?.info
   console.log(list,'list')
-  console.log(route.params,'sad')
     const navigation=useNavigation()
-    const [data,setData]=useState([
+    const [data,setData]=useState([ // fix: delete mock  & use requests
         {
           name:'Аида',
             decs:'Прекрасный тренер, все понравилось!'
@@ -45,6 +44,27 @@ const InformationTrainer = ({route}) => {
     
         },
     ])
+
+    const assignTrainer = async()=>{
+      try {
+        const response=await instance.post('/gym/subscriptions/assign/trainer',{
+          trainerId: list.id,
+          subscriptionId: 1,
+        },{
+          headers:{
+            Authorization: `Bearer ${await tokenStorage}`,
+            'Content-Type': 'application/json',
+          }
+        })
+        if(response.data){
+          console.log(response.data);
+        }
+        console.log(response.data)
+      } catch (error) {
+        
+      }
+    }
+
     const renderItem = ({ item }) => {
         return (
             <View style={styles.blockContainer}>
@@ -70,7 +90,7 @@ const InformationTrainer = ({route}) => {
           style={styles.image}/>
         </View>
         <View style={styles.nameContainer}>
-          <Text style={styles.name}>Артыкбай Аида</Text>
+          <Text style={styles.name}>{list.firstName + ' ' + list.lastName}</Text>
           <StarRating stars={list.rating} reviews={list.rating} styles={{color: '#fff'}} />
         </View>
         <View >

@@ -42,7 +42,7 @@ const ChooseFil = () => {
       <>
         <View>
           {item.gyms?.map((item: any, key) => (
-            <View style={styles.flatlistContainer} key={key}>
+            <TouchableOpacity style={styles.flatlistContainer} key={key} onPress={() => goTo(item)}>
               <View style={styles.flexContainer}>
                 <View style={styles.iconContainer}>
                   <MaterialCommunityIcons
@@ -53,10 +53,10 @@ const ChooseFil = () => {
                 </View>
                 <Text style={styles.address}>{item.address}</Text>
               </View>
-              <TouchableOpacity style={styles.clickContainer} onPress={() => goTo(item)}>
+              <View style={styles.clickContainer}>
                 <Feather name="chevron-right" size={30} color="gray" />
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           ))}
         </View>
       </>

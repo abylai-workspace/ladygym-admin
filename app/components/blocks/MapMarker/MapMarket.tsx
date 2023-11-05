@@ -62,7 +62,7 @@ const MapMarket = ({onPress, setGymInfo, selectedCity}: MapMarketProps) => {
         const response = await instance.get('/gym/manage/cities');
         await instance
           .get('/gym/manage/all')
-          .then(resp => setCities(resp.data))
+          .then(resp => setCities(resp?.data))
           .catch(err => console.log(err));
       }
     } catch (error) {
@@ -76,11 +76,11 @@ const MapMarket = ({onPress, setGymInfo, selectedCity}: MapMarketProps) => {
 
   const widgetsMapper = () => {
     if (!cities.length) return;
-    return cities.map((city: CityType, index) => {
+    return cities?.map((city: CityType, index) => {
       if (city.name === selectedCity) {
         return city.gyms.map(gym => {
           return (
-            <View style={styles.card} key={gym.address + gym.name}>
+            <View style={styles.card} key={gym?.address + gym?.name}>
               <TouchableOpacity
                 onPress={() => {
                   onPress(gym?.id);

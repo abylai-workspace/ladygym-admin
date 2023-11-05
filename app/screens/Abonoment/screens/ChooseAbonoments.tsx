@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View,FlatList} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, FlatList} from 'react-native';
 import React, {useEffect} from 'react';
 import LGBackround from 'components/blocks/LGBackround/LGBackround';
 import Header from 'components/headers/Header';
@@ -11,16 +11,19 @@ import {fetchGymsSubscriptionsType} from 'store/slices/abonomentSubscriptTypesli
 import Feather from 'react-native-vector-icons/Feather';
 
 import {WithLocalSvg} from 'react-native-svg';
-import { SCREENS } from 'constants/constants';
+import {SCREENS} from 'constants/constants';
+
 const ChooseAbonoments = ({route}) => {
   const dispatch = useDispatch();
-  console.log(route.params)
-  const {gymId,gymName}=route.params
- 
+  console.log(route.params);
+
+  const {gymId, gymName} = route.params;
+
   const gymsgetData = useSelector((state: any) => state?.gymssubscriptype);
   const status = useSelector((state: any) => state.gymssubscriptype.status);
   const error = useSelector((state: any) => state.gymssubscriptype.error);
   const {gymssubscriptype} = gymsgetData;
+
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchGymsSubscriptionsType());
@@ -34,20 +37,20 @@ const ChooseAbonoments = ({route}) => {
   // console.log(gymssubscriptype, 'gyms');
   const navigation = useNavigation();
 
-  const goTo = (item) => {
-    navigation.navigate(SCREENS.ABONOMENT_BUY as never,{
-      subscriptionTypeId:item.id,
-      subscriptionTypeName:item.name,
-      gymId:gymId,
-      gymName:gymName,
+  const goTo = item => {
+    navigation.navigate(SCREENS.ABONOMENT_BUY as never, {
+      subscriptionTypeId: item.id,
+      subscriptionTypeName: item.name,
+      gymId: gymId,
+      gymName: gymName,
     });
-  }
-  console.log(gymId,'s')
+  };
+  console.log(gymId, 's');
   const renderItem = ({item}) => {
     console.log(item);
     return (
       <>
-        <View>
+        <TouchableOpacity onPress={() => goTo(item)}>
           <View style={styles.flatlistContainer} key={item.id}>
             <View style={styles.flexContainer}>
               <View style={styles.iconContainer}>
@@ -58,11 +61,11 @@ const ChooseAbonoments = ({route}) => {
                 <Text style={styles.addresssum}>от {item.sum} </Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.clickContainer} onPress={()=>goTo(item)}>
+            <View style={styles.clickContainer}>
               <Feather name="chevron-right" size={30} color="gray" />
-            </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </>
     );
   };
@@ -70,7 +73,11 @@ const ChooseAbonoments = ({route}) => {
     <LGBackround>
       <View style={styles.container}>
         <HeaderTitle title="Выберите абонемент" onPress={() => navigation.goBack()} />
-        <FlatList data={gymssubscriptype} keyExtractor={item => item.id.toString()} renderItem={renderItem} />
+        <FlatList
+          data={gymssubscriptype}
+          keyExtractor={item => item.id.toString()}
+          renderItem={renderItem}
+        />
       </View>
     </LGBackround>
   );
