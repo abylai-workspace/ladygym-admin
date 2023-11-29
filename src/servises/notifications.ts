@@ -1,6 +1,6 @@
 import fetchClient from "./axiosInstance";
 
-export default class NotificationService {
+export default class NotificationServicee {
   static async getClientNotifications() {
     return fetchClient
       .get(`/notification/clients?page=0&size=10`)
