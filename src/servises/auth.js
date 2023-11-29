@@ -15,7 +15,7 @@ const login = (username, password) => {
     .post(API_URL + "/gym/auth/login", {
       username,
       password,
-    },)
+    })
     .then((response) => {
       if (response.data.username) {
         localStorage.setItem("user", JSON.stringify(response.data));
@@ -41,6 +41,6 @@ const AuthService = {
   login,
   logout,
   getCurrentUser,
-}
+};
 
 export default AuthService;

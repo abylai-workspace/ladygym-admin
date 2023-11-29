@@ -1,4 +1,4 @@
-@use "../../scss/abstracts/" as *;
+@use "../../../src/scss/abstracts/" as *;
 
 html {
   background-color: var(--bgc);
@@ -7,7 +7,7 @@ html {
 .container {
   @include flex();
   min-height: 100vh;
-  background-image: url("../../assets//images//backround.png");
+  background-image: url("../../assets/images/backround.png");
   background-repeat: no-repeat;
   background-size: cover;
   .keyPic {
@@ -21,10 +21,10 @@ html {
 }
 
 .loginBox {
-  @include flex();
+  // @include flex();
   flex-direction: column;
-  width: 400px;
-  padding: 0 2rem 4rem;
+  width: 555px;
+  padding: 0 4rem 5rem;
   background-color: #080507;
   color: #424750;
   border-color: #d0d6e0;
@@ -38,21 +38,21 @@ html {
     letter-spacing: 0;
     font-weight: 400;
     text-align: left;
-    margin-left: -13rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    padding: 76px 0 0 0;
     color: #fff;
   }
   .label {
     color: #fff;
     font-size: 14px;
+    font-weight: 400;
     margin-bottom: 0.4rem;
   }
   .subtitle {
     color: #fff;
-    font-size: 12px;
+    font-size: 16px;
+    font-weight: 400;
     margin-bottom: 3rem;
-    margin-left: -3rem;
+    // margin-left: -3rem;
   }
 
   .formm {
@@ -62,9 +62,9 @@ html {
   & input,
   & label,
   & a {
-    background-color: #f9f9fa !important;
     color: #424750;
     width: 100%;
+    font-size: 14px;
   }
 
   .errorMessage {
@@ -75,6 +75,10 @@ html {
     display: none;
     opacity: 0;
     transition: opacity 0.4s ease-in-out;
+  }
+
+  .formItem {
+    margin-top: 14px;
   }
 
   button {

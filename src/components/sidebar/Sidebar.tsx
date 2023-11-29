@@ -1,223 +1,220 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useWindowSize } from "usehooks-ts";
-import { useTranslation } from "react-i18next";
-import { images } from "../../constants";
-import sidebarNav from "../../config/sidebarNav";
+// import { useTranslation } from "react-i18next";
+// import { images } from "../../constants";
+import { links } from "../../config/sidebarNav";
 import SidebarContext from "../../store/sidebarContext";
-import LoginContext from "../../store/loginContext";
 import { Icon } from "@iconify/react";
 import classes from "./Sidebar.module.scss";
 import { useSelector } from "react-redux";
 
 function Sidebar() {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const userRole = useSelector((state: any) => state.role.role);
-    console.log(userRole, "role");
-    const { width } = useWindowSize();
-    const location = useLocation();
-    const sidebarCtx = useContext(SidebarContext);
-    const loginCtx = useContext(LoginContext);
-    const { t } = useTranslation();
+  const [activeLink, setActiveLink] = useState("");
+  // const userRole = useSelector((state: any) => state.role.role);
+  // const user =  localStorage.getItem("user");
+  // const userRole = JSON.parse(user || "")["role"];
+  const userRole = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user") || "")?.role
+    : null;
+  const { width } = useWindowSize();
+  const location = useLocation();
+  const sidebarCtx = useContext(SidebarContext);
 
-    function openSidebarHandler() {
-        //for width>768(tablet size) if sidebar was open in width<768 was opened too.
-        //just in case of tablet size and smaller then, sidebar__open can added.
-        if (width <= 768) document.body.classList.toggle("sidebar__open");
-    }
+  function openSidebarHandler() {
+    if (width <= 768) document.body.classList.toggle("sidebar__open");
+  }
 
-    useEffect(() => {
-        const curPath = window.location.pathname.split("/")[1];
-        const activeItem = sidebarNav.findIndex(
-            (item) => item.section === curPath
-        );
+  useEffect(() => {
+    const curPath = window.location.pathname;
+    // const activeItem = sidebarNav.filter((item) => item.link === curPath);
+    setActiveLink(curPath);
+  }, [location]);
 
-        setActiveIndex(curPath.length === 0 ? 0 : activeItem);
-    }, [location]);
-
-    return (
-        <div
-            className={`${classes.sidebar} ${
-                !sidebarCtx.isOpen && classes.sidebar_close
+  return (
+    <div
+      className={`${classes.sidebar} ${
+        !sidebarCtx.isOpen && classes.sidebar_close
+      }`}
+    >
+      <div className={classes.sidebar__logo}>
+        <img
+          alt="Lady Gym"
+          src={require("../../assets/images/logo.svg").default}
+        />
+      </div>
+      <div className={classes.sidebar__menu}>
+        {links[userRole]?.map((item) => (
+          <Link
+            to={item.link}
+            key={item.link}
+            className={`${classes.sidebar__menu__item} ${
+              activeLink === item.link && classes.active
             }`}
+            onClick={openSidebarHandler}
+          >
+            <div className={classes.sidebar__menu__item__icon}>
+              <Icon icon={item.icon} />
+            </div>
+            <div className={classes.sidebar__menu__item__txt}>{item.text}</div>
+          </Link>
+        ))}
+      </div>
+
+      {/* <div className={classes.sidebar__menu}>
+        <Link
+          to={"/"}
+          className={`${classes.sidebar__menu__item} ${
+            activeLink && classes.active
+          }`}
+          onClick={openSidebarHandler}
         >
-            <div className={classes.sidebar__logo}>
-                <img alt='Lady Gym' src={images.logo} />
+          <div className={classes.sidebar__menu__item__icon}>
+            <Icon icon={"solar:document-text-outline"} />
+          </div>
+          <div className={classes.sidebar__menu__item__txt}>Клиенты</div>
+        </Link>
+
+        {userRole === "TOP" && (
+          <>
+            <Link
+              to={"/customers"}
+              className={`${classes.sidebar__menu__item} ${
+                activeLink && classes.active
+              }`}
+              onClick={openSidebarHandler}
+            >
+              <div className={classes.sidebar__menu__item__icon}>
+                <Icon icon={"ph:users-bold"} />
+              </div>
+              <div className={classes.sidebar__menu__item__txt}>Персонал</div>
+            </Link>
+            <Link
+              to={"/CountVisit"}
+              className={`${classes.sidebar__menu__item} ${
+                activeLink && classes.active
+              }`}
+              onClick={openSidebarHandler}
+            >
+              <div className={classes.sidebar__menu__item__icon}>
+                <Icon icon={"icon-park-outline:ad-product"} />
+              </div>
+              <div className={classes.sidebar__menu__item__txt}>
+                Учет посещаемости
+              </div>
+            </Link>
+            <Link
+              to={"/task"}
+              className={`${classes.sidebar__menu__item} ${
+                activeLink && classes.active
+              }`}
+              onClick={openSidebarHandler}
+            >
+              <div className={classes.sidebar__menu__item__icon}>
+                <Icon icon={"tdesign:task"} />
+              </div>
+              <div className={classes.sidebar__menu__item__txt}>Задания</div>
+            </Link>
+          </>
+        )}
+
+        {userRole !== "TOP" && (
+          <>
+            <Link
+              to={"/notifications"}
+              className={`${classes.sidebar__menu__item} ${
+                activeLink && classes.active
+              }`}
+              onClick={openSidebarHandler}
+            >
+              <div className={classes.sidebar__menu__item__icon}>
+                <Icon icon={"tdesign:notification-filled"} />
+              </div>
+              <div className={classes.sidebar__menu__item__txt}>
+                Уведомления
+              </div>
+            </Link>
+
+            <Link
+              to={"/analytics"}
+              className={`${classes.sidebar__menu__item} ${
+                activeLink && classes.active
+              }`}
+              onClick={openSidebarHandler}
+            >
+              <div className={classes.sidebar__menu__item__icon}>
+                <Icon icon={"carbon:analytics"} />
+              </div>
+              <div className={classes.sidebar__menu__item__txt}>Аналитика</div>
+            </Link>
+          </>
+        )}
+        {userRole == "ADMIN" && (
+          <Link
+            to={"/finance-plan"}
+            className={`${classes.sidebar__menu__item} ${
+              activeLink && classes.active
+            }`}
+            onClick={openSidebarHandler}
+          >
+            <div className={classes.sidebar__menu__item__icon}>
+              <Icon icon={"carbon:analytics"} />
             </div>
-            <div className={classes.sidebar__menu}>
-                <Link
-                    to={"/"}
-                    // key={`nav-${index}`}
-                    className={`${classes.sidebar__menu__item} ${
-                        activeIndex === 1 && classes.active
-                    }`}
-                    onClick={openSidebarHandler}
-                >
-                    <div className={classes.sidebar__menu__item__icon}>
-                        <Icon icon={"solar:document-text-outline"} />
-                    </div>
-                    <div className={classes.sidebar__menu__item__txt}>
-                        Клиенты
-                    </div>
-                </Link>
-                
-                {userRole === "TOP" && (
-                    <>
-                        <Link
-                            to={"/customers"}
-                            // key={`nav-${index}`}
-                            className={`${classes.sidebar__menu__item} ${
-                                activeIndex === 2 && classes.active
-                            }`}
-                            onClick={openSidebarHandler}
-                        >
-                            <div className={classes.sidebar__menu__item__icon}>
-                                <Icon icon={"ph:users-bold"} />
-                            </div>
-                            <div className={classes.sidebar__menu__item__txt}>
-                                Персонал
-                            </div>
-                        </Link>
-                        <Link
-                            to={"/CountVisit"}
-                            // key={`nav-${index}`}
-                            className={`${classes.sidebar__menu__item} ${
-                                activeIndex === 3 && classes.active
-                            }`}
-                            onClick={openSidebarHandler}
-                        >
-                            <div className={classes.sidebar__menu__item__icon}>
-                                <Icon icon={"icon-park-outline:ad-product"} />
-                            </div>
-                            <div className={classes.sidebar__menu__item__txt}>
-                                Учет посещаемости
-                            </div>
-                        </Link>
-                        <Link
-                    to={"/task"}
-                    // key={`nav-${index}`}
-                    className={`${classes.sidebar__menu__item} ${
-                        activeIndex === 4 && classes.active
-                    }`}
-                    onClick={openSidebarHandler}
-                >
-                    <div className={classes.sidebar__menu__item__icon}>
-                        <Icon icon={"tdesign:task"} />
-                    </div>
-                    <div className={classes.sidebar__menu__item__txt}>
-                        Задания
-                    </div>
-                </Link>
-                    </>
-                )}
-
-             
-                {userRole !== "TOP" && (
-                    <>
-                        <Link
-                            to={"/notifications"}
-                            // key={`nav-${index}`}
-                            className={`${classes.sidebar__menu__item} ${
-                                activeIndex === 5 && classes.active
-                            }`}
-                            onClick={openSidebarHandler}
-                        >
-                            <div className={classes.sidebar__menu__item__icon}>
-                                <Icon icon={"tdesign:notification-filled"} />
-                            </div>
-                            <div className={classes.sidebar__menu__item__txt}>
-                                Уведомления
-                            </div>
-                        </Link>
-
-                        <Link
-                            to={"/analytics"}
-                            // key={`nav-${index}`}
-                            className={`${classes.sidebar__menu__item} ${
-                                activeIndex === 6 && classes.active
-                            }`}
-                            onClick={openSidebarHandler}
-                        >
-                            <div className={classes.sidebar__menu__item__icon}>
-                                <Icon icon={"carbon:analytics"} />
-                            </div>
-                            <div className={classes.sidebar__menu__item__txt}>
-                                Аналитика
-                            </div>
-                        </Link>
-                    </>
-                )}
-                {userRole == "ADMIN" && (
-                    <Link
-                        to={"/finance-plan"}
-                        // key={`nav-${index}`}
-                        className={`${classes.sidebar__menu__item} ${
-                            activeIndex === 4 && classes.active
-                        }`}
-                        onClick={openSidebarHandler}
-                    >
-                        <div className={classes.sidebar__menu__item__icon}>
-                            <Icon icon={"carbon:analytics"} />
-                        </div>
-                        <div className={classes.sidebar__menu__item__txt}>
-                            Финансовый план
-                        </div>
-                    </Link>
-                )}
-
-                {userRole !== "MANAGER" && (
-                    <>
-                        <Link
-                            to={"/WorkAnalizy"}
-                            // key={`nav-${index}`}
-                            className={`${classes.sidebar__menu__item} ${
-                                activeIndex === 8 && classes.active
-                            }`}
-                            onClick={openSidebarHandler}
-                        >
-                            <div className={classes.sidebar__menu__item__icon}>
-                                <Icon icon={"carbon:analytics"} />
-                            </div>
-                            <div className={classes.sidebar__menu__item__txt}>
-                                Анализ работы
-                            </div>
-                        </Link>
-                        <Link
-                            to={"/NotificationFreeze"}
-                            // key={`nav-${index}`}
-                            className={`${classes.sidebar__menu__item} ${
-                                activeIndex === 9 && classes.active
-                            }`}
-                            onClick={openSidebarHandler}
-                        >
-                            <div className={classes.sidebar__menu__item__icon}>
-                                <Icon icon={"carbon:analytics"} />
-                            </div>
-                            <div className={classes.sidebar__menu__item__txt}>
-                                Уведомления о заморозке
-                            </div>
-                        </Link>
-                         <Link
-                            to={"/analytics"}
-                            // key={`nav-${index}`}
-                            className={`${classes.sidebar__menu__item} ${
-                                activeIndex === 11&& classes.active
-                            }`}
-                            onClick={openSidebarHandler}
-                        >
-                            <div className={classes.sidebar__menu__item__icon}>
-                                <Icon icon={"carbon:analytics"} />
-                            </div>
-                            <div className={classes.sidebar__menu__item__txt}>
-                                Анализ работы
-                            </div>
-                        </Link>
-                    </>
-                )}
-                
+            <div className={classes.sidebar__menu__item__txt}>
+              Финансовый план
             </div>
-        </div>
-    );
+          </Link>
+        )}
+
+        {userRole !== "MANAGER" && (
+          <>
+            <Link
+              to={"/WorkAnalizy"}
+              className={`${classes.sidebar__menu__item} ${
+                activeLink && classes.active
+              }`}
+              onClick={openSidebarHandler}
+            >
+              <div className={classes.sidebar__menu__item__icon}>
+                <Icon icon={"carbon:analytics"} />
+              </div>
+              <div className={classes.sidebar__menu__item__txt}>
+                Анализ работы
+              </div>
+            </Link>
+            <Link
+              to={"/NotificationFreeze"}
+              className={`${classes.sidebar__menu__item} ${
+                activeLink && classes.active
+              }`}
+              onClick={openSidebarHandler}
+            >
+              <div className={classes.sidebar__menu__item__icon}>
+                <Icon icon={"carbon:analytics"} />
+              </div>
+              <div className={classes.sidebar__menu__item__txt}>
+                Уведомления о заморозке
+              </div>
+            </Link>
+            <Link
+              to={"/analytics"}
+              className={`${classes.sidebar__menu__item} ${
+                activeLink && classes.active
+              }`}
+              onClick={openSidebarHandler}
+            >
+              <div className={classes.sidebar__menu__item__icon}>
+                <Icon icon={"carbon:analytics"} />
+              </div>
+              <div className={classes.sidebar__menu__item__txt}>
+                Анализ работы
+              </div>
+            </Link>
+          </>
+        )}
+      </div> */}
+    </div>
+  );
 }
 
 export default Sidebar;

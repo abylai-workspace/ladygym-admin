@@ -1,32 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { getAllClients } from '../../../config/axios';
-import { useSelector } from 'react-redux';
-import TableNext from './TableNext';
+import React, { useEffect, useState } from "react";
+import TableNext from "./TableNext";
+import ClientService from "../../../servises/clients";
 
 const CountNext = () => {
-    const [data,setData]=useState([])
-    const user=useSelector((state) => state?.auth);
-  useEffect(()=>{
-    const fetchData =()=>{
-      try {
-        const response=getAllClients(user?.token)
-        .then(res=>{
-          setData(res.data)
-        
-          
-        })
-        return response
-      } catch (error) {
-        
-      }
-    }
-    fetchData()
-  },[])
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    ClientService.getAllClients().then((res) => {
+      setData(res);
+    });
+  }, []);
   return (
     <div>
-        <TableNext data={data}/>
+      <TableNext data={data} />
     </div>
-  )
-}
+  );
+};
 
-export default CountNext
+export default CountNext;

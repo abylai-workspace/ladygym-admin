@@ -13,18 +13,28 @@
     border-radius: 50%;
     overflow: hidden;
     margin: 0 0.5rem;
- 
+
     & img {
       object-fit: cover;
     }
   }
 
   &__userName {
-    font-size: $fontSizeBodyLarge;
+    // font-size: $fontSizeBodyLarge;
     white-space: nowrap;
+    color: #cf5490;
+    font-family: SF Pro Display;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px; /* 87.5% */
   }
   &__role {
-    font-size: $fontSizeBodyMedium;
-    color: darkgray;
+    color: #92929d;
+    font-family: SF Pro Display;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px; /* 116.667% */
   }
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 
 type TContext = {
@@ -12,7 +12,18 @@ const LoginContext = React.createContext<TContext>({
 });
 
 export const LoginContextProvider: React.FC = (props) => {
+  const [profile, setProfile] = useState();
   const [isLogin, setIsLogin] = useLocalStorage("isLogin", false);
+
+  // useEffect(() => {
+  //   AuthService.getUserInfo()
+  //     .then((res) => {
+  //       setProfile(res);
+  //       setIsLogin(true);
+  //     })
+  //     .catch((err) => setIsLogin(false));
+  //   // fetchReq().then((res) => console.log(res));
+  // }, []);
 
   function toggleLogin() {
     setIsLogin((prev) => !prev);

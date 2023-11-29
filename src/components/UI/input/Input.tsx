@@ -13,6 +13,7 @@ interface Props {
   ref?: HTMLInputElement;
   readonly?: boolean;
   autocomplete?: string;
+  onChange?: (value: string) => void;
 }
 
 interface IImperativeHandler {
@@ -39,12 +40,11 @@ const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
     };
   });
   const { t } = useTranslation();
+
   return (
     <div className={`${classes.form__control} ${props.classes}`}>
-     
-
       <input
-      className={classes.input}
+        className={classes.input}
         ref={inputRef}
         id={props.id}
         minLength={props.minLength}

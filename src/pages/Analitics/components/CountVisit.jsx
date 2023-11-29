@@ -1,31 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { getAllClients } from '../../../config/axios';
-import Table from './Table';
+import React, { useEffect, useState } from "react";
+
+import Table from "./Table";
+import ClientService from "../../../servises/clients";
 const CountVisit = () => {
-    const [data,setData]=useState([])
-    const user=useSelector((state) => state?.auth);
-  useEffect(()=>{
-    const fetchData =()=>{
-      try {
-        const response=getAllClients(user?.token)
-        .then(res=>{
-          setData(res.data)
-        
-          
-        })
-        return response
-      } catch (error) {
-        
-      }
-    }
-    fetchData()
-  },[])
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    ClientService.getAllClients().then((res) => {
+      setData(res);
+    });
+  }, []);
+
   return (
     <div>
-        <Table data={data}/>
+      <Table data={data} />
     </div>
-  )
-}
+  );
+};
 
-export default CountVisit
+export default CountVisit;

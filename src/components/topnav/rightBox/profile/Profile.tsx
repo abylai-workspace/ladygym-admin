@@ -14,24 +14,19 @@ import { TOKEN_KEY } from "../../../../constants/constants";
 import { instance } from "../../../../config/api";
 
 function Profile() {
- 
-  const user=useSelector((state: any) => state?.auth);
-  const userRole = useSelector((state:any) => state.role.role);
-  const [userName, setUserName] = useState('');
-  const [lastName, setLastName] = useState('');
+  // const user = useSelector((state: any) => state?.auth);
+  // const userRole = useSelector((state: any) => state.role.role);
+  const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user") || "")
+    : null;
 
-
-   
-    const dispatch = useDispatch()
-    // const navigation = useNavigation()
-    const handleLogout = useCallback(async () => {
-        dispatch(logout())
+  const dispatch = useDispatch();
+  // const navigation = useNavigation()
+  const handleLogout = useCallback(async () => {
+    dispatch(logout());
     openSidebarHandler();
-    }, []);
+  }, []);
 
-  
-
-      
   const { t } = useTranslation();
   const { width } = useWindowSize();
   const location = useLocation();
@@ -52,8 +47,10 @@ function Profile() {
         <img src={images.avt} alt="avatar" />
       </div>
       <div className={classes.profile__info}>
-        <p className={classes.profile__userName}>{t("Omurbek Mamytbekov")}</p>
-        <span className={classes.profile__role}>{userRole}</span>
+        <p className={classes.profile__userName}>
+          {user?.firstName} {user?.lastName}
+        </p>
+        <span className={classes.profile__role}>{user?.role}</span>
       </div>
       <div className={[classes.profile, classes.logout].join("")}>
         <Link

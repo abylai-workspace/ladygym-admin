@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import MainLayout from "./layout/MainLayout";
@@ -12,7 +12,9 @@ import WorkAnalizy from "./pages/AnalizyWork/WorkAnalizy";
 import CountVisit from "./pages/CountVisit/CountVisit";
 import NotificationFreeze from "./pages/NotificationFreeze/NotificationFreeze";
 import { Toaster } from "react-hot-toast";
-
+import { Login } from "./pages/Login/Login";
+import { getUserInfo } from "./config/api";
+import AuthService from "./servises/authNew";
 
 const Dashboard = React.lazy(() => import("./pages/Clients/Clients"));
 const Customers = React.lazy(() => import("./pages/Customer/Customers"));
@@ -21,10 +23,16 @@ const Products = React.lazy(() => import("./pages/Personal"));
 const ProductEdit = React.lazy(() => import("./pages/ProductEdit"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const Analytics = React.lazy(() => import("./pages/Analitics/Analytics"));
-const Login = React.lazy(() => import("./pages/Login"));
-const Notifications = React.lazy(() => import("./pages/Notifications/Notifications"));
+const Notifications = React.lazy(
+  () => import("./pages/Notifications/Notifications")
+);
 
 function App() {
+  // useEffect(() => {
+  //   AuthService.getUserInfo().then((res) => {
+  //     console.log(res);
+  //   });
+  // }, []);
 
   return (
     <BrowserRouter>
@@ -38,18 +46,17 @@ function App() {
               <Route path="/WorkAnalizy" element={<WorkAnalizy />} />
               <Route path="/CountVisit" element={<CountVisit />} />
               <Route path="/customers" element={<Customers />} />
-              <Route path="/NotificationFreeze" element={<NotificationFreeze />} />
+              <Route
+                path="/NotificationFreeze"
+                element={<NotificationFreeze />}
+              />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/notifications" element={<Notifications />} />
 
-
-
-            
               <Route path="/customers/:customerId" element={<CustomerEdit />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:productId" element={<ProductEdit />} />
               <Route path="/analytics" element={<Analytics />} />
-           
             </Route>
           </Route>
           <Route path="/login" element={<Login />} />
