@@ -149,9 +149,10 @@ const Table = ({ data }) => {
                 backgroundColor: "transparent",
                 width: "100%",
                 border: "none",
-                color: "#fff",
+                // color: "#fff",
                 marginLeft: "4%",
               }}
+              className="filterSubtitle"
             >
               <option value="all">Все</option>
               <option value="newest">Сначала новые</option>
@@ -161,7 +162,7 @@ const Table = ({ data }) => {
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <h3>Всего: </h3>
-            <h3 style={{ color: "#fff" }}> {data.length} посетителей</h3>
+            <h3 className="filterSubtitle">&nbsp; {data.length} посетителей</h3>
           </div>
           <div
             style={{
@@ -215,7 +216,7 @@ const Table = ({ data }) => {
                         }}
                         alt={item.firstName}
                       />
-                      {item.firstName}
+                      &nbsp;&nbsp;&nbsp;{item.firstName}
                     </div>
                   </td>
                   <td>{item.email}</td>
@@ -229,42 +230,45 @@ const Table = ({ data }) => {
                     {item.role === "TRAINER" && (
                       <>
                         <div
+                          onClick={() => onUserInfo(item)}
                           style={{
+                            cursor: "pointer",
                             display: "flex",
                             backgroundColor: "#CF5490",
-                            padding: "4%",
+                            // padding: "4%",
                             borderRadius: "10px",
                             fontSize: "13px",
                             color: "white",
-                            textAlign: "center",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "124px",
+                            height: "36px",
+                            // flexShrink: 0,
                           }}
                         >
-                          <h5
-                            style={{
-                              textAlign: "center",
-                              marginLeft: 15,
-                            }}
-                            onClick={() => onUserInfo(item)}
-                          >
-                            {" "}
-                            Подробнее
-                          </h5>
+                          <h5>Подробнее</h5>
                         </div>
                       </>
                     )}
                   </td>
                   <td>
                     <>
-                      <div style={{ display: "flex" }}>
+                      <div
+                        style={{ display: "flex", justifyContent: "flex-end" }}
+                      >
                         {item.role === "TRAINER" && (
                           <div
+                            onClick={() => onRegaliCustomer(item)}
                             style={{
                               backgroundColor: "#7536EA",
-                              padding: "2%",
                               borderRadius: "10px",
                               fontSize: "13px",
                               color: "white",
-                              textAlign: "center",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "124px",
+                              height: "36px",
+                              cursor: "pointer",
                             }}
                           >
                             <h5
@@ -273,7 +277,6 @@ const Table = ({ data }) => {
                                 paddingLeft: 5,
                                 marginTop: 5,
                               }}
-                              onClick={() => onRegaliCustomer(item)}
                             >
                               Регалии
                             </h5>
@@ -288,7 +291,9 @@ const Table = ({ data }) => {
                           className="tooltipBoundary"
                         >
                           <Popup
-                            trigger={<h4>....</h4>}
+                            trigger={
+                              <h4 style={{ cursor: "pointer" }}>....</h4>
+                            }
                             position={[
                               "right bottom",
                               "bottom left",
@@ -303,6 +308,7 @@ const Table = ({ data }) => {
                                 backgroundColor: "#000",
                                 padding: 10,
                                 borderRadius: 10,
+                                cursor: "pointer",
                               }}
                             >
                               <h5

@@ -48,7 +48,7 @@ export const topLinks = [
     link: "/customers",
     section: "customers",
     icon: "ph:users-bold",
-    text: "Customers",
+    text: "Персонал",
   },
   {
     link: "/CountVisit",

@@ -206,7 +206,13 @@ body {
 
 .main_wrapper {
   transform: scale(1) translateX(0);
-  background-image: url("../assets//images/backround.png");
+  background: rgb(7, 4, 6);
+  background: linear-gradient(
+    60deg,
+    rgba(7, 4, 6, 1) 64%,
+    rgba(207, 84, 144, 1) 100%
+  );
+
   // transition: all 0.5s ease-in-out;
 }
 
