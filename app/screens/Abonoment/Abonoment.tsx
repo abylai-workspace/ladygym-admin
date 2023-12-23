@@ -28,6 +28,7 @@ const Abonoment = () => {
     instance
       .get('/gym/subscriptions/users', {headers: {Authorization: `Bearer ${token}`}})
       .then(resp => {
+        console.log('123123123123', resp.data)
         setData(resp.data);
       })
       .catch(err => console.log(err.response));
@@ -71,6 +72,7 @@ const Abonoment = () => {
       Alert.alert('Напишите админу');
     }
   };
+
   const goToPromoCode = () => {
     if (data[0]?.paid === false) {
       navigation.navigate(SCREENS.PROMOCODE as never);
@@ -83,35 +85,35 @@ const Abonoment = () => {
     <LGBackround>
       <Header title="Абонемент" />
       <AbonomentCard data={data} />
-      {data.length < 1 && (
+      {/* {data.length < 1 && ( */}
         <FlatList
           icon={require('../../assests/images/Gym.png')}
           title={'Купить абонемент'}
           onPress={() => navigation.navigate(SCREENS.ABONEMENT_FILIAL as never)}
         />
-      )}
+      {/* )} */}
 
-      {data.length > 1 && (
+      {/* {data.length > 1 && ( */}
         <FlatList
           icon={require('../../assests/images/active.png')}
           title={'Активация абонемента'}
           onPress={goActiveAbonoment}
         />
-      )}
-      {data.length > 1 && (
+      {/* )} */}
+      {/* {data.length > 1 && ( */}
         <FlatList
           icon={require('../../assests/images/profile.png')}
           title={'Выбор тренера и услуг'}
           onPress={() => navigation.navigate(SCREENS.ABONOMENT_TRAINER_USLUGA as never)}
         />
-      )}
-      {data.length > 1 && (
+      {/* )} */}
+      {/* {data.length > 1 && ( */}
         <FlatList
           icon={require('../../assests/images/promocode.png')}
           title={'Промокод'}
           onPress={goToPromoCode}
         />
-      )}
+      {/* )} */}
       <FlatList
         icon={require('../../assests/images/support.png')}
         title={'Служба поддержки'}

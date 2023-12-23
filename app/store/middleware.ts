@@ -50,7 +50,7 @@ listenerMiddleware.startListening({
               instance(requestConfig);
             })
             .catch(err => {
-              console.log('zalupa');
+              console.log('err', err);
               dispatch(logout());
             });
         }

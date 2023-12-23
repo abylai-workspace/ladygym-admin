@@ -22,6 +22,7 @@ import {instance} from 'utils/axios';
 import {ROLE, SCREENS, TOKEN_KEY} from 'constants/constants';
 import {storageReadItem} from 'utils/asyncStorage';
 import SelectRadio from '../components/SelectRadio';
+
 import useShare from 'hooks/useShare';
 import {useAppSelector} from 'store/store';
 const BuyAbonoment = ({route}) => {
@@ -34,21 +35,11 @@ const BuyAbonoment = ({route}) => {
   const {gymId, subscriptionTypeId, gymName, subscriptionTypeName} = route.params;
   const dispatch = useDispatch();
   const gymsFilial = useSelector((state: any) => state?.byAbonoments);
-  const status = useAppSelector(state => state.byAbonoments.status);
-  const error = useSelector((state: any) => state.byAbonoments.error);
+  const status = useSelector((state: any) => state?.byAbonoments?.status);
+  const error = useSelector((state: any) => state?.byAbonoments?.error);
   const subscriptionAdditional = useSelector((state: any) => state?.subscriptionAdditional);
   const statusSub = useSelector((state: any) => state.subscriptionAdditional.status);
   const errorSub = useSelector((state: any) => state.subscriptionAdditional.error);
-
-  const [selectedValue, setSelectedValue] = useState('');
-  const [selectValue2, setSelectValue2] = useState('');
-  const handleSelection = value => {
-    console.log(value);
-    setSelectedValue(value);
-  };
-  const handleSelectiontwo = value => {
-    setSelectValue2(value);
-  };
 
   useEffect(() => {
     if (status === 'idle') {
