@@ -16,6 +16,7 @@ const TrainCards = props => {
     instance
       .get('/gym/user/trainers', {params: {gymId: props.gymId}})
       .then(resp => {
+        console.log(resp.data);
         setData(resp.data);
       })
       .catch(err => console.log(err.response));

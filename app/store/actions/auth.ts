@@ -10,7 +10,6 @@ const removeToken = () => AsyncStorage.removeItem('@token');
 export const login = createAsyncThunk<any, any>(
   'auth/login',
   (userData: {phone: string; password: string}) => {
-    console.log('asd');
     const prikol = btoa(`${userData.phone}:${userData.password}`);
     return axios
       .post(

@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import MapMarker from 'components/blocks/MapMarker/MapMarket';
 import NotificationHome from 'components/blocks/Notification/NotificationHome';
 
@@ -82,6 +82,9 @@ const HomeScreen = () => {
     setVisibleFitnes(true);
   }, []);
   const navigation = useNavigation();
+  useEffect(() => {
+    console.log('zalupa');
+  }, []);
   return (
     <>
       <SafeAreaView>

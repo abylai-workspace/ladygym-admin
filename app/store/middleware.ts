@@ -28,7 +28,6 @@ listenerMiddleware.startListening({
     instance.interceptors.response.use(
       data => data,
       err => {
-        console.log(err);
         const requestConfig = err.config;
         const {status} = err.response;
 

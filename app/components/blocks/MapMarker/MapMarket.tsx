@@ -1,4 +1,4 @@
-import {Animated, Dimensions, Platform, Text, TouchableOpacity, View} from 'react-native';
+import {Animated, Dimensions, Platform, Text, TouchableOpacity, View, Linking} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Geolocation from '@react-native-community/geolocation';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -83,6 +83,7 @@ const MapMarket = ({onPress, setGymInfo, selectedCity}: MapMarketProps) => {
             <View style={styles.card} key={gym.address + gym.name}>
               <TouchableOpacity
                 onPress={() => {
+                  console.log(gym);
                   onPress(gym?.id);
                   setGymInfo(gym);
                 }}>

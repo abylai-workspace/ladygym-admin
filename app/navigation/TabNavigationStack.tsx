@@ -29,7 +29,7 @@ export default function TabNavigation() {
   return (
     <Tab.Navigator
       sceneContainerStyle={styles.tabBarContainerStyle}
-      screenOptions={{headerShown: false}}
+      screenOptions={{headerShown: false, tabBarShowLabel: true}}
       tabBar={props => <SWTabBar {...props} />}>
       {userRole == 'USER' ? (
         <>
@@ -37,7 +37,7 @@ export default function TabNavigation() {
             name="Hometab"
             component={HomeScreen}
             options={{
-              tabBarLabel: SCREENS.HOME,
+              tabBarLabel: 'Главная',
               tabBarIcon: ({color, size}) => (
                 <MaterialIcons name="home" color={color} size={size} />
               ),
@@ -47,7 +47,7 @@ export default function TabNavigation() {
             name="AddSecretTab"
             component={Abonoment}
             options={{
-              tabBarLabel: SCREENS.ABONEMENT,
+              tabBarLabel: 'Абонементы',
               tabBarIcon: ({color, size}) => (
                 <MaterialIcons name="fitness-center" color={color} size={size} />
               ),
@@ -57,7 +57,7 @@ export default function TabNavigation() {
             name="Contacts"
             component={LadyQR}
             options={{
-              tabBarLabel: SCREENS.LADY_QR,
+              tabBarLabel: 'Lady QR',
               tabBarIcon: ({color, size}) => <Ionicons name="scan" color={color} size={size} />,
             }}
           />
@@ -132,8 +132,7 @@ export default function TabNavigation() {
         name="support"
         component={ProfileScreen}
         options={{
-          tabBarLabel: SCREENS.PROFILE,
-
+          tabBarLabel: 'Профиль',
           tabBarIcon: ({color, size}) => <FontAwesome name="user" color={color} size={size} />,
         }}
       />

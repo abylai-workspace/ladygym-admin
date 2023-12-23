@@ -1,4 +1,4 @@
-import {Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import LGBackround from 'components/blocks/LGBackround/LGBackround';
 import HeaderTitle from 'screens/HomeScreen/components/HeaderTitle';

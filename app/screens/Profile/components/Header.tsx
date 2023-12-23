@@ -2,54 +2,53 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {instance} from 'utils/axios';
-import { REFRESH_TOKEN_KEY, ROLE, TOKEN_KEY } from 'constants/constants';
-import { storageDeleteItem, storageReadItem } from 'utils/asyncStorage';
+import {REFRESH_TOKEN_KEY, ROLE, TOKEN_KEY} from 'constants/constants';
+import {storageDeleteItem, storageReadItem} from 'utils/asyncStorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import RNRestart from 'react-native-restart';
+import {useAppDispatch} from 'store/store';
+import {logout} from 'store/actions/auth';
 interface userProps {
   onLogout?: () => void;
 }
 
 const Header = ({onLogout}: userProps) => {
-  const navigation=useNavigation()
-  const [data,setData]=useState<any>([])
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation();
+  const [data, setData] = useState<any>([]);
   const [tokenStorage, setToken] = useState('');
   const [userRole, setRole] = useState('');
-  storageReadItem(TOKEN_KEY,ROLE).then(token => {
+  storageReadItem(TOKEN_KEY, ROLE).then(token => {
     setToken(token);
   });
-  storageReadItem(ROLE,TOKEN_KEY).then(token => {
+  storageReadItem(ROLE, TOKEN_KEY).then(token => {
     setRole(token);
   });
   useEffect(() => {
     getUserData();
-  },[tokenStorage,data]);
+  }, [tokenStorage, data]);
   const getUserData = useCallback(async () => {
     try {
-      const response = await instance.get('/gym/user/info', {
-        headers: {
-          Authorization:`Bearer ${tokenStorage}`,
-          
-        },
-      }).then((res)=>{
-        setData(res.data)
-      })
-      
-     return response
+      const response = await instance
+        .get('/gym/user/info', {
+          headers: {
+            Authorization: `Bearer ${tokenStorage}`,
+          },
+        })
+        .then(res => {
+          setData(res.data);
+        });
+
+      return response;
     } catch (error) {
       console.error(error);
     }
   }, []);
 
-  const logout = async () => {
-    await AsyncStorage.removeItem('token');
-    await AsyncStorage.removeItem('refreshToken');
-    await storageDeleteItem(TOKEN_KEY)
-    await storageDeleteItem(REFRESH_TOKEN_KEY)
-    RNRestart.Restart();
-    
-  }
+  const logoutPress = async () => {
+    dispatch(logout());
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logocontainer}>
@@ -60,31 +59,41 @@ const Header = ({onLogout}: userProps) => {
             right: 40,
             top: 10,
           }}
-          onPress={logout}>
+          onPress={logoutPress}>
           <Ionicons name="exit-outline" size={30} color="#fff" />
         </TouchableOpacity>
       </View>
       <View style={{alignContent: 'center', alignSelf: 'center'}}>
         <Text style={styles.userName}>
-          {data?.firstName}{'\n'}
+          {data?.firstName}
+          {'\n'}
           {data?.lastName}
         </Text>
-        {userRole==='ADMIN' && <TouchableOpacity style={styles.buttonContainer}>
-          <Text style={{color: '#fff'}}>{'Админ'}</Text>
-        </TouchableOpacity>}
-        {userRole==='TRAINER' && <TouchableOpacity style={styles.buttonContainer}>
-          <Text style={{color: '#fff'}}>{'Тренер'}</Text>
-        </TouchableOpacity>}
-        {userRole==='USER' && <TouchableOpacity style={styles.buttonContainer}>
-          <Text style={{color: '#fff'}}>{'Постоянный '}</Text>
-        </TouchableOpacity>}
-        {userRole==='TOP' &&<TouchableOpacity style={styles.buttonContainer}>
-          <Text style={{color: '#fff'}}>{'TOP'}</Text>
-        </TouchableOpacity>}
-        {userRole==='MANAGER' && <TouchableOpacity style={styles.buttonContainer}>
-          <Text style={{color: '#fff'}}>{'Управляющий'}</Text>
-        </TouchableOpacity>}
-        
+        {userRole === 'ADMIN' && (
+          <TouchableOpacity style={styles.buttonContainer}>
+            <Text style={{color: '#fff'}}>{'Админ'}</Text>
+          </TouchableOpacity>
+        )}
+        {userRole === 'TRAINER' && (
+          <TouchableOpacity style={styles.buttonContainer}>
+            <Text style={{color: '#fff'}}>{'Тренер'}</Text>
+          </TouchableOpacity>
+        )}
+        {userRole === 'USER' && (
+          <TouchableOpacity style={styles.buttonContainer}>
+            <Text style={{color: '#fff'}}>{'Постоянный '}</Text>
+          </TouchableOpacity>
+        )}
+        {userRole === 'TOP' && (
+          <TouchableOpacity style={styles.buttonContainer}>
+            <Text style={{color: '#fff'}}>{'TOP'}</Text>
+          </TouchableOpacity>
+        )}
+        {userRole === 'MANAGER' && (
+          <TouchableOpacity style={styles.buttonContainer}>
+            <Text style={{color: '#fff'}}>{'Управляющий'}</Text>
+          </TouchableOpacity>
+        )}
       </View>
       <View style={styles.line} />
     </View>
@@ -116,7 +125,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
-   
   },
   buttonContainer: {
     backgroundColor: 'rgba(148, 60, 103, 1)',
