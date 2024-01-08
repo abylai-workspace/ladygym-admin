@@ -10,11 +10,10 @@ export const storageCreateOrUpdateItem = async (key: string, value: any) => {
   }
 };
 
-export const storageReadItem = async (key: string, role: string) => {
+export const storageReadItem = async (key: string, role?: string) => {
   try {
     const value = await AsyncStorage.getItem(key);
 
-    // console.log(`Item with key "${value}" read successfully.`)
     return value ? JSON.parse(value) : null;
   } catch (error) {
     console.error(`Error reading item with key "${key}":`, error);

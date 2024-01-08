@@ -16,28 +16,27 @@ import {COLORS} from 'utils/colors';
 import StarRating from 'components/blocks/StarRating/StarRating';
 import Input from './Input';
 import CustomButton from 'components/blocks/Buttons/SmallPrimaryButton';
-import { useNavigation } from '@react-navigation/native';
-import { SCREENS } from 'constants/constants';
+import {useNavigation} from '@react-navigation/native';
+import {SCREENS} from 'constants/constants';
 const {width, height} = Dimensions.get('window');
 const TrainersDeitails = ({route}) => {
-    const navigation=useNavigation()
+  const navigation = useNavigation();
   const trainers = route.params?.trainers?.trainerDetails;
 
   console.log(trainers);
 
-  const renderItem = ({item}:any) => (
+  const renderItem = ({item}: any) => (
     <View>
-      <Text style={{width: 90,color:'#fff'}}>{item}</Text>
+      <Text style={{width: 90, color: '#fff'}}>{item}</Text>
     </View>
   );
   return (
     <LGBackround>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-            <TouchableOpacity onPress={navigation.goBack}>
+          <TouchableOpacity onPress={navigation.goBack}>
             <Feather name="arrow-left" size={24} color="white" />
-
-            </TouchableOpacity>
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>Информация о тренере</Text>
           <TouchableOpacity>
             <Text style={styles.rightTitle}>Изменить</Text>
@@ -78,7 +77,7 @@ const TrainersDeitails = ({route}) => {
           </View>
           {trainers?.daysOfWeek && (
             <View style={{marginTop: 10}}>
-              <Text style={{color:'#fff'}}>Расписание</Text>
+              <Text style={{color: '#fff'}}>Расписание</Text>
               <FlatList
                 data={trainers?.daysOfWeek}
                 renderItem={renderItem}
@@ -86,9 +85,12 @@ const TrainersDeitails = ({route}) => {
                 horizontal
                 style={styles.Flatcontainer}
               />
-              <Text style={[styles.Flatcontainer,{color:'#fff'}]}>
-                {trainers?.workTimeFrom} - {trainers?.workTimeTo}
-              </Text>
+              <View style={styles.Flatcontainer}>
+                <Text style={{color: '#FFF'}}>
+                  {trainers?.workTimeFrom} - {trainers?.workTimeTo}
+                </Text>
+              </View>
+
               <CustomButton
                 label="Изменить расписание"
                 variant="fill"

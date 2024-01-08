@@ -51,3 +51,11 @@ export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
 // User
 // 77756830757
 // 123
+
+// Trainer
+// 7772223344
+// 123
+
+// ADMIN
+// 7771112233
+// 123

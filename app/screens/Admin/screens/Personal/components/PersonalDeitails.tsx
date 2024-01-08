@@ -1,4 +1,13 @@
-import {Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import LGBackround from 'components/blocks/LGBackround/LGBackround';
 import Input from './Input';
@@ -7,19 +16,18 @@ import Feather from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomButton from 'components/blocks/Buttons/SmallPrimaryButton';
-import { instance } from 'utils/axios';
-import { storageReadItem } from 'utils/asyncStorage';
-import { ROLE, SCREENS, TOKEN_KEY } from 'constants/constants';
-
+import {instance} from 'utils/axios';
+import {storageReadItem} from 'utils/asyncStorage';
+import {ROLE, SCREENS, TOKEN_KEY} from 'constants/constants';
 
 const PersonalDeitails = ({route}) => {
   const navigation = useNavigation();
   const personal = route.params?.personal;
-  const [token,setToken]=useState('')
+  const [token, setToken] = useState('');
 
-  storageReadItem(TOKEN_KEY,ROLE).then((token)=>{
-    setToken(token)
-  })
+  storageReadItem(TOKEN_KEY, ROLE).then(token => {
+    setToken(token);
+  });
 
   const [userData, setUserData] = useState({
     id: personal?.id,
@@ -43,55 +51,57 @@ const PersonalDeitails = ({route}) => {
       phoneNumber: userData.phoneNumber,
       password: userData.password,
     };
-    console.log(data);
     try {
-      const response = await instance.post(`/gym/user/edit/${userData.id}`, data,{
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await instance.post(
+        `/gym/user/edit/${userData.id}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
       if (response.status === 200) {
         navigation.goBack();
       }
-      return response
+      return response;
     } catch (error) {}
   };
 
-  const acceptDelete=()=>{
-    Alert.alert(
-      'Подтвердите удаление',
-      'Вы уверены, что хотите удалить?',
-      [
-        {
-          text: 'Нет',
-          onPress: () => console.log('Cancel Pressed'),
-        },
-        {
-          text: 'Да',
-          onPress: () => deletePersonal(),
-        }
-      ]
-    )
-  }
+  const acceptDelete = () => {
+    Alert.alert('Подтвердите удаление', 'Вы уверены, что хотите удалить?', [
+      {
+        text: 'Нет',
+        onPress: () => console.log('Cancel Pressed'),
+      },
+      {
+        text: 'Да',
+        onPress: () => deletePersonal(),
+      },
+    ]);
+  };
   const deletePersonal = async () => {
-
     try {
-      const response = await instance.delete(`/gym/user/delete/${userData.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await instance.delete(
+        `/gym/user/delete/${userData.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
       if (response.status === 200) {
         navigation.goBack();
       }
-      return response
+      return response;
     } catch (error) {}
-  }
+  };
   console.log(personal);
   return (
     <LGBackround>
       <SafeAreaView>
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <HeaderTitle
             title="Персональные данные"
             styles={{marginTop: 10}}
@@ -111,26 +121,26 @@ const PersonalDeitails = ({route}) => {
               value={userData.lastName}
               onPress={e => handleInputChange('lastName', e)}
             />
-            <Input
+            {/* <Input
               placeholder="email"
               label="email"
               value={userData.email}
               onPress={e => handleInputChange('email', e)}
-            />
+            /> */}
             <Input
               placeholder="Телефон"
               label="Телефон"
               value={userData?.phoneNumber}
               onPress={e => handleInputChange('phoneNumber', e)}
             />
-            <Input
+            {/* <Input
               placeholder="Пароль"
               label="Пароль"
               icon={true}
               secureTextEntry={true}
               value={userData?.password}
               onPress={e => handleInputChange('password', e)}
-            />
+            /> */}
             <Input
               label="Кем является"
               placeholder="Кем является"
@@ -139,9 +149,15 @@ const PersonalDeitails = ({route}) => {
               onPress={e => handleInputChange('role', e)}
             />
             {userData?.role === 'TRAINER' && (
-              <TouchableOpacity style={styles.containerFlat}
-              onPress={() => navigation.navigate(SCREENS.ADMIN_TRAINER_DETAILS, {trainers: personal} as never)}>
-                <Text style={{color: '#fff', width: '90%', alignSelf: 'center'}}>
+              <TouchableOpacity
+                style={styles.containerFlat}
+                onPress={() =>
+                  navigation.navigate(SCREENS.ADMIN_TRAINER_DETAILS, {
+                    trainers: personal,
+                  } as never)
+                }>
+                <Text
+                  style={{color: '#fff', width: '90%', alignSelf: 'center'}}>
                   Информация о тренере
                 </Text>
                 <Feather name="chevron-right" size={30} color="gray" />

@@ -19,6 +19,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import SwipeableDialog from 'components/blocks/SwipeableDialog/SwipeableDialog';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
   const [visibleFitnes, setVisibleFitnes] = useState(false);
   const [visibleTrainnformation, setVisibleTrainnformation] = useState(false);
   const [visibleIMGBottomSheet, setVisibleImgBottomSheet] = useState(false);
@@ -81,10 +82,7 @@ const HomeScreen = () => {
     setVisibleKBjusheet(false);
     setVisibleFitnes(true);
   }, []);
-  const navigation = useNavigation();
-  useEffect(() => {
-    console.log('zalupa');
-  }, []);
+
   return (
     <>
       <SafeAreaView>
@@ -108,7 +106,7 @@ const HomeScreen = () => {
           />
         </SwipeableDialog>
         {/* <ModalBottom isModalVisible={visibleFitnes} toggleModal={onSwipe}>
-    
+
     </ModalBottom> */}
         <Trainnformation
           isModalVisible={visibleTrainnformation}

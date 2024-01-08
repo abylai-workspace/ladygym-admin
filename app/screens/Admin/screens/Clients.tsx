@@ -5,26 +5,27 @@ import Header from 'components/headers/Header';
 import TextInputWithIcon from '../components/TextInputWithIcon';
 import {instance} from 'utils/axios';
 import {storageReadItem} from 'utils/asyncStorage';
-import {ROLE, SCREENS, TOKEN_KEY} from 'constants/constants';
+import {NORMAL_TOKEN_KEY, ROLE, SCREENS} from 'constants/constants';
 
 import Feather from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
+
 const Clients = () => {
   const navigation = useNavigation();
   const [client, setClients] = useState([]);
   const [query, setQuery] = useState('');
   const [token, setToken] = useState('');
-  storageReadItem(TOKEN_KEY, ROLE).then(token => {
-    setToken(token);
-  });
+
   useEffect(() => {
-    getClients();
-  }, [token]);
+    storageReadItem(NORMAL_TOKEN_KEY, ROLE).then(token => {
+      setToken(token);
+    });
+  }, []);
 
   const getClients = useCallback(async () => {
     try {
       const response = await instance
-        .get('/gym/subscriptions/manage/all', {
+        .get('/gym/user/all', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,19 +38,22 @@ const Clients = () => {
     } catch (error) {}
   }, [token]);
 
+  useEffect(() => {
+    getClients();
+  }, [token]);
+
   const filteredItems = client.filter(
     item =>
-      item.user.firstName.toLowerCase().includes(query.toLowerCase()) &&
-      item.user.lastName.toLowerCase().includes(query.toLowerCase()),
+      item.firstName.toLowerCase().includes(query.toLowerCase()) &&
+      item.lastName.toLowerCase().includes(query.toLowerCase()),
   );
 
   const renderClients = ({item}) => {
-    // console.log(item.user)
     return (
       <>
         <View style={styles.blockContainer}>
           <Text style={styles.color}>
-            {item.user.firstName} {item.user.lastName}
+            {item.firstName} {item.lastName}
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -63,6 +67,7 @@ const Clients = () => {
       </>
     );
   };
+
   return (
     <LGBackround>
       <Header title="Клиенты" />

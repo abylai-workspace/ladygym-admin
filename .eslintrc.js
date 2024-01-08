@@ -11,14 +11,7 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: [
-    'airbnb',
-    'airbnb/hooks',
-    'prettier',
-    'prettier/react',
-    'prettier/@typescript-eslint',
-    'plugin:@typescript-eslint/recommended',
-  ],
+  extends: ['airbnb', 'airbnb/hooks', 'prettier', 'plugin:@typescript-eslint/recommended'],
   plugins: ['react', 'prettier', '@typescript-eslint', 'simple-import-sort'],
   settings: {
     'import/resolver': {

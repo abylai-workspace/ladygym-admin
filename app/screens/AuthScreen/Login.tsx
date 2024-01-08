@@ -19,6 +19,7 @@ import LGBackround from 'components/blocks/LGBackround/LGBackround';
 import {REFRESH_TOKEN_KEY, SCREENS, TOKEN_KEY} from 'constants/constants';
 import {login} from '../../store/actions/auth';
 import {useAppDispatch} from 'store/store';
+
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();

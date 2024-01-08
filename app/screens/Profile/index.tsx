@@ -27,6 +27,7 @@ const ProfileScreen = ({}) => {
   const onLogouts = useCallback(() => {
     console.log('logouts');
   }, []);
+
   return (
     <LGBackround>
       <ScrollView>
@@ -75,13 +76,13 @@ const ProfileScreen = ({}) => {
                 icon={require('../../assests/images/PIN.png')}
               />
             )}
-            {role === 'MANAGER' && (
+            {/* {(role === 'MANAGER' || role === 'TOP') && (
               <FlatList
                 title={'Создать новость '}
                 onPress={onChangePin}
                 icon={require('../../assests/images/PIN.png')}
               />
-            )}
+            )} */}
             {role === 'MANAGER' && (
               <FlatList
                 title={'Уведомления о заморозке '}
@@ -89,11 +90,11 @@ const ProfileScreen = ({}) => {
                 icon={require('../../assests/images/PIN.png')}
               />
             )}
-            <FlatList
+            {/* <FlatList
               title={'Изменить ПИН-код'}
               onPress={onChangePin}
               icon={require('../../assests/images/PIN.png')}
-            />
+            /> */}
           </View>
         </View>
       </ScrollView>

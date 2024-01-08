@@ -23,18 +23,18 @@ const authSlice = createSlice({
       .addCase(login.rejected, state => {
         state.tokens = {accessToken: null, refreshToken: null, role: null};
       })
-      .addCase(refreshTokens.fulfilled, ({tokens}, {payload}) => {
-        tokens = {
+      .addCase(refreshTokens.fulfilled, (state, {payload}) => {
+        state.tokens = {
           accessToken: payload.accessToken,
           refreshToken: payload.refreshToken,
-          role: tokens.role,
+          role: state.tokens.role,
         };
       })
       .addCase(getTokenStorage.fulfilled, (state, {payload}) => {
         state.tokens = {
           accessToken: payload.accessToken,
           refreshToken: payload.refreshToken,
-          role: state.tokens.role,
+          role: payload.role,
         };
       })
       .addCase(logout.fulfilled, (state, {payload}) => {
@@ -43,5 +43,4 @@ const authSlice = createSlice({
   },
 });
 
-// export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
 export default authSlice.reducer;

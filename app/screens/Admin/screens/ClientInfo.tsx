@@ -13,23 +13,24 @@ import {SCREENS} from 'constants/constants';
 import CustomButton from 'components/blocks/Buttons/SmallPrimaryButton';
 
 const ClientInfo = ({route}) => {
-  const userRole = useSelector((state: any) => state.role.role);
+  const userRole = useSelector((state: any) => state?.authSlice?.tokens?.role);
   const [day, setDays] = useState(0);
 
   const navigation = useNavigation();
   const info = route.params?.clients;
   const createdAt: any = new Date(info.createdAt);
-  const expirationDate: any = new Date(info.expirationDate);
+  const expirationDate: any = new Date(info?.subscription?.expirationDate);
+
   useEffect(() => {
     // Calculate the difference in milliseconds
     const timeDifference = expirationDate - createdAt;
     // Calculate the number of days difference
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     setDays(days);
-    console.log(days, 'asd');
   }, [day]);
 
-  console.log(info);
+  console.log(userRole);
+
   return (
     <LGBackround>
       <HeaderTitle title="О клиенте" styles={{marginTop: 10}} onPress={() => navigation.goBack()} />
@@ -39,7 +40,7 @@ const ClientInfo = ({route}) => {
         }}>
         <View style={styles.container}>
           <Text style={styles.headerTitle}>
-            {info?.user.firstName} {info?.user.lastName}
+            {info?.firstName} {info?.lastName}
           </Text>
           <AbonomentCard
             days={day}
@@ -78,33 +79,44 @@ const ClientInfo = ({route}) => {
           <Text style={styles.headerSubTitle}>Номер ключа</Text>
 
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View style={styles.keyContainer}>
-              <Text>1234</Text>
+            <View
+              style={{
+                ...styles.keyContainer,
+                paddingHorizontal: 20,
+                width: userRole === 'ADMIN' || userRole === 'MANAGER' ? '50%' : '100%',
+              }}>
+              <Text style={{color: '#fff'}}>{info?.gymKey}</Text>
             </View>
-            <View style={styles.keyContainer2}>
-              {/* <TouchableOpacity onPress={onLogout}>
-                <Text>Выдать ключ</Text>
-              </TouchableOpacity> */}
-            </View>
+            {(userRole === 'ADMIN' || userRole === 'MANAGER') && (
+              <View style={styles.keyContainer2}>
+                <TouchableOpacity onPress={() => {}}>
+                  <Text style={{color: '#fff'}}>Выдать ключ</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
           <Text style={styles.headerSubTitle}>Тренер</Text>
-          <Input placeholder={'Тренер '} value={'Ким Анастасия'} onChangeText={() => {}} />
+          <Input placeholder={'Тренер '} value={info?.trainerName} onChangeText={() => {}} />
           <View style={[styles.flex, {marginBottom: 20}]}>
             <Text style={{color: '#fff'}}>Документы</Text>
             <TouchableOpacity onPress={() => navigation.navigate(SCREENS.ADMIN_DOCUMENTS as never)}>
               <Feather name="chevron-right" style={styles.clickContainer} size={30} color="gray" />
             </TouchableOpacity>
           </View>
-          {userRole === 'MANAGER' && (
+          {(userRole === 'MANAGER' || userRole === 'TOP') && (
             <CustomButton
               variant="fill"
               label="Заморозить"
-              onPress={() => navigation.navigate(SCREENS.ADMIN_FREEZE as never)}
+              onPress={() =>
+                navigation.navigate(SCREENS.ADMIN_FREEZE, {
+                  subscriptionId: info?.subscription?.subscriptionType?.id as any,
+                } as any)
+              }
             />
           )}
-          {userRole === 'TOP' && (
+          {/* {userRole === 'TOP' && (
             <CustomButton variant="fill" label="Подтвердить" onPress={() => {}} />
-          )}
+          )} */}
         </View>
       </ScrollView>
     </LGBackround>
@@ -143,13 +155,13 @@ const styles = StyleSheet.create({
   keyContainer: {
     paddingHorizontal: 60,
     backgroundColor: 'rgba(33, 33, 34, 1)',
-    borderRadius: 15,
-    paddingVertical: 10,
+    borderRadius: 10,
+    paddingVertical: 15,
   },
   keyContainer2: {
     paddingHorizontal: 30,
     backgroundColor: COLORS.LADY_GYB_BACKGROUND,
-    borderRadius: 15,
-    paddingVertical: 10,
+    borderRadius: 10,
+    paddingVertical: 15,
   },
 });

@@ -10,27 +10,28 @@ const removeToken = () => AsyncStorage.removeItem('@token');
 export const login = createAsyncThunk<any, any>(
   'auth/login',
   (userData: {phone: string; password: string}) => {
-    const prikol = btoa(`${userData.phone}:${userData.password}`);
+    const token = btoa(`${userData.phone}:${userData.password}`);
     return axios
       .post(
         `https://ladygymapp.kz/gym/auth/login`,
         {},
         {
           headers: {
-            Authorization: `Basic ${prikol}`,
+            Authorization: `Basic ${token}`,
           },
         },
       )
       .then((resp: any) => {
-        console.log('resp', resp.data);
         saveToken({
           accessToken: resp.data.accessToken,
           refreshToken: resp.data.refreshToken,
+          role: resp.data?.role,
         });
-        const {accessToken, refreshToken} = resp.data;
+        const {accessToken, refreshToken, role} = resp.data;
         return {
           accessToken,
           refreshToken,
+          role,
         };
       })
       .catch(err => {

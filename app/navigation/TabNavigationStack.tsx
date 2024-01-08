@@ -6,7 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import SWTabBar from 'components/blocks/TabBar/TabBar';
 import {StyleSheet} from 'react-native';
-import {ROLE, SCREENS, TOKEN_KEY} from 'constants/constants';
+import {NORMAL_TOKEN_KEY, ROLE, SCREENS, TOKEN_KEY} from 'constants/constants';
 
 import Abonoment from 'screens/Abonoment/Abonoment';
 import LadyQR from 'screens/LadyQR/LadyQR';
@@ -16,15 +16,18 @@ import QRScreen from 'screens/Admin/screens/QRcodeScreen/QRScreen';
 import TasksScreen from 'screens/Admin/screens/Tasks/TasksScreen';
 import Reiting from 'screens/Admin/screens/Reiting';
 import {storageReadItem} from 'utils/asyncStorage';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Personal from 'screens/Admin/screens/Personal/Personal';
 
 const Tab = createBottomTabNavigator();
 export default function TabNavigation() {
   const [userRole, setUserRole] = useState('');
-  storageReadItem(ROLE, TOKEN_KEY).then(token => {
-    setUserRole(token);
-  });
+
+  useEffect(() => {
+    storageReadItem(NORMAL_TOKEN_KEY).then(token => {
+      setUserRole(token?.role);
+    });
+  }, []);
 
   return (
     <Tab.Navigator
@@ -49,7 +52,11 @@ export default function TabNavigation() {
             options={{
               tabBarLabel: 'Абонементы',
               tabBarIcon: ({color, size}) => (
-                <MaterialIcons name="fitness-center" color={color} size={size} />
+                <MaterialIcons
+                  name="fitness-center"
+                  color={color}
+                  size={size}
+                />
               ),
             }}
           />
@@ -58,7 +65,9 @@ export default function TabNavigation() {
             component={LadyQR}
             options={{
               tabBarLabel: 'Lady QR',
-              tabBarIcon: ({color, size}) => <Ionicons name="scan" color={color} size={size} />,
+              tabBarIcon: ({color, size}) => (
+                <Ionicons name="scan" color={color} size={size} />
+              ),
             }}
           />
         </>
@@ -70,7 +79,11 @@ export default function TabNavigation() {
             options={{
               tabBarLabel: SCREENS.ADMIN_CLIENTS,
               tabBarIcon: ({color, size}) => (
-                <Ionicons name="document-text-sharp" color={color} size={size} />
+                <Ionicons
+                  name="document-text-sharp"
+                  color={color}
+                  size={size}
+                />
               ),
             }}
           />
@@ -81,7 +94,7 @@ export default function TabNavigation() {
               options={{
                 tabBarLabel: SCREENS.ADMIN_PERSONAL,
                 tabBarIcon: ({color, size}) => (
-                  <Ionicons name="document-text-sharp" color={color} size={size} />
+                  <Ionicons name="people" color={color} size={size} />
                 ),
               }}
             />
@@ -92,17 +105,21 @@ export default function TabNavigation() {
               component={QRScreen}
               options={{
                 tabBarLabel: SCREENS.ADMIN_QR,
-                tabBarIcon: ({color, size}) => <Ionicons name="scan" color={color} size={size} />,
+                tabBarIcon: ({color, size}) => (
+                  <Ionicons name="scan" color={color} size={size} />
+                ),
               }}
             />
           )}
-          {userRole === 'ADMIN' && (
+          {(userRole === 'ADMIN' || userRole === 'TRAINER') && (
             <Tab.Screen
               name="adminqr"
               component={QRScreen}
               options={{
                 tabBarLabel: SCREENS.ADMIN_QR,
-                tabBarIcon: ({color, size}) => <Ionicons name="scan" color={color} size={size} />,
+                tabBarIcon: ({color, size}) => (
+                  <Ionicons name="scan" color={color} size={size} />
+                ),
               }}
             />
           )}
@@ -112,7 +129,9 @@ export default function TabNavigation() {
               component={Reiting}
               options={{
                 tabBarLabel: SCREENS.ADMIN_REITING,
-                tabBarIcon: ({color, size}) => <Ionicons name="star" color={color} size={size} />,
+                tabBarIcon: ({color, size}) => (
+                  <Ionicons name="star" color={color} size={size} />
+                ),
               }}
             />
           )}
@@ -122,7 +141,7 @@ export default function TabNavigation() {
             options={{
               tabBarLabel: SCREENS.ADMIN_TASKS,
               tabBarIcon: ({color, size}) => (
-                <Ionicons name="document-text-sharp" color={color} size={size} />
+                <Ionicons name="clipboard" color={color} size={size} />
               ),
             }}
           />
@@ -133,7 +152,9 @@ export default function TabNavigation() {
         component={ProfileScreen}
         options={{
           tabBarLabel: 'Профиль',
-          tabBarIcon: ({color, size}) => <FontAwesome name="user" color={color} size={size} />,
+          tabBarIcon: ({color, size}) => (
+            <FontAwesome name="user" color={color} size={size} />
+          ),
         }}
       />
     </Tab.Navigator>

@@ -12,6 +12,7 @@ import LGBackround from 'components/blocks/LGBackround/LGBackround';
 import HeaderTitle from 'screens/HomeScreen/components/HeaderTitle';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useNavigation} from '@react-navigation/native';
+import CustomButton from 'components/blocks/Buttons/SmallPrimaryButton';
 
 const DAYS_OF_WEEK = [
   {
@@ -45,9 +46,10 @@ const DAYS_OF_WEEK = [
 ];
 
 const {width, height} = Dimensions.get('window');
-const TrainerSchedule = () => {
-  const navigation = useNavigation();
 
+const TrainerSchedule = ({route}) => {
+  const navigation = useNavigation();
+  const trainerSchedule = route.params.trainers;
   const [brands, setBrands] = useState(DAYS_OF_WEEK);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedBrands, setSelectedBrands] = useState<any[]>([]);
@@ -61,13 +63,14 @@ const TrainerSchedule = () => {
 
   const onChangeandroid = (event, selectedDate) => {
     const currentDate = selectedDate;
-    setShowDatePicker(false)
+    setShowDatePicker(false);
     setDate(currentDate);
-  }
+  };
+
   const renderBrands = ({item, index}) => {
     const {name, slug} = item;
     const isSelected = selectedBrands.filter(i => i === slug).length > 0;
-    console.log([name]);
+    console.log([name], slug);
 
     return (
       <View style={styles.itemContainer}>
@@ -85,9 +88,14 @@ const TrainerSchedule = () => {
       </View>
     );
   };
+
+  const onSubmitSchedule = () => {};
+
   console.log(selectedBrands);
 
   console.log(date?.toString());
+
+  console.log(trainerSchedule, 'route');
   return (
     <LGBackround>
       <HeaderTitle title={'Расписание тренеров'} onPress={() => navigation.goBack()} />
@@ -112,51 +120,70 @@ const TrainerSchedule = () => {
               />
             ) : (
               <>
-              {showDatePicker && (
-                <>
-                <DateTimePicker
+                {showDatePicker && (
+                  <>
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={date}
+                      mode="time" // You can change this to "date" or "time" if needed
+                      is24Hour={true}
+                      display="spinner"
+                      onChange={onChangeandroid}
+                      style={styles.timePicker}
+                      accentColor="#fff"
+                      textColor="#fff"
+                    />
+                  </>
+                )}
+              </>
+            )}
+            {Platform.OS === 'android' && <Text>{date?.toString()}</Text>}
+          </View>
+          <View>
+            <Text style={styles.timeText}>Конец</Text>
+            <TouchableOpacity onPress={() => setShowDatePicker(!showDatePicker)}>
+              <Text>Open</Text>
+            </TouchableOpacity>
+            {Platform.OS === 'ios' ? (
+              <DateTimePicker
                 testID="dateTimePicker"
                 value={date}
                 mode="time" // You can change this to "date" or "time" if needed
                 is24Hour={true}
                 display="spinner"
-                onChange={onChangeandroid}
+                onChange={onChange}
                 style={styles.timePicker}
                 accentColor="#fff"
                 textColor="#fff"
               />
-             
-              </>
-              )}
+            ) : (
+              <>
+                {showDatePicker && (
+                  <>
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={date}
+                      mode="time" // You can change this to "date" or "time" if needed
+                      is24Hour={true}
+                      display="spinner"
+                      onChange={onChangeandroid}
+                      style={styles.timePicker}
+                      accentColor="#fff"
+                      textColor="#fff"
+                    />
+                  </>
+                )}
               </>
             )}
-            {Platform.OS === 'android' && (
-               <Text>{date?.toString()}</Text>
-            )}
-          </View>
-          <View>
-            <Text style={styles.timeText}>Конец</Text>
-            {/* {Platform.OS==='ios' &&
-           <DateTimePicker
-           testID="dateTimePicker"
-           value={date}
-           mode="time" // You can change this to "date" or "time" if needed
-           is24Hour={true}
-           display="spinner"
-           onChange={onChange}
-           style={styles.timePicker}
-           accentColor="#fff"
-           textColor="#fff"
-         />
-           } */}
           </View>
         </View>
         <Text style={{color: '#fff'}}>Дни недели</Text>
         <FlatList data={brands} renderItem={renderBrands} horizontal scrollEnabled={false} />
-        <Text style={{color: '#fff'}}>selected: {date.toLocaleString()}</Text>
+        {/* <Text style={{color: '#fff'}}>selected: {date.toLocaleString()}</Text> */}
+        <CustomButton label="Сохранить" variant="fill" style={{marginTop: 20}} onPress={() => {}} />
       </View>
 
-      <Text>TrainerSchedule</Text>
+      {/* <Text>TrainerSchedule</Text> */}
     </LGBackround>
   );
 };

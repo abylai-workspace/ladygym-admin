@@ -60,7 +60,7 @@ const AppStack = () => {
   const tokens = useAppSelector(state => state.authSlice.tokens);
   const dispatch = useAppDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getTokenStorage()).then(resp => console.log('prikol', resp));
   }, []);
 
