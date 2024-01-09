@@ -7,12 +7,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import LGBackround from 'components/blocks/LGBackround/LGBackround';
 import HeaderTitle from 'screens/HomeScreen/components/HeaderTitle';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useNavigation} from '@react-navigation/native';
 import CustomButton from 'components/blocks/Buttons/SmallPrimaryButton';
+import { instance } from 'utils/axios';
+import { storageReadItem } from 'utils/asyncStorage';
+import { NORMAL_TOKEN_KEY, TOKEN_KEY } from 'constants/constants';
 
 const DAYS_OF_WEEK = [
   {
@@ -51,20 +54,59 @@ const TrainerSchedule = ({route}) => {
   const navigation = useNavigation();
   const trainerSchedule = route.params.trainers;
   const [brands, setBrands] = useState(DAYS_OF_WEEK);
+  const [token, setToken] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedBrands, setSelectedBrands] = useState<any[]>([]);
 
-  const [date, setDate] = useState(new Date());
+  const [dateFrom, setDateFrom] = useState(new Date());
+  const [timeFrom, setTimeFrom] = useState('');
+  const [timeTo, setTimeTo] = useState('');
+  const [dateTo, setDateTo] = useState(new Date());
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    setDate(currentDate);
+    const formattedTime = currentDate.toLocaleTimeString('en-US', {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+    });    
+    setTimeFrom(formattedTime); 
+    setDateFrom(currentDate);
   };
+
+  const onChangeTo = (event, selectedDate) => {
+    const currentDate = selectedDate; 
+    const formattedTime = currentDate.toLocaleTimeString('en-US', {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+    });    
+    setTimeTo(formattedTime); 
+    setDateTo(currentDate);
+  }
 
   const onChangeandroid = (event, selectedDate) => {
     const currentDate = selectedDate;
+    const formattedTime = currentDate.toLocaleTimeString('en-US', {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+    });    
+    setTimeTo(formattedTime); ; 
     setShowDatePicker(false);
-    setDate(currentDate);
+    setDateFrom(currentDate);
+  };
+
+  const onChangeToAndroid = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    const formattedTime = currentDate.toLocaleTimeString('en-US', {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+    });    
+    setTimeTo(formattedTime); 
+    setShowDatePicker(false);
+    setDateTo(currentDate);
   };
 
   const renderBrands = ({item, index}) => {
@@ -89,13 +131,49 @@ const TrainerSchedule = ({route}) => {
     );
   };
 
-  const onSubmitSchedule = () => {};
 
-  console.log(selectedBrands);
+  useEffect(() => {
+    storageReadItem(NORMAL_TOKEN_KEY).then(token => {
+      setToken(token);
+    });
+  }, [])
 
-  console.log(date?.toString());
 
-  console.log(trainerSchedule, 'route');
+  
+
+  const onSubmitSchedule = () => {
+      try {
+        const response = instance.post(
+          `/gym/trainer/schedule/${trainerSchedule?.id}`,
+          {
+            workTimeFrom: timeFrom,
+            workTimeTo: timeTo,
+            daysOfWeek: selectedBrands
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        if (response?.status === 200) {
+          navigation.goBack();
+        }
+        console.log(response, 'response',           {
+          workTimeFrom: timeFrom,
+          workTimeTo: timeTo,
+          daysOfWeek: selectedBrands
+        }, );
+        
+        return response;
+      } catch (error) {}
+  };
+
+  console.log(selectedBrands, '123');
+
+  console.log(timeFrom?.toString(), ':dateFrom', timeTo, ':dateTo');
+
+  // console.log(trainerSchedule?.id, 'route');
   return (
     <LGBackround>
       <HeaderTitle title={'Расписание тренеров'} onPress={() => navigation.goBack()} />
@@ -109,7 +187,7 @@ const TrainerSchedule = ({route}) => {
             {Platform.OS === 'ios' ? (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={date}
+                value={dateFrom}
                 mode="time" // You can change this to "date" or "time" if needed
                 is24Hour={true}
                 display="spinner"
@@ -124,7 +202,7 @@ const TrainerSchedule = ({route}) => {
                   <>
                     <DateTimePicker
                       testID="dateTimePicker"
-                      value={date}
+                      value={dateFrom}
                       mode="time" // You can change this to "date" or "time" if needed
                       is24Hour={true}
                       display="spinner"
@@ -137,7 +215,7 @@ const TrainerSchedule = ({route}) => {
                 )}
               </>
             )}
-            {Platform.OS === 'android' && <Text>{date?.toString()}</Text>}
+            {Platform.OS === 'android' && <Text>{dateFrom?.toString()}</Text>}
           </View>
           <View>
             <Text style={styles.timeText}>Конец</Text>
@@ -147,11 +225,11 @@ const TrainerSchedule = ({route}) => {
             {Platform.OS === 'ios' ? (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={date}
+                value={dateTo}
                 mode="time" // You can change this to "date" or "time" if needed
                 is24Hour={true}
                 display="spinner"
-                onChange={onChange}
+                onChange={onChangeTo}
                 style={styles.timePicker}
                 accentColor="#fff"
                 textColor="#fff"
@@ -162,11 +240,11 @@ const TrainerSchedule = ({route}) => {
                   <>
                     <DateTimePicker
                       testID="dateTimePicker"
-                      value={date}
+                      value={dateTo}
                       mode="time" // You can change this to "date" or "time" if needed
                       is24Hour={true}
                       display="spinner"
-                      onChange={onChangeandroid}
+                      onChange={onChangeToAndroid}
                       style={styles.timePicker}
                       accentColor="#fff"
                       textColor="#fff"
@@ -180,7 +258,7 @@ const TrainerSchedule = ({route}) => {
         <Text style={{color: '#fff'}}>Дни недели</Text>
         <FlatList data={brands} renderItem={renderBrands} horizontal scrollEnabled={false} />
         {/* <Text style={{color: '#fff'}}>selected: {date.toLocaleString()}</Text> */}
-        <CustomButton label="Сохранить" variant="fill" style={{marginTop: 20}} onPress={() => {}} />
+        <CustomButton label="Сохранить" variant="fill" style={{marginTop: 20}} onPress={onSubmitSchedule} />
       </View>
 
       {/* <Text>TrainerSchedule</Text> */}

@@ -19,6 +19,8 @@ import CustomButton from 'components/blocks/Buttons/SmallPrimaryButton';
 import {useNavigation} from '@react-navigation/native';
 import {SCREENS} from 'constants/constants';
 const {width, height} = Dimensions.get('window');
+
+
 const TrainersDeitails = ({route}) => {
   const navigation = useNavigation();
   const trainers = route.params?.trainers?.trainerDetails;
