@@ -13,9 +13,9 @@ import HeaderTitle from 'screens/HomeScreen/components/HeaderTitle';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useNavigation} from '@react-navigation/native';
 import CustomButton from 'components/blocks/Buttons/SmallPrimaryButton';
-import { instance } from 'utils/axios';
-import { storageReadItem } from 'utils/asyncStorage';
-import { NORMAL_TOKEN_KEY, TOKEN_KEY } from 'constants/constants';
+import {instance} from 'utils/axios';
+import {storageReadItem} from 'utils/asyncStorage';
+import {NORMAL_TOKEN_KEY, TOKEN_KEY} from 'constants/constants';
 
 const DAYS_OF_WEEK = [
   {
@@ -69,21 +69,21 @@ const TrainerSchedule = ({route}) => {
       hour12: false,
       hour: '2-digit',
       minute: '2-digit',
-    });    
-    setTimeFrom(formattedTime); 
+    });
+    setTimeFrom(formattedTime);
     setDateFrom(currentDate);
   };
 
   const onChangeTo = (event, selectedDate) => {
-    const currentDate = selectedDate; 
+    const currentDate = selectedDate;
     const formattedTime = currentDate.toLocaleTimeString('en-US', {
       hour12: false,
       hour: '2-digit',
       minute: '2-digit',
-    });    
-    setTimeTo(formattedTime); 
+    });
+    setTimeTo(formattedTime);
     setDateTo(currentDate);
-  }
+  };
 
   const onChangeandroid = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -91,8 +91,8 @@ const TrainerSchedule = ({route}) => {
       hour12: false,
       hour: '2-digit',
       minute: '2-digit',
-    });    
-    setTimeTo(formattedTime); ; 
+    });
+    setTimeTo(formattedTime);
     setShowDatePicker(false);
     setDateFrom(currentDate);
   };
@@ -103,8 +103,8 @@ const TrainerSchedule = ({route}) => {
       hour12: false,
       hour: '2-digit',
       minute: '2-digit',
-    });    
-    setTimeTo(formattedTime); 
+    });
+    setTimeTo(formattedTime);
     setShowDatePicker(false);
     setDateTo(currentDate);
   };
@@ -131,49 +131,34 @@ const TrainerSchedule = ({route}) => {
     );
   };
 
-
   useEffect(() => {
     storageReadItem(NORMAL_TOKEN_KEY).then(token => {
       setToken(token);
     });
-  }, [])
-
-
-  
+  }, []);
 
   const onSubmitSchedule = () => {
-      try {
-        const response = instance.post(
-          `/gym/trainer/schedule/${trainerSchedule?.id}`,
-          {
-            workTimeFrom: timeFrom,
-            workTimeTo: timeTo,
-            daysOfWeek: selectedBrands
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-        if (response?.status === 200) {
-          navigation.goBack();
-        }
-        console.log(response, 'response',           {
+    try {
+      const response = instance.post(
+        `/gym/trainer/schedule/${trainerSchedule?.id}`,
+        {
           workTimeFrom: timeFrom,
           workTimeTo: timeTo,
-          daysOfWeek: selectedBrands
-        }, );
-        
-        return response;
-      } catch (error) {}
+          daysOfWeek: selectedBrands,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (response?.status === 200) {
+        navigation.goBack();
+      }
+      return response;
+    } catch (error) {}
   };
 
-  console.log(selectedBrands, '123');
-
-  console.log(timeFrom?.toString(), ':dateFrom', timeTo, ':dateTo');
-
-  // console.log(trainerSchedule?.id, 'route');
   return (
     <LGBackround>
       <HeaderTitle title={'Расписание тренеров'} onPress={() => navigation.goBack()} />
@@ -258,7 +243,12 @@ const TrainerSchedule = ({route}) => {
         <Text style={{color: '#fff'}}>Дни недели</Text>
         <FlatList data={brands} renderItem={renderBrands} horizontal scrollEnabled={false} />
         {/* <Text style={{color: '#fff'}}>selected: {date.toLocaleString()}</Text> */}
-        <CustomButton label="Сохранить" variant="fill" style={{marginTop: 20}} onPress={onSubmitSchedule} />
+        <CustomButton
+          label="Сохранить"
+          variant="fill"
+          style={{marginTop: 20}}
+          onPress={onSubmitSchedule}
+        />
       </View>
 
       {/* <Text>TrainerSchedule</Text> */}

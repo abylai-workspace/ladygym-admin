@@ -9,17 +9,26 @@ import Feather from 'react-native-vector-icons/Feather';
 import {COLORS} from 'utils/colors';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import {SCREENS} from 'constants/constants';
+import {NORMAL_TOKEN_KEY, SCREENS} from 'constants/constants';
 import CustomButton from 'components/blocks/Buttons/SmallPrimaryButton';
+import {storageReadItem} from 'utils/asyncStorage';
+import {instance} from 'utils/axios';
 
 const ClientInfo = ({route}) => {
   const userRole = useSelector((state: any) => state?.authSlice?.tokens?.role);
   const [day, setDays] = useState(0);
+  const [token, setToken] = useState('');
 
   const navigation = useNavigation();
   const info = route.params?.clients;
   const createdAt: any = new Date(info.createdAt);
   const expirationDate: any = new Date(info?.subscription?.expirationDate);
+
+  useEffect(() => {
+    storageReadItem(NORMAL_TOKEN_KEY).then(token => {
+      setToken(token);
+    });
+  }, []);
 
   useEffect(() => {
     // Calculate the difference in milliseconds
@@ -29,7 +38,33 @@ const ClientInfo = ({route}) => {
     setDays(days);
   }, [day]);
 
-  console.log(userRole);
+  const handleGiveKey = () => {
+    try {
+      const response = instance.post(
+        `/gym/user/gym-key/assign/${info?.id}?gymKey=${info?.gymKey}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      return response;
+    } catch (error) {}
+  };
+
+  const handleTakeKey = () => {
+    try {
+      const response = instance.delete(`/gym/user/gym-key/${info?.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(response);
+
+      return response;
+    } catch (error) {}
+  };
 
   return (
     <LGBackround>
@@ -89,9 +124,15 @@ const ClientInfo = ({route}) => {
             </View>
             {(userRole === 'ADMIN' || userRole === 'MANAGER') && (
               <View style={styles.keyContainer2}>
-                <TouchableOpacity onPress={() => {}}>
-                  <Text style={{color: '#fff'}}>Выдать ключ</Text>
-                </TouchableOpacity>
+                {info?.subscription?.isFrozen ? (
+                  <TouchableOpacity onPress={handleGiveKey}>
+                    <Text style={{color: '#fff'}}>Выдать ключ</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity onPress={handleTakeKey}>
+                    <Text style={{color: '#fff'}}>Забрать ключ</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             )}
           </View>
