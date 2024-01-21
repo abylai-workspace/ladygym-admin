@@ -5,7 +5,7 @@ import ClientService from "../../../servises/clients";
 const CountNext = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
-    ClientService.getAllClients().then((res) => {
+    ClientService.getAllPersonals().then((res) => {
       setData(res);
     });
   }, []);

@@ -16,10 +16,13 @@ export default class AuthService {
     };
 
     try {
-      const response = await fetch("https://ladygymapp.kz/gym/auth/login", {
-        method: "POST",
-        headers,
-      });
+      const response = await fetch(
+        "https://ladygymapp.kz:8443/gym/auth/login",
+        {
+          method: "POST",
+          headers,
+        }
+      );
 
       if (!response.ok) {
         console.error(`Error: ${response.status} ${response.statusText}`);
