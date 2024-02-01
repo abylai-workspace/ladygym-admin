@@ -37,12 +37,13 @@ export const Login = () => {
   // });
 
   const onSubmit = async (values: any) => {
-    console.log(values);
+    removeTokens();
     AuthService.loginInstance(values?.username, values?.password)
       .then((res) => {
-        removeTokens();
-        setToken(res?.accessToken);
-        navigate("/");
+        if (res) {
+          setToken(res?.accessToken);
+          navigate("/");
+        }
       })
       .catch((err) => console.log(err));
   };
