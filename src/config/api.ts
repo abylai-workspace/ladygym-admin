@@ -7,7 +7,7 @@ import {
 import { REFRESH_TOKEN_KEY, TOKEN_KEY } from "../constants/constants";
 
 export const instance = axios.create({
-  baseURL: "https://ladygymapp.kz:8443",
+  baseURL: "https://ladygymapp.kz:8080",
   headers: {
     "Content-Type": "application/json",
   },

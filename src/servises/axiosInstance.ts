@@ -4,7 +4,7 @@ import axios from "axios";
 import { getToken, removeTokens } from "./tokenService";
 
 const instance = axios.create({
-  baseURL: "https://ladygymapp.kz:8443/gym",
+  baseURL: "https://ladygymapp.kz:8080/gym",
   headers: {
     "Content-Type": "application/json",
   },

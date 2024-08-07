@@ -11,7 +11,7 @@ export const loginUser = (values) => async (dispatch) => {
     const base64Credentials = btoa(credentials);
     dispatch(loginStart());
     const response = await axios.post(
-      "https://ladygymapp.kz:8443/gym/auth/login",
+      "https://ladygymapp.kz:8080/gym/auth/login",
       null,
       {
         headers: {

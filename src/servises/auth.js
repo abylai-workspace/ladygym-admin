@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://ladygymapp.kz:8443";
+const API_URL = "https://ladygymapp.kz:8080";
 
 const register = (username, email, password) => {
   return axios.post(API_URL + "/gym/auth/login", {

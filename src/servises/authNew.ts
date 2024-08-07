@@ -17,7 +17,7 @@ export default class AuthService {
 
     try {
       const response = await fetch(
-        "https://ladygymapp.kz:8443/gym/auth/login",
+        "https://ladygymapp.kz:8080/gym/auth/login",
         {
           method: "POST",
           headers,
